@@ -183,4 +183,10 @@ elseif ($_GET['module'] == 'bast') {
   }
 }
 
+elseif ($_GET['module'] == 'uploadbast') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/uploadbast.php';
+  }
+}
+
 ?>
