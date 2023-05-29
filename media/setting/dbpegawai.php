@@ -18,9 +18,16 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
         $tgl = mysqli_query($koneksi,"SELECT * FROM m_settglsys ORDER BY idtgl ASC");
         $rs  = mysqli_fetch_array($tgl);
+        $satker = mysqli_query($koneksi, "SELECT * FROM s_satker ORDER BY id ASC");
+        $s      = mysqli_fetch_array($satker);
         $update = date('Y-m-d');
 
 ?>
+                    <section class="content-header">
+                      <h1>
+                        Database Pegawai <small><?php echo "$s[nmukpb]";?></small>
+                      </h1>
+                    </section>
                     <section class="content">
                         <div class="row">
                         <div class="col-md-12">
