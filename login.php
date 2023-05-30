@@ -10,105 +10,116 @@ $rs  = mysqli_fetch_array($tgl);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="assets/fonts/icomoon/style.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" type="text/css" href="bower_components/sweetalert/css/sweetalert.css" />
-    <script src="bower_components/sweetalert/js/sweetalert.min.js"></script>
-
-    <title>BARCODE</title>
+    <link rel="stylesheet" href="assets/login/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="assets/login/css/style.css" >  
+    <link href="assets/css/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <title>Apps-Layanan Umum</title>
   </head>
   <body>
-  <br><br><br>
-  <div class="content">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-5">
-          <!--<img src="assets/images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">-->
+  
+    <div class="content"> 
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-5">
           <img src='assets/images/logo.png' class="rounded" width='500' height='100'/>
-          <h6 class="text-right"> <strong>BARCODE APLIKASI</strong></h6>
-        </div>
-        <div class="col-md-7 contents">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <div class="mb-4">
-            </div>
-            <form action="ceklog.php" method="post">
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" name="uname">
-              </div>
-              <div class="form-group last mb-4">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" >
-              </div>  
-              <div class="form-group last mb-4">
-                <input type="text" class="form-control" value='<?php echo "$rs[s_thnang]";?>' readonly>
-                <small>Tahun Anggaran</small>
-              </div> 
-              
-              <img class="captchaImg" src="config/captcha.php" align="left">
-              <div class="col-xs-8">
-                <div class="form-group has-feedback">
-                  <input type="text" id="captcha" name="captcha" class="form-control">
-                  <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
-                  <small>Masukkan Pengaman (jumlahkan)</small>
-                </div> 
-              </div>
-
-              <div class="col-xs-12">
-              <button type="submit" class="btn text-white btn-primary btn-block"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;&nbsp;Masuk</button>
-            </div>
-            </form>
-            </div>
+          <h6 class="text-right">MODUL - APPSBARCODE </h6>
           </div>
-          
+          <div class="col-md-2 text-center">
+          </div>
+                <div class="log">
+                    <!-- NOTIFIKASI -->
+                      <?php  
+                      if(isset($_GET['pesan'])){
+                        if($_GET['pesan'] == "gagal_login"){
+                          echo "
+                          <div class='alert alert-danger' align='center'><font color='#000'><small>Login gagal! username dan password salah!.</small></font>
+                          </div>";
+                        }else if($_GET['pesan'] == "logout"){
+                          echo "<div class='alert alert-success' align='center'><font color='#000'><small>Logout Sukses! Anda berhasil Keluar.</small></font>
+                          </div>";
+                        }else if($_GET['pesan'] == "belum_login"){
+                          echo "
+                          <div class='alert alert-info' align='center'><font color='#000'><small>Anda harus login untuk mengakses halaman ini.</small></font>
+                          </div>";
+                        }else if($_GET['pesan'] == "captcha"){
+                          echo "
+                          <div class='alert alert-danger' align='center'><font color='#020'><small>Kode Pengaman Salah Coba Lagi.</small></font>
+                          </div>";
+                        }else if($_GET['pesan'] == "kosong"){
+                          echo "
+                          <div class='alert alert-info' align='center'><font color='#020'><small>Username dan Password Masih kosong</small></font>
+                          </div>";
+                        }else if($_GET['pesan'] == "waktu_habis"){
+                          echo "
+                          <div class='alert alert-danger' align='center'><font color='#000'><small>Waktu habis, Logout Otomatis</small></font>
+                          </div>";
+                        }
+                      }
+                      ?>
+                    <!-- END NOTIF -->
+                    <hr>
+                    <form action="ceklog.php" method="post">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend"> 
+                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                          </div>
+                          <input type="text" name="uname" class="form-control" placeholder="Masukkan Username">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend"> 
+                            <div class="input-group-text"><i class="fa fa-unlock-alt"></i></div>
+                          </div>
+                        <input type="password" name="password" class="form-control" placeholder="Masukkan Password">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend"> 
+                            <div class="input-group-text">TA</div>
+                          </div>
+                        <input type="text" class="form-control" value='<?php echo "$rs[s_thnang]";?>' readonly>
+                        </div>
+                      </div>
+
+                      
+                      <div class="form-group">
+                      <table width="100%">
+                        <tr>
+                          <td>
+                          <img class="captchaImg" src="config/captcha.php" align="left">
+                          </td>
+                          <td>
+                          <div class="col-md-8">
+                          <input type="text" id="captcha" name="captcha" class="form-control" placeholder="jumlahkan">
+                          </div>
+                          </td>
+                        </tr>
+                      </table>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary btn-ms"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;
+                      Masuk</button> 
+                      <button type="reset" class="btn btn-danger btn-ms"><i class="fa fa-retweet"></i>&nbsp;&nbsp;
+                      Reset</button> 
+                    </form>
+                    <hr>
+                  </div>
         </div>
-        
       </div>
     </div>
-  </div>
 
   
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
-<?php
-		error_reporting(0);
-		error_reporting('E_NONE');
-		if ($_GET['act'] == 1)
-		{?> 
-		<script>
-		swal("ERROR", "User dan Password Salah atau belum aktifasi", "error");
-		</script>	
-		<?php
-		}
-		if ($_GET['act'] == 2)
-		{?>
-		<script>
-		swal("PERINGATAN", "Username, Password Atau Kode Pengaman belum diisi !", "warning");
-		</script>
-		<?php
-		}
-		if ($_GET['act'] == 3)
-		{?>
-		<script>
-		swal("ERROR", "Captcha Salah", "error");
-		</script>
-		<?php
-		}
-		if ($_GET['act'] == 4)
-		{?>
-		<script>
-		swal("INFORMASI", "Anda telah meninggalkan aplikasi selama lebih dari 10 menit Untuk keamanan, silahkan login kembali", "info");
-		</script>
-		<?php
-		}
-		?>

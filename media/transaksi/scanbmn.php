@@ -87,11 +87,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         </td>
                                                         
                                                         <td>
-                                                        <?php if($r['prosedur']=='01'){?>
+                                                        <?php if($r['prosedur']=='21'){?>
                                                         <span class="badge bg-green">
                                                         <?php echo "$r[uraian_trx]"; ?>
                                                         </span>
-                                                        <?php } elseif($r['prosedur']=='02') { ?>
+                                                        <?php } elseif($r['prosedur']=='22') { ?>
                                                         <span class="badge bg-blue">
                                                         <?php echo "$r[uraian_trx]"; ?>
                                                         </span>
@@ -254,11 +254,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <div class="col-sm-4">
                                                         <select class="form-control" name='prosedur' id='prosedur' onchange="tampilkan()">
                                                             <option value='BLANK'>PILIH</option>
-                                                            <option value='01'>[01] - Proses Penghapusan</option>
-                                                            <option value='02'>[02] - Proses Penetapan Status Pengguna</option>
-                                                            <option value='03'>[03] - Proses Inventaris / Sensus</option>
-                                                            <option value='04'>[04] - Proses Peminjaman</option>
-                                                            <option value='05'>[05] - Proses Pemeliharaan</option>
+                                                            <option value='21'>[21] - Proses Penghapusan</option>
+                                                            <option value='22'>[22] - Proses Penetapan Status Pengguna</option>
+                                                            <option value='23'>[23] - Proses Inventaris / Sensus</option>
+                                                            <option value='24'>[24] - Proses Peminjaman</option>
+                                                            <option value='25'>[25] - Proses Pemeliharaan</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -303,19 +303,19 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 <script>
 function tampilkan(){
   var prosedur=document.getElementById("scan").prosedur.value;
-  if (prosedur=="01")
+  if (prosedur=="21")
     {document.getElementById("kondisibmn").innerHTML="<option value='03'>[03] - Rusak Berat</option>";}
 
-  else if (prosedur=="02")
+  else if (prosedur=="22")
     {document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option>";}
 
-  else if (prosedur=="03")
+  else if (prosedur=="23")
     {   document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option><option value='02'>[02] - Rusak Ringan</option><option value='03'>[03] - Rusak Berat</option>";
     }
-  else if (prosedur=="04")
+  else if (prosedur=="24")
     {   document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option>";
     }
-  else if (prosedur=="05")
+  else if (prosedur=="25")
     {   document.getElementById("kondisibmn").innerHTML="<option value='02'>[02] - Rusak Ringan</option></option>";
     }
 }

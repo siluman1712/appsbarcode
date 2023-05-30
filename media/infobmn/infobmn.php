@@ -39,7 +39,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <select class="form-control" name='pencarian' id='pencarian' onchange="tampilkan()">
                                                             <option value='BLANK'>PILIH</option>
                                                             <option value='01'>[01] - Penetapan Status Pengguna / PSP</option>
-                                                            <option value='03'>[03] - Blank</option>
+                                                            <option value='02'>[02] - Status BMN</option>
                                                         </select>
                                                     </div>
 
@@ -56,9 +56,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                         <?php
                                         $a = mysqli_query(
                                             $koneksi,
-                                            "   SELECT  a.status_psp, a.status_kondisi, b.status_psp, b.uraianstatus_psp FROM dbtik a
+                                            "   SELECT  a.status_psp, a.status_kondisi, a.status_bmn, 
+                                                        b.status_psp, b.uraianstatus_psp,
+                                                        c.appsstatus, c.uraianstatus
+                                                        FROM dbtik a
                                                 LEFT JOIN status_psp b ON b.status_psp = a.status_psp 
-                                                WHERE  a.status_psp LIKE '%$_POST[kategori]%' 
+                                                LEFT JOIN bmnstatus c ON c.appsstatus = a.status_bmn 
+                                                WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.status_bmn LIKE '%$_POST[kategori]%' 
                                                 ORDER BY a.status_psp ASC"
                                         );
                                         $data = mysqli_fetch_array($a);
@@ -83,6 +87,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Tgl Perolehan</th>
                                                     <th bgcolor='#dcdcdc'> Kondisi</th>
                                                     <th bgcolor='#dcdcdc'> Status PSP</th>
+                                                    <th bgcolor='#dcdcdc'> Status BMN</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -90,16 +95,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     $cek = mysqli_query(
                                                         $koneksi,
                                                         "SELECT  a.kodebarang, a.nup, a.merek, a.status_psp,
-                                                                 a.tglperoleh, a.status_kondisi,
+                                                                 a.tglperoleh, a.status_kondisi, a.status_bmn,
                                                                  b.kd_brg, b.ur_sskel,
                                                                  c.status_psp, c.uraianstatus_psp,
-                                                                 d.status_kondisi, d.uraian_kondisi
+                                                                 d.status_kondisi, d.uraian_kondisi,
+                                                                 e.appsstatus, e.uraianstatus
 
                                                          FROM dbtik a
                                                          LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
                                                          LEFT JOIN status_psp c ON c.status_psp = a.status_psp 
                                                          LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.status_kondisi 
-                                                         WHERE a.status_psp LIKE '%$_POST[kategori]%' 
+                                                         LEFT JOIN bmnstatus e ON e.appsstatus = a.status_bmn 
+                                                         WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.status_bmn LIKE '%$_POST[kategori]%' 
                                                          ORDER BY a.kodebarang AND a.nup ASC"
                                                     );
 
@@ -115,8 +122,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[nup]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
                                                         <td><?php echo "$r[tglperoleh]"; ?></td>
-                                                        <td>[<?php echo "$r[status_kondisi]"; ?>] <?php echo "$r[uraian_kondisi]"; ?></td>
-                                                        <td>[<?php echo "$r[status_psp]"; ?>] <?php echo "$r[uraianstatus_psp]"; ?></td>
+                                                        <td>[<?php echo "$r[status_kondisi]"; ?>] 
+                                                            <span class="badge bg-green"><?php echo "$r[uraian_kondisi]"; ?></span></td>
+                                                        <td>[<?php echo "$r[status_psp]"; ?>] 
+                                                            <span class="badge bg-green"><?php echo "$r[uraianstatus_psp]"; ?></span></td>
+                                                        <td><span class="badge bg-green">[<?php echo "$r[status_bmn]"; ?>] <?php echo "$r[uraianstatus]"; ?></span></td>
                                                     </tr>
                                                     </tfoot>
                                                 <?php } ?>
@@ -147,7 +157,7 @@ function tampilkan(){
   if (pencarian=="01")
     {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='01'>[01] - Belum Dilakukan PSP</option><option value='02'>[02] - Sudah Dilakukan PSP</option><option value='03'>[03] - Tidak Diketahui</option>";}
 
-  else if (pencarian=="03")
-    {document.getElementById("kategori").innerHTML="<option value='BLANK'>TIDAK ADA</option>";}
+  else if (pencarian=="02")
+    {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='11'>[11] - Baru Asal Pengadaan</option><option value='12'>[12] - Proses Penghapusan BMN</option><option value='13'>[13] - Proses Sensus BMN</option><option value='14'>[14] - BMN Baru Asal Transfer</option><option value='15'>[15] - Proses Pinjam Pakai BMN</option>";}
 }
 </script>

@@ -55,7 +55,7 @@
 			login_validate();						//setel waktu. jika halaman lebih dari 5 menit tidak digunakan, maka akan logout otomatis
 			header('location:appsmedia.php?module=home');
 		//	header("Location:index.php");
-		}else{header("Location:login.php?act=1");  }//jika data tidak ditemukan
-	   }else{header("Location:login.php?act=3"); }		// jika captcha salah
-	}else{header("Location:login.php?act=2");	}		// jika field tidak diisi
+		}else{header("Location:login.php?pesan=gagal_login");  }//jika data tidak ditemukan
+	   }else{header("Location:login.php?pesan=captcha"); }		// jika captcha salah
+	}else{header("Location:login.php?pesan=kosong");	}		// jika field tidak diisi
 ?>
