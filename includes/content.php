@@ -189,6 +189,12 @@ elseif ($_GET['module'] == 'uploadbast') {
   }
 }
 
+elseif ($_GET['module'] == 'perubahankondisi') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/perubahankondisi.php';
+  }
+}
+
 elseif ($_GET['module'] == 'infobmn') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/infobmn/infobmn.php';
