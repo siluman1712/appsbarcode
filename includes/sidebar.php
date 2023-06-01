@@ -62,6 +62,12 @@ $rs    = mysqli_fetch_array($info);
                 </a>
                 </li>
 
+                <li><a href="?module=perubahankondisi" title="perubahan kondisi">
+                <i class="fa fa-tasks text-aqua"></i>
+                &nbsp;&nbsp;&nbsp;Perubahan Kondisi BMN&nbsp;&nbsp;&nbsp; 
+                </a>
+                </li>
+
           </ul>
         </li>
 
