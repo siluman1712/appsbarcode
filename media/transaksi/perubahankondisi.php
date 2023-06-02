@@ -75,7 +75,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             [<?php echo "$r[idkondisi]"; ?>] <?php echo "$r[uraian_kondisi]"; ?>
                                                             </span>
                                                             <?php } elseif($r['idkondisi']=='32') { ?>
-                                                            <span class="badge bg-maroon">
+                                                            <span class="badge bg-blue">
                                                             [<?php echo "$r[idkondisi]"; ?>] <?php echo "$r[uraian_kondisi]"; ?>
                                                             </span>
                                                             <?php }else{ ?>

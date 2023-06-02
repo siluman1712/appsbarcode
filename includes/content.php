@@ -153,6 +153,12 @@ elseif ($_GET['module'] == 'pmtik') {
   }
 }
 
+elseif ($_GET['module'] == 'labelrusakberat') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/cetak/labelrusakberat.php';
+  }
+}
+
 elseif ($_GET['module'] == 'labelqrcode') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/cetak/labelqrcode.php';
