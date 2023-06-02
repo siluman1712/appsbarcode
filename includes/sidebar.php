@@ -69,7 +69,7 @@ $rs    = mysqli_fetch_array($info);
 
                 <li><a href="?module=penghapusan" title="penghapusan BMN">
                 <i class="fa fa-tasks text-aqua"></i>
-                &nbsp;&nbsp;&nbsp;Penghapusan BMN&nbsp;&nbsp;&nbsp; 
+                &nbsp;&nbsp;&nbsp;Proses Penghapusan BMN&nbsp;&nbsp;&nbsp; 
                 </a>
                 </li>
 

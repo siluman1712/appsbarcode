@@ -183,6 +183,12 @@ elseif ($_GET['module'] == 'scanbmn') {
   }
 }
 
+elseif ($_GET['module'] == 'penghapusan') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/penghapusan.php';
+  }
+}
+
 elseif ($_GET['module'] == 'bast') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/bast.php';
