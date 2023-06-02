@@ -263,14 +263,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 control-label">Kondisi Barang</label>
-                                                    <div class="col-sm-2">
-                                                        <select class="form-control" name='kondisibmn' id='kondisibmn'>
-                                                            <option value="BLANK"> PILIH</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
 
                                                 <fieldset>
                                                 <label for='Kode' class='col-sm-2 control-label'></label>
@@ -300,23 +292,3 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
     }
 }
 ?>
-<script>
-function tampilkan(){
-  var prosedur=document.getElementById("scan").prosedur.value;
-  if (prosedur=="21")
-    {document.getElementById("kondisibmn").innerHTML="<option value='03'>[03] - Rusak Berat</option>";}
-
-  else if (prosedur=="22")
-    {document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option>";}
-
-  else if (prosedur=="23")
-    {   document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option><option value='02'>[02] - Rusak Ringan</option><option value='03'>[03] - Rusak Berat</option>";
-    }
-  else if (prosedur=="24")
-    {   document.getElementById("kondisibmn").innerHTML="<option value='01'>[01] - Baik</option>";
-    }
-  else if (prosedur=="25")
-    {   document.getElementById("kondisibmn").innerHTML="<option value='02'>[02] - Rusak Ringan</option></option>";
-    }
-}
-</script>

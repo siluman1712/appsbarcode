@@ -49,6 +49,11 @@ $rs    = mysqli_fetch_array($info);
                 &nbsp;&nbsp;&nbsp;[PIC] BMN &nbsp;&nbsp;&nbsp;
                 </a></li>
 
+                <li><a href="?module=perubahankondisi" title="perubahan kondisi">
+                <i class="fa fa-tasks text-aqua"></i>
+                &nbsp;&nbsp;&nbsp;Perubahan Kondisi BMN&nbsp;&nbsp;&nbsp; 
+                </a>
+                </li>
 
                 <li><a href="?module=pemeliharaan" title="Pemeliharaan BMN">
                 <i class="fa fa-tasks text-aqua"></i>
@@ -62,9 +67,9 @@ $rs    = mysqli_fetch_array($info);
                 </a>
                 </li>
 
-                <li><a href="?module=perubahankondisi" title="perubahan kondisi">
+                <li><a href="?module=penghapusan" title="penghapusan BMN">
                 <i class="fa fa-tasks text-aqua"></i>
-                &nbsp;&nbsp;&nbsp;Perubahan Kondisi BMN&nbsp;&nbsp;&nbsp; 
+                &nbsp;&nbsp;&nbsp;Penghapusan BMN&nbsp;&nbsp;&nbsp; 
                 </a>
                 </li>
 
@@ -83,6 +88,10 @@ $rs    = mysqli_fetch_array($info);
                 <li><a href="?module=labelqrcode">
                 <i class="fa fa-qrcode text-red">
                 </i>&nbsp;&nbsp;&nbsp;Label Registrasi [qrcode]&nbsp;&nbsp;&nbsp;</a></li>
+
+                <li><a href="?module=labelrusakberat">
+                <i class="fa fa-qrcode text-red">
+                </i>&nbsp;&nbsp;&nbsp;Label Rusak Berat&nbsp;&nbsp;&nbsp;</a></li>
 
                 <li><a href="?module=bast">
                 <i class="fa fa-sticky-note text-red"></i>
