@@ -24,7 +24,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 ?>
                     <section class="content-header">
                       <h1>
-                        Daftarkan Penghapusan <small>Tentukan Kondisi Rusak Berat</small>
+                        Export ke Excel <small>Sebagai Lampiran</small>
                       </h1>
                     </section>
                     <section class="content">
