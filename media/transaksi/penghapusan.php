@@ -9,7 +9,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 } else {
     $cek = user_akses($_GET['module'], $_SESSION['NIP']);
     if ($cek == 1 or $_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-        $aksi = "media/aksi/appsPengaturan.php";
+        $aksi = "media/aksi/penghapusan.php";
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
@@ -37,58 +37,65 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                     <table id="table_4" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th bgcolor="#dcdcdc"><input class='minimal' type="checkbox" onchange="checkAll(this)">&nbsp;&nbsp;&nbsp;PILIH</th>
+                                                    <th bgcolor="#dcdcdc"> No</th>
                                                     <th bgcolor='#dcdcdc'> Kode Barang</th>
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset</th>
-                                                    <th bgcolor='#dcdcdc'> Merek</th>
+                                                    <th bgcolor='#dcdcdc'> Kuantitas</th>
+                                                    <th bgcolor='#dcdcdc'> Satuan</th>
                                                     <th bgcolor='#dcdcdc'> Tgl Perolehan</th>
-                                                    <th bgcolor='#dcdcdc'> Kondisi</th>
-                                                    <th bgcolor='#dcdcdc'> Status PSP</th>
-                                                    <th bgcolor='#dcdcdc'> Status BMN</th>
+                                                    <th bgcolor='#dcdcdc'> Nilai Perolehan</th>
+                                                    <th bgcolor='#dcdcdc'> Nilai Limit</th>
+                                                    <th bgcolor='#dcdcdc'> Nilai Buku</th>
+                                                    <th bgcolor='#dcdcdc'> Kondisi BMN</th>
+                                                    <th bgcolor='#dcdcdc'> Merek</th>
+                                                    <th bgcolor='#dcdcdc'> flag</th>
+                                                    <th bgcolor='#dcdcdc'> Update Data</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                     <?php
-                                                    $cek = mysqli_query(
+                                                    $hapus = mysqli_query(
                                                         $koneksi,
-                                                        "SELECT  a.kodebarang, a.noaset,
-                                                        a.flag, a.idkondisi, a.keterangan,
-                                                        b.kd_brg, b.ur_sskel,
-                                                        c.kodebarang, c.nup, 
-                                                        c.merek, c.tglperoleh,
-                                                        d.status_kondisi, d.uraian_kondisi
-                                                        FROM   dbubahkondisi a
+                                                        "SELECT a.kodebarang, a.noaset, a.qty,
+                                                                a.flag, a.kondisi, a.nilailimit, 
+                                                                a.nilaibuku, a.tglperolehan, 
+                                                                a.nilaiperolehan, a.satuan,
+                                                                b.kd_brg, b.ur_sskel, 
+                                                                c.kodebarang, c.nup, c.hargaperolehan,
+                                                                c.merek, c.tglperoleh, 
+                                                                d.status_kondisi, d.uraian_kondisi
+                                                        FROM   dbpenghapusan a
                                                         LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
                                                         LEFT JOIN dbtik c ON c.kodebarang = a.kodebarang AND c.nup = a.noaset
-                                                        LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.idkondisi 
-                                                        WHERE  a.idkondisi LIKE '%$_POST[kategori]%' AND a.flag = '1'
+                                                        LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisi
+                                                        WHERE  a.kondisi ='33' AND a.flag IN('2','3')
                                                         ORDER BY a.kodebarang AND a.noaset ASC"
                                                     );
 
-                                                    $numRows = mysqli_num_rows($cek);
+                                                    $numRows = mysqli_num_rows($hapus);
                                                     $no = 0;
-                                                    while ($r = mysqli_fetch_array($cek)) {
+                                                    while ($rs = mysqli_fetch_array($hapus)) {
                                                         $no++;
                                                     ?>
                                                     <tr>
+                                                        <td><?php echo "$no"; ?></td>
+                                                        <td><?php echo "$rs[kodebarang]"; ?></td>
+                                                        <td><?php echo "$rs[ur_sskel]"; ?></td>
+                                                        <td><?php echo "$rs[nup]"; ?></td>
+                                                        <td><?php echo "$rs[qty]"; ?></td>
+                                                        <td><?php echo "$rs[satuan]"; ?></td>
+                                                        <td><?php echo "$rs[tglperolehan]"; ?></td>
+                                                        <td><?php echo "$rs[nilaiperolehan]"; ?></td>
+                                                        <td><?php echo "$rs[nilailimit]"; ?></td>
+                                                        <td><?php echo "$rs[nilaibuku]"; ?></td>
+                                                        <td><?php echo "$rs[uraian_kondisi]"; ?></td>
+                                                        <td><?php echo "$rs[merek]"; ?></td>
+                                                        <td><span class="badge bg-maroon"> <?php echo "$rs[flag]"; ?></span></td>
                                                         <td>
-                                                        <div class='border-checkbox-group border-checkbox-group-primary'>
-                                                        <input class='minimal' type='checkbox' name='kondisi<?php echo"$no";?>' value='<?php echo"$o[idkondisi]";?>' />
-                                                        </div>
-                                                        </td>
-                                                        <td><?php echo "$r[kodebarang]"; ?></td>
-                                                        <td><?php echo "$r[ur_sskel]"; ?></td>
-                                                        <td><?php echo "$r[nup]"; ?></td>
-                                                        <td><?php echo "$r[merek]"; ?></td>
-                                                        <td><?php echo "$r[tglperoleh]"; ?></td>
-                                                        <td><span class="badge bg-green">[<?php echo "$r[status_kondisi]"; ?>] 
-                                                            <?php echo "$r[uraian_kondisi]"; ?></span></td>
-                                                        <td>
-
-                                                        </td>
-                                                        <td>
-
+                                                        <a class="btn btn-primary btn-xs" title='Update Data Penghapusan' href=<?php echo "?module=penghapusan&act=update&kodebarang=$rs[kodebarang]&noaset=$rs[noaset]"; ?>>
+                                                        <i class="fa fa-retweet"></i>&nbsp;&nbsp;&nbsp;Update Data  
+                                                        </a>
                                                         </td>
                                                     </tr>
                                                     </tfoot>
@@ -166,11 +173,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             </div>";
                                         } else {
                                         ?>
-
+                                        <form name='myform' method='post' action='<?php echo"$aksi?module=penghapusan&act=simpandata";?>'>
+                                        <input type='hidden' class='form-control' name='idkondisi' maxlength='4' value='<?php echo"$data[idkondisi]";?>' readonly>
+                                        <input type='hidden' class='form-control' name='flag' maxlength='4' value='<?php echo"$data[flag]";?>' readonly>
                                         <table id="table_4" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th bgcolor="#dcdcdc"><input class='minimal' type="checkbox" onchange="checkAll(this)">&nbsp;&nbsp;&nbsp;PILIH</th>
+                                                    <th bgcolor="#dcdcdc"> No</th>
                                                     <th bgcolor='#dcdcdc'> Kode Barang</th>
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset</th>
@@ -205,11 +214,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         $no++;
                                                     ?>
                                                     <tr>
-                                                        <td>
-                                                        <div class='border-checkbox-group border-checkbox-group-primary'>
-                                                        <input class='minimal' type='checkbox' name='kondisi<?php echo"$no";?>' value='<?php echo"$o[idkondisi]";?>' />
-                                                        </div>
-                                                        </td>
+                                                        <td><?php echo "$no"; ?></td>
                                                         <td><?php echo "$r[kodebarang]"; ?></td>
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[nup]"; ?></td>
@@ -235,7 +240,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </tfoot>
                                                 <?php } ?>
                                         </table>
-                                    <?php } ?>
+                                        <input type='hidden' name='n' value='<?php echo"$no";?>'/>
+                                        <button type='submit' id='btnKirim' class='btn btn-sm btn-danger flat'>
+                                        <i class='fa fa-send'></i> &nbsp;&nbsp; Simpan Data</button>
+                                        <?php } ?>
                                                 </div>
                                             </div>        
                                         </div>
@@ -248,6 +256,142 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                         echo "Anda tidak berhak mengakses halaman ini.";
                     }
                     break;
+
+                    case "update":
+                        if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+
+                            $tampil = mysqli_query($koneksi,
+                            "SELECT a.kodebarang, a.noaset, a.qty,
+                                    a.flag, a.kondisi, a.nilailimit, 
+                                    a.nilaibuku, 
+                                    a.nilaiperolehan, 
+                                    b.kd_brg, b.ur_sskel, b.satuan,
+                                    c.kodebarang, c.nup, c.hargaperolehan,
+                                    c.merek, c.tglperoleh, 
+                                    d.status_kondisi, d.uraian_kondisi
+                            FROM   dbpenghapusan a
+                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
+                            LEFT JOIN dbtik c ON c.kodebarang = a.kodebarang AND c.nup = a.noaset
+                            LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisi
+                            WHERE  a.kodebarang ='$_GET[kodebarang]' AND a.noaset = '$_GET[noaset]'
+                            ORDER BY a.kodebarang AND a.noaset ASC");
+                        $r  = mysqli_fetch_array($tampil);
+        
+                        ?>
+        
+                            <section class="content">
+        
+                                <a class='btn btn-danger btn-sm flat' href=<?php echo "?module=penghapusan"; ?>>KEMBALI</a>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+
+                                                <form id='scan' method='post' class='form-horizontal' action='<?php echo "$aksi?module=penghapusan&act=simpanhapus"; ?>' enctype='multipart/form-data'>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Kode BMN</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='kd_brg' id="kd_brg" value='<?php echo "$r[kd_brg]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Uraian BMN</label>
+                                                    <div class="col-sm-3">
+                                                    <input type="text" class="form-control" name='nm_brg' id="nm_brg" value='<?php echo "$r[ur_sskel]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Satuan</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='satuan' id="satuan" value='<?php echo "$r[satuan]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">No Aset</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='nup' value='<?php echo "$r[nup]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Kuantitas</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='qty' value='<?php echo "$r[qty]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Tanggal Perolehan</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='tglperoleh' value='<?php echo "$r[tglperoleh]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Nilai Perolehan</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='h_peroleh' value='<?php echo $r[hargaperolehan]; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Nilai Limit</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='h_limit' value='<?php echo $r[nilailimit]; ?>'>
+                                                    <small>Sesuaikan dengan SAKTI</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Nilai Buku</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='n_buku' value='<?php echo $r[nilaibuku]; ?>'>
+                                                    <small>Sesuaikan dengan SAKTI</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Kondisi</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='status_kondisi' value='<?php echo $r[status_kondisi]; ?>' readonly>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='uraian_kondisi' value='<?php echo $r[uraian_kondisi]; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Merek</label>
+                                                    <div class="col-sm-3">
+                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <fieldset>
+                                                <label for='Kode' class='col-sm-2 control-label'></label>
+                                                <button type=submit Data class='btn btn-primary btn-md flat'>
+                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Update Data Hapus </button>
+                                                </fieldset>
+
+                                            </form>
+
+                                            
+                                                    </div>
+                                                </div>        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        <?php
+                        } else {
+                            echo "Anda tidak berhak mengakses halaman ini.";
+                        }
+                        break;
 
 
                 ?>
@@ -266,23 +410,3 @@ function tampilkan(){
     {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='11'>[11] - Baru Asal Pengadaan</option><option value='12'>[12] - Proses Penghapusan BMN</option><option value='13'>[13] - Proses Sensus BMN</option><option value='14'>[14] - BMN Baru Asal Transfer</option><option value='15'>[15] - Proses Pinjam Pakai BMN</option>";}
 }
 </script>
-<script type="text/javascript">
-  function checkAll(box) 
-  {
-   let checkboxes = document.getElementsByTagName('input');
-
-   if (box.checked) { // jika checkbox teratar dipilih maka semua tag input juga dipilih
-    for (let i = 0; i < checkboxes.length; i++) {
-     if (checkboxes[i].type == 'checkbox') {
-      checkboxes[i].checked = true;
-     }
-    }
-   } else { // jika checkbox teratas tidak dipilih maka semua tag input juga tidak dipilih
-    for (let i = 0; i < checkboxes.length; i++) {
-     if (checkboxes[i].type == 'checkbox') {
-      checkboxes[i].checked = false;
-     }
-    }
-   }
-  }
- </script>

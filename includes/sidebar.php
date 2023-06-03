@@ -98,9 +98,9 @@ $rs    = mysqli_fetch_array($info);
                 &nbsp;&nbsp;&nbsp;BAST &nbsp;&nbsp;&nbsp;
                 </a></li>
 
-                <li><a href="?module=bast">
+                <li><a href="?module=hapusexcel">
                 <i class="fa fa-sticky-note text-red"></i>
-                &nbsp;&nbsp;&nbsp;Lampiran (Hapus / PSP) &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;Exp. Lamp Hapus (.xls) &nbsp;&nbsp;&nbsp;
                 </a></li>
           </ul>
         </li>

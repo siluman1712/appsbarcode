@@ -165,6 +165,12 @@ elseif ($_GET['module'] == 'labelqrcode') {
   }
 }
 
+elseif ($_GET['module'] == 'hapusexcel') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/cetak/hapusexcel.php';
+  }
+}
+
 elseif ($_GET['module'] == 'distribusi') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/distribusi.php';
