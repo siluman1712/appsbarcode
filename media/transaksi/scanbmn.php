@@ -254,7 +254,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <div class="col-sm-4">
                                                         <select class="form-control" name='prosedur' id='prosedur' onchange="tampilkan()">
                                                             <option value='BLANK'>PILIH</option>
-                                                            <option value='21'>[21] - Proses Penghapusan</option>
                                                             <option value='22'>[22] - Proses Penetapan Status Pengguna</option>
                                                             <option value='23'>[23] - Proses Inventaris / Sensus</option>
                                                             <option value='24'>[24] - Proses Peminjaman</option>

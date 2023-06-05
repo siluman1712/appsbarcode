@@ -171,6 +171,12 @@ elseif ($_GET['module'] == 'hapusexcel') {
   }
 }
 
+elseif ($_GET['module'] == 'distexcel') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/cetak/distexcel.php';
+  }
+}
+
 elseif ($_GET['module'] == 'distribusi') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/distribusi.php';

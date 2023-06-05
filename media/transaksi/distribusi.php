@@ -89,6 +89,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 
                               <div class="tab-pane" id="tab_2">
+                                <?php
+                                $tgl = mysqli_query(
+                                    $koneksi,
+                                    "SELECT * FROM s_settgl
+                                     ORDER BY idtgl ASC"
+                                );
+                                $rs = mysqli_fetch_array($tgl);
+                                ?>
                                     <form class='form-horizontal' method='POST' action='<?php echo "$aksi?module=distribusi&act=distribusibmn"; ?>' enctype='multipart/form-data'>
 
                                                     <div class="form-group">
@@ -179,6 +187,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 </div>
                                                                 <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name="tgldist" data-toggle="tooltip" data-placement="top" title="Tanggal Awal">
                                                             </div><!-- input-group -->
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Tahun Anggaran Pelaksanaan</label>
+                                                        <div class="col-sm-1">
+                                                            <input type="text" maxlength="150" class="form-control" name='tanggaran' value='<?php echo "$rs[s_thnang]"; ?>' readonly>
                                                         </div>
                                                     </div>
 
