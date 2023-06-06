@@ -7,7 +7,7 @@ $update = date('Y-m-d');
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Lampiran Penghapusan BMN</title>
+	<title>Lampiran Distribusi BMN</title>
 </head>
 <body>
 	<style type="text/css">
@@ -35,7 +35,7 @@ $update = date('Y-m-d');
  
 	<?php
 	header("Content-type: application/vnd-ms-excel");
-	header("Content-Disposition: attachment; filename=Lampiran Penghapusan BMN.xls");
+	header("Content-Disposition: attachment; filename=Lampiran Distribusi BMN.xls");
 	?>
  
 	<center>
