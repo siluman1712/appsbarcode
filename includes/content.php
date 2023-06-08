@@ -153,6 +153,12 @@ elseif ($_GET['module'] == 'pmtik') {
   }
 }
 
+elseif ($_GET['module'] == 'dbrumahnegara') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/tabel/dbrn.php';
+  }
+}
+
 elseif ($_GET['module'] == 'labelrusakberat') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/cetak/labelrusakberat.php';
