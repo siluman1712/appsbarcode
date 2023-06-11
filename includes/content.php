@@ -11,10 +11,11 @@ $dbtik = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
                                     ORDER BY a.kodebarang ASC");
 $tik = mysqli_num_rows($dbtik);
 
-$dtUser = mysqli_query($koneksi," SELECT  a.UNAME, a.NIP, a.PASSWORD, a.LEVEL
-                                  FROM a_useraktif a
-                                  ORDER BY a.UNAME ASC");
-$user = mysqli_num_rows($dtUser);
+$dbrn = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
+                                            a.nup, a.merek, a.tglperoleh
+                                    FROM dbrumahnegara a
+                                    ORDER BY a.kodebarang ASC");
+$rn = mysqli_num_rows($dbrn);
 
 $unit = mysqli_query($koneksi," SELECT idminta, registrasi, unut, COUNT(registrasi) AS regis 
                                 FROM c_unitsediaminta ORDER BY registrasi ASC");
@@ -50,9 +51,9 @@ if ($_GET['module'] == 'home') {
             <!-- small box -->
             <div class='small-box bg-green'>
               <div class='inner'>
-                <h3>$user</h3>
+                <h3>$rn</h3>
   
-                <p>BMN Non T I K</p>
+                <p>Rumah Negara</p>
               </div>
               <div class='icon'>
                 <i class='ion ion-stats-bars'></i>
@@ -222,6 +223,12 @@ elseif ($_GET['module'] == 'uploadbast') {
 elseif ($_GET['module'] == 'perubahankondisi') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/perubahankondisi.php';
+  }
+}
+
+elseif ($_GET['module'] == 'siprumahnegara') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/siprn.php';
   }
 }
 

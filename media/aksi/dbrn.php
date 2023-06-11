@@ -23,7 +23,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	$module = $_GET['module'];
 	$act = $_GET['act'];
 
-	if ($module == 'pmtik' and $act == 'addbmn') {
+	if ($module == 'dbrumahnegara' and $act == 'addrumahnegara') {
 		$tgl = date('Y-m-d');
 		$nupAW = $_POST['nupAW'];
 		$nupAK = $_POST['nupAK'];
@@ -41,13 +41,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 						});
 					}, 10);
 					window.setTimeout(function() {
-						window.location.replace('../../appsmedia.php?module=pmtik');
+						window.location.replace('../../appsmedia.php?module=dbrumahnegara');
 					}, 1500);
 				</script>
 			<?php
 
 			} else {
-				mysqli_query($koneksi, "INSERT INTO dbtik
+				mysqli_query($koneksi, "INSERT INTO dbrumahnegara
 								SET	kodesatker	= '$_POST[kdukpb]', 
 									kodebarang	= '$_POST[kodebarang]',
 									nup			= '$i',
@@ -56,10 +56,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 									tglbuku	= '$_POST[tglbuku]',
 									t_anggaran	= '$_POST[t_anggaran]',
 									hargaperolehan = '$_POST[h_peroleh]',
-									keterangan = '$_POST[keterangan]',
+									luas_sbsk = '$_POST[luasbg]',
 									status_psp = '$_POST[status_psp]',
 									nomor_psp = '$_POST[nopsp]',
 									tgl_psp = '$_POST[tglpsp]',
+									status_penggunaan = '$_POST[statusguna]',
 									status_kondisi = '$_POST[kondisi]'");
 
 			?>
@@ -67,18 +68,19 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 					setTimeout(function() {
 						swal({
 							title: 'SUKSES',
-							text: 'BMN Baru Berhasil di tambahkan',
+							text: 'Rumah Negara Baru Berhasil di tambahkan',
 							type: 'success',
 							showConfirmButton: false
 						});
 					}, 10);
 					window.setTimeout(function() {
-						window.location.replace('../../appsmedia.php?module=pmtik');
+						window.location.replace('../../appsmedia.php?module=dbrumahnegara');
 					}, 1500);
 				</script>
 			<?php
 			}
 		}
-	}
+	}	
+
 }
 ?>

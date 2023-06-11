@@ -10,7 +10,7 @@ $rs  = mysqli_fetch_array($tgl);
       </a>
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="?module=home" class="navbar-brand"><b>appsBarcode</b></a>
+          <a href="?module=home" class="navbar-brand"><b>APPENDI.XII</b></a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>

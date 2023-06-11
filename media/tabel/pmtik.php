@@ -226,6 +226,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Tanggal Buku</label>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name="tglbuku" data-toggle="tooltip" data-placement="top" title="Tanggal Awal">
+                                                    </div><!-- input-group -->
+                                                </div>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label class="col-sm-2 control-label">Harga Perolehan</label>
                                                     <div class="col-sm-2">
                                                     <input type="text" maxlength="20" class="form-control" name='h_peroleh' value='<?php echo "$_POST[h_peroleh]"; ?>'>

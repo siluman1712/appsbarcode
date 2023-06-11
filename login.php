@@ -16,7 +16,7 @@ $rs  = mysqli_fetch_array($tgl);
     <link rel="stylesheet" href="assets/login/css/style.css" >  
     <link href="assets/css/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
-    <title>Apps-Layanan Umum</title>
+    <title>Aplikasi Pendukung Instansi XII - ApPENDI.XII</title>
   </head>
   <body>
   
@@ -24,8 +24,7 @@ $rs  = mysqli_fetch_array($tgl);
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-5">
-          <img src='assets/images/logo.png' class="rounded" width='500' height='100'/>
-          <h6 class="text-right">MODUL - APPSBARCODE </h6>
+          <img src='assets/images/appendiks_logo.png' class="rounded" width='500' height='150'/>
           </div>
           <div class="col-md-2 text-center">
           </div>
