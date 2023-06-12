@@ -48,20 +48,20 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 			} else {
 				mysqli_query($koneksi, "INSERT INTO dbrumahnegara
-								SET	kodesatker	= '$_POST[kdukpb]', 
+								SET	kodesatker	= '$_POST[kdukpb]',
+									t_anggaran	= '$_POST[t_anggaran]', 
 									kodebarang	= '$_POST[kodebarang]',
 									nup			= '$i',
-									merek		= '$_POST[merek]', 
+									merek		= '$_POST[merek]',
 									tglperoleh	= '$_POST[tglperoleh]',
 									tglbuku	= '$_POST[tglbuku]',
-									t_anggaran	= '$_POST[t_anggaran]',
 									hargaperolehan = '$_POST[h_peroleh]',
-									luas_sbsk = '$_POST[luasbg]',
 									status_psp = '$_POST[status_psp]',
 									nomor_psp = '$_POST[nopsp]',
-									tgl_psp = '$_POST[tglpsp]',
+									tgl_psp = '$_POST[tglpsp]', 
+									status_kondisi = '$_POST[kondisi]',
 									status_penggunaan = '$_POST[statusguna]',
-									status_kondisi = '$_POST[kondisi]'");
+									luas_sbsk = '$_POST[luasbg]'");
 
 			?>
 				<script type="text/javascript">
