@@ -20,7 +20,7 @@ error_reporting('E_NONE');
 	session_destroy();
 	if($_GET['exp'] == 1)
 	{ 
-		header("Location: login.php?act=4");
+		header("Location: login.php?pesan=waktu_habis"); 
 		mysqli_query($koneksi, "UPDATE a_useraktif SET ISLOGIN = '0' WHERE UNAME = '$sess_id'") or die (mysqli_error($koneksi));
 		mysqli_query($koneksi, "UPDATE a_useraktif SET status = 'OFFLINE' WHERE UNAME = '$sess_id'") 
 		or die (mysqli_error($koneksi));

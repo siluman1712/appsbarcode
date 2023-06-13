@@ -51,7 +51,7 @@ $rs  = mysqli_fetch_array($tgl);
                           echo "
                           <div class='alert alert-info' align='center'><font color='#020'><small>Username dan Password Masih kosong</small></font>
                           </div>";
-                        }else if($_GET['pesan'] == "waktu_habis"){
+                        }else if($_GET['pesan'] == "waktu_habis"){ 
                           echo "
                           <div class='alert alert-danger' align='center'><font color='#000'><small>Waktu habis, Logout Otomatis</small></font>
                           </div>";

@@ -258,28 +258,53 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">No Rumah</label>
+                                                    <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 control-label">Golongan</label>
-                                                    <div class="col-sm-2">
-                                                        <select class="form-control" name='gol' id='gol'>
+                                                    <label class="col-sm-2 control-label">Golongan Rumah Negara</label>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control" name='golrn' id='gol'>
                                                             <option value='BLANK'>PILIH</option>
-                                                            <option value='I'>[I] Golongan I</option>
-                                                            <option value='II'>[II] Golongan II</option>
-                                                            <option value='III'>[III] Golongan III</option>
+                                                            <?php
+                                                            $dataSql = "SELECT * FROM dbgolrn 
+                                                                        ORDER BY idgolrn ASC";
+                                                            $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                            while ($dataRow = mysqli_fetch_array($dataQry)) {
+                                                            if ($dataRow['golrn'] == $_POST['golrn']) {
+                                                            $cek = " selected";
+                                                            } else { $cek = ""; }
+                                                            echo "
+                                                            <option value='$dataRow[idgolrn]' $cek>[$dataRow[idgolrn]] $dataRow[ur_golrn] - $dataRow[keterangan]</option>";
+                                                            }
+                                                            $sqlData = "";
+                                                            ?>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 control-label">Type</label>
-                                                    <div class="col-sm-3">
-                                                        <select class="form-control" name='tipe' id='tipe'>
-                                                            <option value='BLANK'>PILIH</option>
-                                                            <option value='A'>[A] Tipe Sekelas Menteri / Kepala Lembaga / Dirjen / Eselon I</option>
-                                                            <option value='B'>[B] Tipe Sekelas Eselon II</option>
-                                                            <option value='C'>[C] Tipe Sekelas Eselon III / Administrator</option>
-                                                            <option value='D'>[D] Tipe Sekelas Eselon IV / Penyetaraan / PNS</option>
-                                                            <option value='E'>[D] Tipe Eselon V / Pelaksana</option>
+                                                    <label class="col-sm-2 control-label">Type Rumah Negara</label>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control" name='typern' id='typern'>
+                                                        <option value='BLANK'>PILIH</option>
+                                                        <?php
+                                                        $dataSql = "SELECT * FROM dbtipern 
+                                                                    ORDER BY idtipern ASC";
+                                                        $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                        while ($dataRow = mysqli_fetch_array($dataQry)) {
+                                                        if ($dataRow['tipern'] == $_POST['typern']) {
+                                                        $cek = " selected";
+                                                        } else { $cek = ""; }
+                                                        echo "
+                                                        <option value='$dataRow[tipern]' $cek>[$dataRow[tipern]] $dataRow[ur_tipern] - $dataRow[keterangan] [$dataRow[luas]]</option>";
+                                                        }
+                                                        $sqlData = "";
+                                                        ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -287,7 +312,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Status Huni</label>
-                                                    <div class="col-sm-2">
+                                                    <div class="col-sm-3">
                                                     <select class="form-control s2" name='penghuni_status' id="penghuni_status">
                                                         <option value='BLANK'>PILIH</option>
                                                         <?php
