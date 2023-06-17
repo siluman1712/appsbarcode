@@ -126,10 +126,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                 if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
 
                 ?>
-
-                    <section class="content">
-
-                        <a class='btn btn-danger btn-sm' href=<?php echo "?module=siprumahnegara"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
+                    <section class="content-header">
+                      <h1>
+                        Surat Izin Penghunian Rumah Negara
+                        <small>Pendaftaran Pegawai untuk penempatan Rumah Negara</small>
+                      </h1>
+                    </section>
+                    <section class="content">                        
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="box">
@@ -139,7 +142,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             <form class='form-horizontal' method='POST' action='' enctype='multipart/form-data'>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">Kode BMN</label>
-                                                        <div class="col-sm-1">
+                                                        <div class="col-sm-2">
                                                         <input type="text" maxlength="10" class="form-control" name='kodebmn' value='<?php echo "$_POST[kodebmn]"; ?>'>
                                                         <small>Kode BMN</small>
                                                         </div>
@@ -155,6 +158,20 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
 
                                             </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
                                             <?php
                                             $a = mysqli_query(
                                                 $koneksi,
@@ -179,52 +196,54 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             ?>
 
                                             <form id='scan' method='post' class='form-horizontal' action='<?php echo "$aksi?module=siprumahnegara&act=tambahsip"; ?>' enctype='multipart/form-data'>
+
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label"></label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='kodesatker' value='<?php echo "$r[kodesatker]"; ?>' readonly>
+                                                    <small>Kode Satuan kerja</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <div class="col-sm-1">
                                                     <input type="text" class="form-control" name='kd_brg' id="kd_brg" value='<?php echo "$r[kd_brg]"; ?>' readonly>
+                                                    <small>kode bmn</small>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                <label class="col-sm-2 control-label"></label>
+
+                                                
                                                     <div class="col-sm-4">
                                                     <input type="text" class="form-control" name='nm_brg' id="nm_brg" value='<?php echo "$r[ur_sskel]"; ?>' readonly>
+                                                    <small>Uraian bmn</small>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                <label class="col-sm-2 control-label"></label>
-                                                    <div class="col-sm-2">
-                                                    <input type="text" class="form-control" name='satuan' id="satuan" value='<?php echo "$r[satuan]"; ?>' readonly>
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">No Aset</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='satuan' id="satuan" value='<?php echo "$r[satuan]"; ?>' readonly>
+                                                    <small>satuan bmn</small>
+                                                    </div>
+
                                                     <div class="col-sm-1">
                                                     <input type="text" class="form-control" name='nup' value='<?php echo "$r[nup]"; ?>' readonly>
+                                                    <small>No Aset</small>
+                                                    </div>
+
+                                                    <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>' readonly>
+                                                    <small>Jenis BMN</small>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Tahun Anggaran</label>
                                                     <div class="col-sm-1">
                                                     <input type="text" class="form-control" name='t_anggaran' value='<?php echo "$r[t_anggaran]"; ?>' readonly>
+                                                    <small>Tahun Anggaran</small>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Periode</label>
                                                     <div class="col-sm-1">
                                                     <input type="text" class="form-control" name='periode' value='<?php echo date(m, strtotime($r[tglperoleh])); ?>' readonly>
+                                                    <small>Periode</small>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Kode Satker</label>
-                                                    <div class="col-sm-4">
-                                                    <input type="text" class="form-control" name='kodesatker' value='<?php echo "$r[kodesatker]"; ?>' readonly>
-                                                    </div>
-                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Perolehan</label>
@@ -233,17 +252,12 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Merek</label>
-                                                    <div class="col-sm-5">
-                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>' readonly>
-                                                    </div>
-                                                </div>
+
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Harga Perolehan</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" class="form-control" name='h_peroleh' value='<?php echo $r[hargaperolehan]; ?>' readonly>
+                                                    <input type="text" class="form-control" name='h_peroleh' value='<?php echo "$r[hargaperolehan]"; ?>' readonly>
                                                     </div>
                                                 </div>
 
