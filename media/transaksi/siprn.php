@@ -165,19 +165,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
 
                                             </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-               
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="box">
-                                    <div class="box-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
                                             <?php
                                             $a = mysqli_query(
                                                 $koneksi,
@@ -202,7 +189,19 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 </div>";
                                             } else {
                                             ?>
-
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+               
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
                                             <form role='form' id='scan' method='post' class='form-horizontal' action='<?php echo "$aksi?module=siprumahnegara&act=tambahsip"; ?>' enctype='multipart/form-data'>
 
                                                 <div class="form-group">
@@ -374,7 +373,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
                                                     <label >SK SIP</label>
-                                                    <input maxlength="3" type="text" class="form-control" name='sksip' value='<?php echo "$_POST[lamahuni]"; ?>'>
+                                                    <input type="text" class="form-control" name='sksip' value='<?php echo "$_POST[lamahuni]"; ?>'>
                                                     </div>
 
                                                 <div class="col-md-2">
@@ -411,11 +410,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
+                                                <div class="box-footer">
                                                 <fieldset>
                                                 <button type=submit Data class='btn btn-primary btn-md flat'>
                                                 <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpan </button>
-                                                </fieldset>
 
+                                                <button type=reset Data class='btn btn-danger btn-md flat'>
+                                                <i class='fa fa-retweet'></i>&nbsp;&nbsp;&nbsp; Reset </button>
+                                                </fieldset>
+                                                </div>
                                             </form>
                                             <?php } ?>
                                             </div>
