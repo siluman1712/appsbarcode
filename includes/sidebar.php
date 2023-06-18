@@ -134,13 +134,6 @@ $rs    = mysqli_fetch_array($info);
                 <i class='fa fa-plus text-white'></i>&nbsp;&nbsp;Daftarkan Rumah Negara&nbsp;&nbsp;&nbsp;</button>
                 </a>
                 </li>
-
-                <li>
-                <a href="?module=perubahanrn">
-                <button class='btn bg-olive btn-xs flat' >
-                <i class='fa fa-history text-white'></i>&nbsp;&nbsp;Perubahan Rumah Negara&nbsp;&nbsp;&nbsp;</button>
-                </a>
-                </li>
                 
           </ul>
         </li>

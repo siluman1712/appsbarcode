@@ -189,10 +189,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                 </div>
                                             </div>    
-                                            <table id="table_3" class="table table-striped table-bordered">
+                                            <table id="table_4" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th bgcolor='#dcdcdc'> No </th>
                                                         <th bgcolor='#dcdcdc'> NIP Penghuni</th>
                                                         <th bgcolor='#dcdcdc'> Nama Penghuni</th>
                                                         <th bgcolor='#dcdcdc'> TMT Penghunian</th>
@@ -202,13 +201,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <th bgcolor='#dcdcdc'> SKSIP</th>
                                                         <th bgcolor='#dcdcdc'> TGL SK</th>
                                                         <th bgcolor='#dcdcdc'> Status Huni</th>
+                                                        <th bgcolor='#dcdcdc'> Info Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                         <?php
                                                         $cek = mysqli_query(
                                                             $koneksi,
-                                                            "SELECT  a.kodesatker, a.kodebarang, 
+                                                            "SELECT a.kodesatker, a.kodebarang, 
                                                                     a.tglbuku, a.status_kondisi,
                                                                     a.nup, a.merek, a.tglperoleh, 
                                                                     a.status_psp, a.tgl_psp, a.nomor_psp,
@@ -216,15 +216,24 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                     a.merek,
                                                                     b.kd_brg, b.ur_sskel, 
                                                                     c.kdukpb, c.nmukpb,
-                                                                    e.uraianstatus_psp, e.status_psp,
-                                                                    f.status_kondisi, f.uraian_kondisi,
-                                                                    g.id_status, g.ur_status
+                                                                    d.penghuni_nip, d.penghuni_nilaisewa, 
+                                                                    d.penghuni_nama, d.penghuni_tmthuni,
+                                                                    d.penghuni_sksip, d.penghuni_tglsk, 
+                                                                    d.penghuni_lamahuni, d.kodebarang,  
+                                                                    d.penghuni_status, d.noaset, 
+                                                                    d.penghuni_tmtbayarsewa, d.penghuni_tglsk,
+                                                                    d.penghuni_sksip, d.penghuni_status,
+                                                                    d.penghuni_selesaiperpnjang, 
+                                                                    d.penghuni_alasanselesai,
+                                                                    e.id_status, e.ur_status,
+                                                                    f.idstatus_hunian, f.ur_statushunian
+
                                                             FROM dbrumahnegara a
                                                             LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                             LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
-                                                            LEFT JOIN status_psp e ON e.status_psp = a.status_psp
-                                                            LEFT JOIN kondisi_bmn f ON f.status_kondisi = a.status_kondisi
-                                                            LEFT JOIN status_penggunaan g ON g.id_status = a.status_penggunaan
+                                                            LEFT JOIN dbsip d ON d.kodebarang = a.kodebarang
+                                                            LEFT JOIN status_penggunaan e ON e.id_status = a.status_penggunaan
+                                                            LEFT JOIN status_penghunian f ON f.idstatus_hunian = d.penghuni_status
                                                             WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
                                                             ORDER BY a.kodebarang ASC"
                                                         );
@@ -235,17 +244,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             $no++;
                                                         ?>
                                                         <tr>
-                                                            <td><?php echo "$no"; ?></td>
-                                                            <td><?php echo "$r[kodebarang]"; ?></td>
-                                                            <td><?php echo "$r[ur_sskel]"; ?></td>
-                                                            <td><?php echo "$r[nup]"; ?></td>
-                                                            <td><?php echo "$r[merek]"; ?></td>
-                                                            <td><?php echo "$r[tglperoleh]"; ?></td>
-                                                            <td>[<?php echo "$r[status_kondisi]"; ?>] 
-                                                                <span class="badge bg-green"><?php echo "$r[uraian_kondisi]"; ?></span></td>
-                                                            <td>[<?php echo "$r[status_psp]"; ?>] 
-                                                                <span class="badge bg-green"><?php echo "$r[uraianstatus_psp]"; ?></span></td>
-                                                            <td><span class="badge bg-green">[<?php echo "$r[status_bmn]"; ?>] <?php echo "$r[uraianstatus]"; ?></span></td>
+                                                            <td><?php echo "$r[penghuni_nip]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_nama]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_tmthuni]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_lamahuni]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_nilaisewa]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_tmtbayarsewa]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_sksip]"; ?></td>
+                                                            <td><?php echo "$r[penghuni_tglsk]"; ?></td>
+                                                            <td><span class="badge bg-green">[<?php echo "$r[penghuni_status]"; ?>] <?php echo "$r[ur_statushunian]"; ?></span></td>
                                                         </tr>
                                                         </tfoot>
                                                     <?php } ?>

@@ -23,35 +23,43 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	$module = $_GET['module'];
 	$act = $_GET['act'];
 
-	if ($module == 'scanbmn' and $act == 'addscan') {
+	if ($module == 'siprumahnegara' and $act == 'tambahsip') {
 		$tgl = date('Y-m-d');
-				mysqli_query($koneksi, "INSERT INTO dbscanbmn
-								SET	kodesatuankerja	= '$_POST[kodesatker]', 
+				mysqli_query($koneksi, "INSERT INTO dbsip
+								SET	idsip = '$_POST[nourut]',
 									kodebarang	= '$_POST[kd_brg]',
-									noaset			= '$_POST[nup]',
-									qty = '1',
-									merek		= '$_POST[merek]', 
+									noaset	= '$_POST[nup]',
+									no_rumah = '$_POST[typern]-$_POST[nourut]',
+									gol_rumah = '$_POST[golrn]',
+									type_rumah = '$_POST[typern]',
+									kodesatker = '$_POST[kodesatker]',
 									tglperoleh	= '$_POST[tglperoleh]',
-									prosedur = '$_POST[prosedur]',
+									h_perolehan = '$_POST[h_peroleh]',
 									t_anggaran	= '$_POST[t_anggaran]',
 									periode = '$_POST[periode]',
-									hargaperolehan = '$_POST[h_peroleh]',
-									kondisi_bmn = '$_POST[kondisibmn]',
-									koderuangan = '$_POST[koderuang]',
-									flag = '1'");
+									penghuni_nip = '$_POST[NIP1]',
+									penghuni_nama = '$_POST[NAMA1]',
+									penghuni_gapok = '$_POST[nilaigapok]',
+									penghuni_tmthuni = '$_POST[tmthuni]',
+									penghuni_nilaisewa = '$_POST[nilaisewa]',
+									penghuni_lamahuni = '$_POST[lamahuni]',
+									penghuni_sksip = '$_POST[sksip]',
+									penghuni_tglsk = '$_POST[tmtsksip]',
+									penghuni_tmtbayarsewa = '$_POST[tmtsewa]',
+									penghuni_status = '$_POST[statushuni]'");
 
 			?>
 				<script type="text/javascript">
 					setTimeout(function() {
 						swal({
 							title: 'SUKSES',
-							text: 'BMN berhasil di scan',
+							text: 'SIP Rumah Negara sukses disimpan',
 							type: 'success',
 							showConfirmButton: false
 						});
 					}, 10);
 					window.setTimeout(function() {
-						window.location.replace('../../appsmedia.php?module=scanbmn');
+						window.location.replace('../../appsmedia.php?module=siprumahnegara');
 					}, 1500);
 				</script>
 			<?php

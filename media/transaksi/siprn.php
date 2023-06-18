@@ -9,7 +9,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 } else {
     $cek = user_akses($_GET['module'], $_SESSION['NIP']);
     if ($cek == 1 or $_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-        $aksi = "media/aksi/scanbmn.php";
+        $aksi = "media/aksi/dbsip.php";
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
@@ -49,6 +49,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Lama Penghunian</th>
                                                     <th bgcolor='#dcdcdc'> Nilai Sewa</th>
                                                     <th bgcolor='#dcdcdc'> Status Penghunian</th>
+                                                    <th bgcolor='#dcdcdc'> Update Status</th>
 
                                                 </tr>
                                             </thead>
@@ -59,7 +60,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                   a.penghuni_nama, a.penghuni_tmthuni,
                                                                   a.penghuni_sksip, a.penghuni_tglsk, 
                                                                   a.penghuni_lamahuni, a.kodebarang,  
-                                                                  a.penghuni_status, a.noaset,
+                                                                  a.penghuni_status, a.noaset, 
+                                                                  a.penghuni_selesaiperpnjang, 
+                                                                  a.penghuni_alasanselesai,
                                                                   b.kd_brg, b.ur_sskel, 
                                                                   c.nip, c.nama, c.nama_depan, c.nama_belakang,
                                                                   c.idgolru, c.tmt_golru, c.jabatan,
@@ -69,14 +72,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                            LEFT JOIN dbpegawai c ON c.nip = a.penghuni_nip
                                                            LEFT JOIN dbgolru d ON d.GOL_GOLNAM = c.idgolru
-                                                           LEFT JOIN status_penghunian e ON e.idstatus_hunian = c.penghuni_status
+                                                           LEFT JOIN status_penghunian e ON e.idstatus_hunian = a.penghuni_status
                                                            ORDER BY a.kodebarang AND a.noaset ASC");
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($tik)) {
                                                     $no++;
                                                 ?>
                                                     <tr>
-                                                        <td><?php echo "$r[kodebarang]"; ?></td>
+                                                        <td><?php echo "$r[kd_brg]"; ?></td>
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[noaset]"; ?></td>
                                                         <td><?php echo "$r[nama_depan]"; ?><?php echo "$r[nama]"; ?>.,<?php echo "$r[nama_belakang]"; ?></td>
@@ -356,7 +359,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                     <div class="col-sm-2">
                                                     <label >Nilai Sewa</label>
-                                                    <input maxlength="7" type="text" class="form-control" name='nilaigapok' value='<?php echo "$_POST[nilaigapok]"; ?>'>
+                                                    <input maxlength="7" type="text" class="form-control" name='nilaisewa' value='<?php echo "$_POST[nilaigapok]"; ?>'>
                                                     </div>
 
                                                 <div class="col-md-2">
@@ -391,7 +394,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <div class="form-group">
                                                     <div class="col-sm-3">
                                                     <label >Status Huni</label>
-                                                    <select class="form-control s2" name='penghuni_status' id="penghuni_status">
+                                                    <select class="form-control s2" name='statushuni' id="statushuni">
                                                         <option value='BLANK'>PILIH</option>
                                                         <?php
                                                         $dataSql = "SELECT * FROM status_penghunian 
