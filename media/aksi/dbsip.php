@@ -64,6 +64,50 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				</script>
 			<?php
 			}
+
+			elseif ($module == 'sipupdatestatus' and $act == 'updatesip') {
+				$tgl = date('Y-m-d');
+						mysqli_query($koneksi, "INSERT INTO dbsip
+										SET	idsip = '$_POST[nourut]',
+											kodebarang	= '$_POST[kd_brg]',
+											noaset	= '$_POST[nup]',
+											no_rumah = '$_POST[no_rumah]',
+											gol_rumah = '$_POST[golrn]',
+											type_rumah = '$_POST[typern]',
+											kodesatker = '$_POST[kodesatker]',
+											tglperoleh	= '$_POST[tglperoleh]',
+											h_perolehan = '$_POST[h_peroleh]',
+											t_anggaran	= '$_POST[t_anggaran]',
+											periode = '$_POST[periode]',
+											penghuni_nip = '$_POST[NIP1]',
+											penghuni_nama = '$_POST[NAMA1]',
+											penghuni_gapok = '$_POST[nilaigapok]',
+											penghuni_tmthuni = '$_POST[tmthuni]',
+											penghuni_nilaisewa = '$_POST[nilaisewa]',
+											penghuni_lamahuni = '$_POST[lamahuni]',
+											penghuni_sksip = '$_POST[sksip]',
+											penghuni_tglsk = '$_POST[tmtsksip]',
+											penghuni_tmtbayarsewa = '$_POST[tmtsewa]',
+											penghuni_selesaiperpnjang = '$_POST[tmtselesaipanjang]',
+											penghuni_alasanselesai = '$_POST[alasanselesai]',
+											penghuni_status = '$_POST[statushuni]'");
+
+					?>
+						<script type="text/javascript">
+							setTimeout(function() {
+								swal({
+									title: 'SUKSES',
+									text: 'Update SIP Rumah Negara sukses',
+									type: 'success',
+									showConfirmButton: false
+								});
+							}, 10);
+							window.setTimeout(function() {
+								window.location.replace('../../appsmedia.php?module=sipupdatestatus');
+							}, 1500);
+						</script>
+					<?php
+					}
 	
 }
 ?>

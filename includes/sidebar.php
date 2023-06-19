@@ -134,6 +134,13 @@ $rs    = mysqli_fetch_array($info);
                 <i class='fa fa-plus text-white'></i>&nbsp;&nbsp;Daftarkan Rumah Negara&nbsp;&nbsp;&nbsp;</button>
                 </a>
                 </li>
+
+                <li>
+                <a href="?module=sipupdatestatus">
+                <button class='btn bg-blue btn-xs flat' >
+                <i class='fa fa-retweet text-white'></i>&nbsp;&nbsp;Update Status SIP&nbsp;&nbsp;&nbsp;</button>
+                </a>
+                </li>
                 
           </ul>
         </li>

@@ -20,22 +20,22 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                     );
                     $rs = mysqli_fetch_array($tgl);
                     $update = date('Y-m-d');
-
+  
 ?>
                     <section class="content-header">
                       <h1>
-                        Surat Izin Penghunian Rumah Negara
+                        Surat Izin Penghunian Rumah Negara (Update Status)
                         <small>Pendaftaran Pegawai untuk penempatan Rumah Negara</small>
                       </h1>
                     </section>
                     <section class="content">
-                    <a class='btn bg-red btn-md flat' href=<?php echo "?module=siprumahnegara&act=sip"; ?>>
-                    <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Pendaftaran SIP </a>
+                    <a class='btn bg-black btn-md' href=<?php echo "?module=sipupdatestatus&act=update"; ?>>
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;SIP Update Status Penghunian </a>
                         <div class="box">
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                    <table id="table_3" class="table table-bordered table-striped responsive">
+                                    <table id="table_1" class="table table-bordered table-striped responsive">
                                             <thead>
                                                 <tr>
                                                     <th bgcolor='#dcdcdc'> Kode Barang </th>
@@ -46,8 +46,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> TMT Penghunian</th>
                                                     <th bgcolor='#dcdcdc'> SK SIP</th>
                                                     <th bgcolor='#dcdcdc'> SK Tanggal</th>
-                                                    <th bgcolor='#dcdcdc'> Lama Penghunian</th>
-                                                    <th bgcolor='#dcdcdc'> Nilai Sewa</th>
+                                                    <th bgcolor='#dcdcdc'> Tanggal Selesai</th>
                                                     <th bgcolor='#dcdcdc'> Status Penghunian</th>
 
                                                 </tr>
@@ -86,8 +85,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[penghuni_tmthuni]"; ?></td>
                                                         <td><?php echo "$r[penghuni_sksip]"; ?></td>
                                                         <td><?php echo "$r[penghuni_tglsk]"; ?></td>
-                                                        <td><?php echo "$r[penghuni_lamahuni]"; ?></td>
-                                                        <td><?php echo "$r[penghuni_nilaisewa]"; ?></td>
+                                                        <td><?php echo "$r[penghuni_selesaiperpnjang]"; ?></td>
                                                         <td>
                                                         <?php if($r['idstatus_hunian']=='90'){?>
                                                         <span class="badge bg-green">
@@ -136,19 +134,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                 }
                 break;
 
-                case "sip":
-                if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-                        $query = mysqli_query($koneksi, "SELECT max(idsip) as urutawal FROM dbsip");
-                        $data = mysqli_fetch_array($query);
-                        $nourut = $data['urutawal'];  
-                        $urutan = (int) substr($nourut, -2, 2);   
-                        $urutan ++;
-                        $no_urut = sprintf("%02s", $urutan);    
+                case "update":
+                if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {   
 
                 ?>
                     <section class="content-header">
                       <h1>
-                        Surat Izin Penghunian Rumah Negara
+                        Surat Izin Penghunian Rumah Negara (UPDATE STATUS)
                         <small>Pendaftaran Pegawai untuk penempatan Rumah Negara</small>
                       </h1>
                     </section>
@@ -186,12 +178,22 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             a.tglperoleh, a.kodesatker,
                                                             a.t_anggaran, a.hargaperolehan,
                                                             b.kd_brg, b.ur_sskel, b.satuan,
-                                                            c.kdukpb, c.nmukpb
+                                                            c.kdukpb, c.nmukpb,
+                                                            d.penghuni_nip, d.penghuni_nilaisewa, 
+                                                            d.penghuni_nama, d.penghuni_tmthuni,
+                                                            d.penghuni_sksip, d.penghuni_tglsk, 
+                                                            d.penghuni_lamahuni, d.kodebarang,
+                                                            d.penghuni_gapok, d.no_rumah, d.gol_rumah,
+                                                            d.type_rumah, d.penghuni_tmtbayarsewa,
+                                                            d.penghuni_status, d.noaset, d.idsip,
+                                                            d.penghuni_selesaiperpnjang, d.id_sip,
+                                                            d.penghuni_alasanselesai
                                                             FROM dbrumahnegara a
                                                             LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
                                                             LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker 
+                                                            LEFT JOIN dbsip d ON d.kodebarang = a.kodebarang AND d.noaset = a.nup
                                                             WHERE  a.kodebarang='$_POST[kodebmn]' AND a.nup = '$_POST[noaset]'
-                                                    ORDER BY a.kodebarang AND a.nup ASC"
+                                                            ORDER BY d.id_sip DESC"
                                             );
                                             $r = mysqli_fetch_array($a);
                                             $cekdata = mysqli_num_rows($a);
@@ -216,13 +218,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                            <form role='form' id='scan' method='post' class='form-horizontal' action='<?php echo "$aksi?module=siprumahnegara&act=tambahsip"; ?>' enctype='multipart/form-data'>
-
-                                                <div class="form-group">
-                                                <div class="col-sm-2">
-                                                <font size='20' face="arial black"><?php echo"$no_urut"?></font>
-                                                </div>
-                                                </div>
+                                            <form role='form' method='post' class='form-horizontal' action='<?php echo "$aksi?module=sipupdatestatus&act=updatesip"; ?>' enctype='multipart/form-data'>
 
                                                 <div class="form-group">
                                                     <div class="col-sm-2">
@@ -236,7 +232,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
 
                                                     <div class="col-sm-1">
-                                                    <input type="hidden" class="form-control" name='nourut' value='<?php echo "$no_urut"; ?>' readonly>
+                                                    <input type="text" class="form-control" name='nourut' value='<?php echo "$r[idsip]"; ?>' readonly>
+                                                    <small>No Urut</small>
+                                                    </div>
+
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='no_rumah' value='<?php echo "$r[no_rumah]"; ?>' readonly>
+                                                    <small>No Rumah</small>
                                                     </div>
                                                 </div>
 
@@ -288,22 +290,20 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <input type="text" class="form-control" name='h_peroleh' value='<?php echo "$r[hargaperolehan]"; ?>' readonly>
                                                     <small>Harga Perolehan</small>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
                                                     <div class="col-sm-2">
-                                                    <label>Penghuni NIP</label>
-                                                    <input class='form-control' maxlength="18" type="text" name="NIP1" id="NIP1" placeholder="Masukkan NIP" value='<?php echo "$_POST[NIP1]" ?>' >
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-                                                    <label>Penghuni Nama</label>
-                                                    <input class='form-control' maxlength="50" type="text" name="NAMA1" id="NAMA1" placeholder="Nama Pegawai" value='<?php echo "$_POST[NAMA1]" ?>' readonly>
+                                                    <input class='form-control' maxlength="18" type="text" name="NIP1" id="NIP1" placeholder="Masukkan NIP" value='<?php echo "$r[penghuni_nip]" ?>'>
+                                                    <small>NIP Penghuni</small>
                                                     </div>
 
                                                     <div class="col-sm-2">
-                                                    <label >Gaji Pokok</label>
-                                                    <input maxlength="7" type="text" class="form-control" name='nilaigapok' value='<?php echo "$_POST[nilaigapok]"; ?>'>
+                                                    <input class='form-control' maxlength="50" type="text" name="NAMA1" id="NAMA1" placeholder="Nama Pegawai" value='<?php echo "$r[penghuni_nama]" ?>'>
+                                                    <small>Nama Penghuni</small>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                    <input maxlength="7" type="text" class="form-control" name='nilaigapok' value='<?php echo "$r[penghuni_gapok]"; ?>'>
+                                                    <small>Gaji Pokok Penghuni</small>
                                                     </div>
                                                 </div>
 
@@ -317,7 +317,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                         ORDER BY idgolrn ASC";
                                                             $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
-                                                            if ($dataRow['golrn'] == $_POST['golrn']) {
+                                                            if ($dataRow['idgolrn'] == $r['gol_rumah']) {
                                                             $cek = " selected";
                                                             } else { $cek = ""; }
                                                             echo "
@@ -337,7 +337,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                     ORDER BY idtipern ASC";
                                                         $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
                                                         while ($dataRow = mysqli_fetch_array($dataQry)) {
-                                                        if ($dataRow['tipern'] == $_POST['typern']) {
+                                                        if ($dataRow['tipern'] == $r['type_rumah']) {
                                                         $cek = " selected";
                                                         } else { $cek = ""; }
                                                         echo "
@@ -354,14 +354,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmtsewa' value='<?php echo "$_POST[tmtsewa]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Penghunian">
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmtsewa' value='<?php echo "$r[penghuni_tmtbayarsewa]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Penghunian">
                                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
                                                 </div>
 
                                                     <div class="col-sm-1">
                                                     <label >Lama Huni</label>
-                                                    <input maxlength="3" type="text" class="form-control" name='lamahuni' value='<?php echo "$_POST[lamahuni]"; ?>'>
+                                                    <input maxlength="3" type="text" class="form-control" name='lamahuni' value='<?php echo "$r[penghuni_lamahuni]"; ?>'>
                                                     </div>
                                                 </div>
                                                 
@@ -370,7 +370,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                     <div class="col-sm-2">
                                                     <label >Nilai Sewa</label>
-                                                    <input maxlength="7" type="text" class="form-control" name='nilaisewa' value='<?php echo "$_POST[nilaigapok]"; ?>'>
+                                                    <input maxlength="7" type="text" class="form-control" name='nilaisewa' value='<?php echo "$r[penghuni_nilaisewa]"; ?>'>
                                                     </div>
 
                                                 <div class="col-md-2">
@@ -379,7 +379,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmthuni' value='<?php echo "$_POST[tmthuni]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Penghunian">
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmthuni' value='<?php echo "$r[penghuni_tmthuni]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Penghunian">
                                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -387,7 +387,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
                                                     <label >SK SIP</label>
-                                                    <input type="text" class="form-control" name='sksip' value='<?php echo "$_POST[lamahuni]"; ?>'>
+                                                    <input type="text" class="form-control" name='sksip' value='<?php echo "$r[penghuni_sksip]"; ?>'>
                                                     </div>
 
                                                 <div class="col-md-2">
@@ -396,7 +396,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmtsksip' value='<?php echo "$_POST[tmtsksip]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal SK SIP">
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmtsksip' value='<?php echo "$r[penghuni_tglsk]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal SK SIP">
                                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -412,7 +412,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                     ORDER BY idstatus_hunian ASC";
                                                         $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
                                                         while ($dataRow = mysqli_fetch_array($dataQry)) {
-                                                        if ($dataRow['idstatus_hunian'] == $_POST['penghuni_status']) {
+                                                        if ($dataRow['idstatus_hunian'] == $r['penghuni_status']) {
                                                         $cek = " selected";
                                                         } else { $cek = ""; }
                                                         echo "
@@ -422,6 +422,24 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         ?>
                                                     </select>
                                                     </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-5">
+                                                    <label >Alasan Selesai / Perpanjang SIP</label>
+                                                    <input type="text" class="form-control" name='alasanselesai' value='<?php echo "$r[penghuni_alasanselesai]"; ?>'>
+                                                    </div>
+
+                                                <div class="col-md-2">
+                                                    <label>TMT Selesai / Perpanjang</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tmtselesaipanjang' value='<?php echo "$r[penghuni_selesaiperpnjang]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal SK SIP">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
                                                 </div>
 
                                                 <div class="box-footer">

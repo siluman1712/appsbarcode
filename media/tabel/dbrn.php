@@ -189,7 +189,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                 </div>
                                             </div>    
-                                            <table id="table_4" class="table table-striped table-bordered">
+                                            <table id="table_1" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th bgcolor='#dcdcdc'> NIP Penghuni</th>
@@ -201,7 +201,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <th bgcolor='#dcdcdc'> SKSIP</th>
                                                         <th bgcolor='#dcdcdc'> TGL SK</th>
                                                         <th bgcolor='#dcdcdc'> Status Huni</th>
-                                                        <th bgcolor='#dcdcdc'> Info Status</th>
+                                                        <th bgcolor='#dcdcdc'> Update Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -221,17 +221,17 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                     d.penghuni_sksip, d.penghuni_tglsk, 
                                                                     d.penghuni_lamahuni, d.kodebarang,  
                                                                     d.penghuni_status, d.noaset, 
+                                                                    d.penghuni_selesaiperpnjang,
+                                                                    d.penghuni_alasanselesai,
                                                                     d.penghuni_tmtbayarsewa, d.penghuni_tglsk,
                                                                     d.penghuni_sksip, d.penghuni_status,
-                                                                    d.penghuni_selesaiperpnjang, 
-                                                                    d.penghuni_alasanselesai,
                                                                     e.id_status, e.ur_status,
                                                                     f.idstatus_hunian, f.ur_statushunian
 
                                                             FROM dbrumahnegara a
                                                             LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                             LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
-                                                            LEFT JOIN dbsip d ON d.kodebarang = a.kodebarang
+                                                            LEFT JOIN dbsip d ON d.kodebarang = a.kodebarang AND d.noaset = a.nup
                                                             LEFT JOIN status_penggunaan e ON e.id_status = a.status_penggunaan
                                                             LEFT JOIN status_penghunian f ON f.idstatus_hunian = d.penghuni_status
                                                             WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
@@ -252,7 +252,38 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             <td><?php echo "$r[penghuni_tmtbayarsewa]"; ?></td>
                                                             <td><?php echo "$r[penghuni_sksip]"; ?></td>
                                                             <td><?php echo "$r[penghuni_tglsk]"; ?></td>
-                                                            <td><span class="badge bg-green">[<?php echo "$r[penghuni_status]"; ?>] <?php echo "$r[ur_statushunian]"; ?></span></td>
+                                                            <td>
+                                                            <?php if($r['idstatus_hunian']=='90'){?>
+                                                            <span class="badge bg-green">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } elseif($r['idstatus_hunian']=='91') { ?>
+                                                            <span class="badge bg-blue">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } elseif($r['idstatus_hunian']=='92') { ?>
+                                                            <span class="badge bg-orange">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } elseif($r['idstatus_hunian']=='93') { ?>
+                                                            <span class="badge bg-red">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } elseif($r['idstatus_hunian']=='94') { ?>
+                                                            <span class="badge bg-navy">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } elseif($r['idstatus_hunian']=='95') { ?>
+                                                            <span class="badge bg-red">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php }else{ ?>
+                                                            <span class="badge bg-purple">
+                                                            <?php echo "$r[ur_statushunian]"; ?>
+                                                            </span>
+                                                            <?php } ?>
+                                                            </td>
+                                                            <td><?php echo "$r[penghuni_selesaiperpnjang]"; ?></td>
                                                         </tr>
                                                         </tfoot>
                                                     <?php } ?>

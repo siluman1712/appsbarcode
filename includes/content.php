@@ -232,6 +232,12 @@ elseif ($_GET['module'] == 'siprumahnegara') {
   }
 }
 
+elseif ($_GET['module'] == 'sipupdatestatus') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/sipupdatestatus.php';
+  }
+}
+
 elseif ($_GET['module'] == 'infobmn') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/infobmn/infobmn.php';
