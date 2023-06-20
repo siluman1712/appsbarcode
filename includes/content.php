@@ -17,6 +17,11 @@ $dbrn = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
                                     ORDER BY a.kodebarang ASC");
 $rn = mysqli_num_rows($dbrn);
 
+$dbsip = mysqli_query($koneksi," SELECT  a.idsip, a.kodebarang, a.noaset
+                                    FROM dbsip a
+                                    ORDER BY a.idsip ASC");
+$sip = mysqli_num_rows($dbsip);
+
 $unit = mysqli_query($koneksi," SELECT idminta, registrasi, unut, COUNT(registrasi) AS regis 
                                 FROM c_unitsediaminta ORDER BY registrasi ASC");
 $reg = mysqli_fetch_array($unit);
@@ -51,9 +56,9 @@ if ($_GET['module'] == 'home') {
             <!-- small box -->
             <div class='small-box bg-green'>
               <div class='inner'>
-                <h3>$rn</h3>
+                <h3>$rn [$sip]</h3>
   
-                <p>Rumah Negara</p>
+                <p>Rumah Negara [Berpenghuni]</p>
               </div>
               <div class='icon'>
                 <i class='ion ion-stats-bars'></i>
