@@ -15,6 +15,7 @@ $DATABASE = "dbbarcode";
 //$U_NAME = "siluman";
 //$PASSWORD = "FS@#RserP2v#@";
 //$DATABASE = "bkn12_silum4n";
+
 include_once 'psl-config.php';   // As functions.php is not included
 $koneksi = mysqli_connect("$SERVER", "$U_NAME", "$PASSWORD", "$DATABASE");
 // Check connection
