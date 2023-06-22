@@ -7,17 +7,6 @@ include "config/koneksi.php";
 include "config/inc.library.php";
 include "config/fungsi_indotgl.php";
 
-$parameter  = $_GET[module]; //dapatkan nilai parameter
-$hash = $_GET[hash]; //dapatkan nilai hash
-$salt = "cV0puOlx";
-$hashed = md5($salt.$parameter);
-//lalu coba cek dan bandingkan, jika nilai get dirubah atau diganti maka akan terjadi failed
-if ($hash == $hashed){ //bandingkan hash yang dikirim dengan parameter yang dienkripsi
-   echo "enkrip sukses";
-}else{
- echo "enkrip failed";
-}
-
 $PASSWORD = $_SESSION['PASSWORD'];
 $U_NAME  = $_SESSION['UNAME'];
 if (!empty($_SESSION["expires_by"]) && !login_check()) {
