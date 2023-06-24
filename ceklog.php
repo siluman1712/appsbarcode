@@ -10,7 +10,6 @@
 		'PASSWORD' => ['required'],
 		'captcha' => ['required']
 	];
-	
 
 	$U_NAME  = mysqli_real_escape_string($koneksi, $_POST['uname']);
 	$PASSWORD  = mysqli_real_escape_string($koneksi, md5($_POST['password']));

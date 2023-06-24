@@ -5,6 +5,7 @@ error_reporting('E_NONE');
 session_start();
 include "config/koneksi.php";
 date_default_timezone_set("Asia/Bangkok");
+
 $dbtik = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
                                             a.nup, a.merek, a.tglperoleh
                                     FROM dbtik a
