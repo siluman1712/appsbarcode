@@ -26,10 +26,8 @@ $rs  = mysqli_fetch_array($tgl);
                 <li><a href="?module=satker"><i class="fa fa-circle-o text-aqua"></i>Satuan Kerja </a></li>
                 <li><a href="?module=kodefbmn"><i class="fa fa-circle-o text-aqua"></i>Kodefikasi BMN </a></li>
                 <li><a href="?module=settgl"><i class="fa fa-circle-o text-aqua"></i>Konfig. Tgl </a></li>
-                <li><a href="?module=konfigruangan"><i class="fa fa-circle-o text-aqua"></i>
-                Konfig. Ruangan </a></li>
-                <li><a href="?module=dbpegawai"><i class="fa fa-circle-o text-aqua"></i>
-                Data Base Pegawai </a></li>
+                <li><a href="?module=konfigruangan"><i class="fa fa-circle-o text-aqua"></i>Konfig. Ruangan </a></li>
+                <li><a href="?module=dbpegawai"><i class="fa fa-circle-o text-aqua"></i>Data Base Pegawai </a></li>
                 <li><a href="?module=penandatanganan"><i class="fa fa-circle-o text-aqua"></i>Penandatanganan </a></li>
               </ul>
             </li>
