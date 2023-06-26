@@ -49,7 +49,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset / NUP</th>
                                                     <th bgcolor='#dcdcdc'> Merek</th>
-                                                    <th bgcolor='#dcdcdc'> Kondisi Barang</th>
                                                     <th bgcolor='#dcdcdc'> Status PSP</th>
                                                     <th bgcolor='#dcdcdc'> Detail</th>
                                                 </tr>
@@ -80,25 +79,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[nup]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
-                                                        <td>
-                                                        <?php if($r['status_kondisi']=='31'){?>
-                                                        <span class="badge bg-green">
-                                                        <?php echo "$r[uraian_kondisi]"; ?>
-                                                        </span>
-                                                        <?php } elseif($r['status_kondisi']=='32') { ?>
-                                                        <span class="badge bg-blue">
-                                                        <?php echo "$r[uraian_kondisi]"; ?>
-                                                        </span>
-                                                        <?php } elseif($r['status_kondisi']=='33') { ?>
-                                                        <span class="badge bg-red">
-                                                        <?php echo "$r[uraian_kondisi]"; ?>
-                                                        </span>
-                                                        <?php }else{ ?>
-                                                        <span class="badge bg-orange">
-                                                        Kondisi Barang, belum ditentukan!
-                                                        </span>
-                                                        <?php } ?>
-                                                        </td>
                                                         <td align="center">
                                                         <span class="badge bg-aqua">
                                                         <?php echo "$r[uraianstatus_psp]"; ?></span>
@@ -361,15 +341,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                 case "detail":
                     if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-                        $qry = "SELECT  a.kodebarang, a.nup, 
-                                        a.luas_sbsk, a.merek,
-                                        b.kd_brg, b.ur_sskel,
-                                        c.kodebarang, c.noaset,
-                                        c.no_rumah, c.gol_rumah,
-                                        c.type_rumah
-                                FROM dbrumahnegara a
+                        $qry = "SELECT  a.kodebarang, a.nup, a.kodesatker,
+                                        a.merek, a.tglperoleh, a.tglbuku,
+                                        a.t_anggaran, a.hargaperolehan,
+                                        a.keterangan,
+                                        a.nomor_psp, a.tgl_psp,
+                                        b.kd_brg, b.ur_sskel, b.satuan
+                                FROM dbtik a
                                 LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
-                                LEFT JOIN dbsip c ON c.kodebarang = a.kodebarang AND c.noaset = a.nup
                                 WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
                                 ORDER BY a.kodebarang AND  a.nup ASC";
                         $detail = mysqli_query($koneksi, $qry );
@@ -379,161 +358,169 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                         <section class="content">
     
                             <a class='btn btn-danger btn-sm' href=<?php echo "?module=pmtik"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
+
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                              <h6 class="box-title">BMN Peralatan dan Mesin</h6>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                <label >Uraian BMN / Nama</label>
+                                                <input type="text" class="form-control" name='ur_bmn' value='<?php echo "$rs[ur_sskel]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <input type="hidden" maxlength="10" class="form-control" name='kodebmn' value='<?php echo "$rs[kodebarang]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <input type="hidden" class="form-control" name='nup' value='<?php echo "$rs[nup]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <input type="hidden" class="form-control" name='satuan' value='<?php echo "$rs[satuan]"; ?>' readonly>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                <label >Merek / Type</label>
+                                                <input type="text" class="form-control" name='merek' value='<?php echo "$rs[merek]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Tanggal Perolehan</label>
+                                                <input type="text" class="form-control" name='tglperoleh' value='<?php echo "$rs[tglperoleh]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Tanggal Buku</label>
+                                                <input type="text" class="form-control" name='tglperoleh' value='<?php echo "$rs[tglbuku]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Tahun Anggaran</label>
+                                                <input type="text" class="form-control" name='t_anggaran' value='<?php echo "$rs[t_anggaran]"; ?>' readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                <label >Harga Perolehan</label>
+                                                <input type="text" class="form-control" name='h_peroleh' value='<?php echo "$rs[hargaperolehan]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Nomor Penetapan Status Pengguna</label>
+                                                <input type="text" class="form-control" name='nomor_psp' value='<?php echo "$rs[nomor_psp]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Tanggal Penetapan Status Pengguna</label>
+                                                <input type="text" class="form-control" name='tgl_psp' value='<?php echo "$rs[tgl_psp]"; ?>' readonly>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                <label >Kode Satuan Kerja</label>
+                                                <input type="text" class="form-control" name='kodesatker' value='<?php echo "$rs[kodesatker]"; ?>' readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                <label >Keterangan Barang</label>
+                                                <input type="text" class="form-control" name='ur_bmn' value='<?php echo "$rs[keterangan]"; ?>' readonly>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h4><p>&nbsp;&nbsp;&nbsp;&nbsp;Surat Izin Penghunian Menerangkan Bahwa : </p></h4>
-                                                    <form class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Uraian BMN</label>
-                                                            <div class="col-sm-1">
-                                                            <input type="text" maxlength="10" class="form-control" name='kodebmn' value='<?php echo "$rs[kodebarang]"; ?>' readonly>
-                                                            </div>
-    
-                                                            <div class="col-sm-5">
-                                                            <input type="text" class="form-control" name='ur_bmn' value='<?php echo "$rs[ur_sskel]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">No Aset</label>
-                                                            <div class="col-sm-1">
-                                                            <input type="text" class="form-control" name='nup' value='<?php echo "$rs[nup]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Jenis Rumah Negara</label>
-                                                            <div class="col-sm-5">
-                                                            <input type="text" class="form-control" name='merek' value='<?php echo "$rs[merek]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Golongan Rumah Negara</label>
-                                                            <div class="col-sm-1">
-                                                            <input type="text" class="form-control" name='golrn' value='<?php echo "$rs[gol_rumah]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Type Rumah Negara</label>
-                                                            <div class="col-sm-1">
-                                                            <input type="text" class="form-control" name='tipern' value='<?php echo "$rs[type_rumah]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label">No Rumah Negara</label>
-                                                            <div class="col-sm-1">
-                                                            <input type="text" class="form-control" name='norn' value='<?php echo "$rs[no_rumah]"; ?>' readonly>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>    
-                                            <table id="table_1" class="table table-striped table-bordered">
+                                    <div class="box box-info">
+                                    <div class="box-header with-border">
+                                      <h6 class="box-title">Detail Peralatan dan Mesin</h6>
+                                    </div>
+                                        <div class="box-body">   
+                                            <table id="table_4" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th bgcolor='#dcdcdc'> NIP Penghuni</th>
-                                                        <th bgcolor='#dcdcdc'> Nama Penghuni</th>
-                                                        <th bgcolor='#dcdcdc'> TMT Penghunian</th>
-                                                        <th bgcolor='#dcdcdc'> Lama Huni</th>
-                                                        <th bgcolor='#dcdcdc'> Nilai Sewa</th>
-                                                        <th bgcolor='#dcdcdc'> TMT Bayar</th>
-                                                        <th bgcolor='#dcdcdc'> SKSIP</th>
-                                                        <th bgcolor='#dcdcdc'> TGL SK</th>
-                                                        <th bgcolor='#dcdcdc'> Status Huni</th>
-                                                        <th bgcolor='#dcdcdc'> Update Status</th>
+                                                        <th bgcolor='#dcdcdc'> SATUAN KERJA</th>
+                                                        <th bgcolor='#dcdcdc'> KODE BARANG</th>
+                                                        <th bgcolor='#dcdcdc'> NO ASET</th>
+                                                        <th bgcolor='#dcdcdc'> NAMA BARANG</th>
+                                                        <th bgcolor='#dcdcdc'> DETAIL KONDISI</th>
+                                                        <th bgcolor='#dcdcdc'> DETAIL HAPUS</th>
+                                                        <th bgcolor='#dcdcdc'> DETAIL PELIHARA</th>
+                                                        <th bgcolor='#dcdcdc'> DETAIL PIC</th>
+                                                        <th bgcolor='#dcdcdc'> DETAIL DBR / LOC</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                         <?php
                                                         $cek = mysqli_query(
                                                             $koneksi,
-                                                            "SELECT a.kodesatker, a.kodebarang, 
-                                                                    a.tglbuku, a.status_kondisi,
-                                                                    a.nup, a.merek, a.tglperoleh, 
-                                                                    a.status_psp, a.tgl_psp, a.nomor_psp,
-                                                                    a.luas_sbsk, a.status_penggunaan,
-                                                                    a.merek,
+                                                            "SELECT a.kodebarang, a.nup, a.kodesatker,
+                                                                    a.merek, a.tglperoleh, a.tglbuku,
+                                                                    a.t_anggaran, a.hargaperolehan,
+                                                                    a.nomor_psp, a.tgl_psp, a.kondisibarang,
                                                                     b.kd_brg, b.ur_sskel, 
-                                                                    c.kdukpb, c.nmukpb,
-                                                                    d.penghuni_nip, d.penghuni_nilaisewa, 
-                                                                    d.penghuni_nama, d.penghuni_tmthuni,
-                                                                    d.penghuni_sksip, d.penghuni_tglsk, 
-                                                                    d.penghuni_lamahuni, d.kodebarang,  
-                                                                    d.penghuni_status, d.noaset, 
-                                                                    d.penghuni_selesaiperpnjang,
-                                                                    d.penghuni_alasanselesai,
-                                                                    d.penghuni_tmtbayarsewa, d.penghuni_tglsk,
-                                                                    d.penghuni_sksip, d.penghuni_status,
-                                                                    e.id_status, e.ur_status,
-                                                                    f.idstatus_hunian, f.ur_statushunian
-
-                                                            FROM dbrumahnegara a
+                                                                    c.kdukpb, c.nmukpb
+                                                            FROM dbtik a
                                                             LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                             LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
-                                                            LEFT JOIN dbsip d ON d.kodebarang = a.kodebarang AND d.noaset = a.nup
-                                                            LEFT JOIN status_penggunaan e ON e.id_status = a.status_penggunaan
-                                                            LEFT JOIN status_penghunian f ON f.idstatus_hunian = d.penghuni_status
                                                             WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
-                                                            ORDER BY a.kodebarang ASC"
+                                                            GROUP BY a.kodebarang AND a.nup ASC"
                                                         );
-    
-                                                        $numRows = mysqli_num_rows($cek);
-                                                        $no = 0;
-                                                        while ($r = mysqli_fetch_array($cek)) {
-                                                            $no++;
+                                                        $r = mysqli_fetch_array($cek) 
                                                         ?>
                                                         <tr>
-                                                            <td><?php echo "$r[penghuni_nip]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_nama]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_tmthuni]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_lamahuni]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_nilaisewa]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_tmtbayarsewa]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_sksip]"; ?></td>
-                                                            <td><?php echo "$r[penghuni_tglsk]"; ?></td>
+                                                            <td><?php echo "$r[nmukpb]"; ?></td>
+                                                            <td><?php echo "$r[kodebarang]"; ?></td>
+                                                            <td><?php echo "$r[nup]"; ?></td>
+                                                            <td><?php echo "$r[ur_sskel]"; ?></td>
                                                             <td>
-                                                            <?php if($r['idstatus_hunian']=='90'){?>
-                                                            <span class="badge bg-green">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } elseif($r['idstatus_hunian']=='91') { ?>
-                                                            <span class="badge bg-blue">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } elseif($r['idstatus_hunian']=='92') { ?>
-                                                            <span class="badge bg-orange">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } elseif($r['idstatus_hunian']=='93') { ?>
-                                                            <span class="badge bg-red">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } elseif($r['idstatus_hunian']=='94') { ?>
-                                                            <span class="badge bg-navy">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } elseif($r['idstatus_hunian']=='95') { ?>
-                                                            <span class="badge bg-red">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php }else{ ?>
-                                                            <span class="badge bg-purple">
-                                                            <?php echo "$r[ur_statushunian]"; ?>
-                                                            </span>
-                                                            <?php } ?>
+                                                            <a class='btn bg-blue btn-xs btn-block'
+                                                            href=<?php echo "?module=pmtik&act=detailkondisi&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
+                                                            </a>
                                                             </td>
-                                                            <td><?php echo "$r[penghuni_selesaiperpnjang]"; ?></td>
+                                                            <td>
+                                                            <a class='btn bg-red btn-xs btn-block'
+                                                            href=<?php echo "?module=pmtik&act=detailhapus&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                            <a class='btn bg-gray btn-xs btn-block'
+                                                            href=<?php echo "?module=pmtik&act=detailpelihara&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                            <a class='btn bg-green btn-xs btn-block'
+                                                            href=<?php echo "?module=pmtik&act=detailpic&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
+                                                            </a>
+                                                            </td>
+                                                            <td>
+                                                            <a class='btn bg-maroon btn-xs btn-block'
+                                                            href=<?php echo "?module=pmtik&act=detaildbr&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
+                                                            </a>
+                                                            </td>
                                                         </tr>
                                                         </tfoot>
-                                                    <?php } ?>
                                                 </table>   
                                         </div>
                                     </div>
