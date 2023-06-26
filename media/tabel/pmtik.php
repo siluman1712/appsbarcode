@@ -49,8 +49,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset / NUP</th>
                                                     <th bgcolor='#dcdcdc'> Merek</th>
+                                                    <th bgcolor='#dcdcdc'> Kondisi Barang</th>
                                                     <th bgcolor='#dcdcdc'> Status PSP</th>
-                                                    <th bgcolor='#dcdcdc'> Status Kondisi</th>
                                                     <th bgcolor='#dcdcdc'> Detail</th>
                                                 </tr>
                                             </thead>
@@ -59,7 +59,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 $tik = mysqli_query($koneksi, 
                                                           "SELECT a.kodesatker, a.kodebarang, a.tglbuku,
                                                                   a.nup, a.merek, a.tglperoleh, a.status_psp,
-                                                                  b.kd_brg, b.ur_sskel, a.status_kondisi,
+                                                                  b.kd_brg, b.ur_sskel, a.kondisibarang,
                                                                   c.kdukpb, c.nmukpb,
                                                                   e.uraianstatus_psp, e.status_psp,
                                                                   f.status_kondisi, f.uraian_kondisi
@@ -67,7 +67,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                            LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
                                                            LEFT JOIN status_psp e ON e.status_psp = a.status_psp
-                                                           LEFT JOIN kondisi_bmn f ON f.status_kondisi = a.status_kondisi
+                                                           LEFT JOIN kondisi_bmn f ON f.status_kondisi = a.kondisibarang
                                                            ORDER BY a.kodebarang ASC");
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($tik)) {
@@ -80,16 +80,31 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[nup]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
+                                                        <td>
+                                                        <?php if($r['status_kondisi']=='31'){?>
+                                                        <span class="badge bg-green">
+                                                        <?php echo "$r[uraian_kondisi]"; ?>
+                                                        </span>
+                                                        <?php } elseif($r['status_kondisi']=='32') { ?>
+                                                        <span class="badge bg-blue">
+                                                        <?php echo "$r[uraian_kondisi]"; ?>
+                                                        </span>
+                                                        <?php } elseif($r['status_kondisi']=='33') { ?>
+                                                        <span class="badge bg-red">
+                                                        <?php echo "$r[uraian_kondisi]"; ?>
+                                                        </span>
+                                                        <?php }else{ ?>
+                                                        <span class="badge bg-orange">
+                                                        Kondisi Barang, belum ditentukan!
+                                                        </span>
+                                                        <?php } ?>
+                                                        </td>
                                                         <td align="center">
                                                         <span class="badge bg-aqua">
                                                         <?php echo "$r[uraianstatus_psp]"; ?></span>
                                                         </td>
-                                                        <td align="center">
-                                                        <span class="badge bg-green">
-                                                        <?php echo "$r[uraian_kondisi]"; ?></span>
-                                                        </td>
                                                         <td>
-                                                        <a class='btn bg-blue btn-sm'
+                                                        <a class='btn bg-blue btn-xs'
                                                         href=<?php echo "?module=pmtik&act=detail&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
                                                         <i class="fa fa-search"></i> &nbsp;&nbsp; details   
                                                         </a>
@@ -344,7 +359,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                 }
                 break;
 
-case "detail":
+                case "detail":
                     if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
                         $qry = "SELECT  a.kodebarang, a.nup, 
                                         a.luas_sbsk, a.merek,
@@ -363,7 +378,7 @@ case "detail":
     
                         <section class="content">
     
-                            <a class='btn btn-danger btn-sm' href=<?php echo "?module=dbrumahnegara"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
+                            <a class='btn btn-danger btn-sm' href=<?php echo "?module=pmtik"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="box">
