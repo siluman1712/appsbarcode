@@ -158,6 +158,6 @@ function tampilkan(){
     {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='01'>[01] - Belum Dilakukan PSP</option><option value='02'>[02] - Sudah Dilakukan PSP</option><option value='03'>[03] - Tidak Diketahui</option>";}
 
   else if (pencarian=="02")
-    {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='11'>[11] - Baru Asal Pengadaan</option><option value='12'>[12] - Proses Penghapusan BMN</option><option value='13'>[13] - Proses Sensus BMN</option><option value='14'>[14] - BMN Baru Asal Transfer</option><option value='15'>[15] - Proses Pinjam Pakai BMN</option>";}
+    {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='21'>[21] - Proses Penghapusan</option><option value='22'>[22] - Proses Penetapan Status Pengguna [PSP]</option><option value='23'>[23] - Proses Inventarisir / Sensus</option><option value='24'>[24] - Proses Peminjaman</option><option value='25'>[25] - Proses Pemeliharaan</option>";}
 }
 </script>
