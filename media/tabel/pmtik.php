@@ -49,6 +49,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset / NUP</th>
                                                     <th bgcolor='#dcdcdc'> Merek</th>
+                                                    <th bgcolor='#dcdcdc'> Kondisi Barang</th>
                                                     <th bgcolor='#dcdcdc'> Status PSP</th>
                                                     <th bgcolor='#dcdcdc'> Detail</th>
                                                 </tr>
@@ -79,6 +80,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[nup]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
+                                                        <td>
+                                                        <span class="badge bg-green">
+                                                        <?php echo "$r[uraian_kondisi]"; ?>
+                                                        </span>
+                                                        </td>
                                                         <td align="center">
                                                         <span class="badge bg-aqua">
                                                         <?php echo "$r[uraianstatus_psp]"; ?></span>
@@ -344,11 +350,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                         $qry = "SELECT  a.kodebarang, a.nup, a.kodesatker,
                                         a.merek, a.tglperoleh, a.tglbuku,
                                         a.t_anggaran, a.hargaperolehan,
+                                        a.nomor_psp, a.tgl_psp, a.kondisibarang,
                                         a.keterangan,
-                                        a.nomor_psp, a.tgl_psp,
-                                        b.kd_brg, b.ur_sskel, b.satuan
+                                        b.kd_brg, b.ur_sskel, b.satuan,
+                                        c.kdukpb, c.nmukpb
                                 FROM dbtik a
                                 LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
+                                LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
                                 WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
                                 ORDER BY a.kodebarang AND  a.nup ASC";
                         $detail = mysqli_query($koneksi, $qry );
@@ -467,60 +475,116 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <?php
-                                                        $cek = mysqli_query(
-                                                            $koneksi,
-                                                            "SELECT a.kodebarang, a.nup, a.kodesatker,
-                                                                    a.merek, a.tglperoleh, a.tglbuku,
-                                                                    a.t_anggaran, a.hargaperolehan,
-                                                                    a.nomor_psp, a.tgl_psp, a.kondisibarang,
-                                                                    b.kd_brg, b.ur_sskel, 
-                                                                    c.kdukpb, c.nmukpb
-                                                            FROM dbtik a
-                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
-                                                            LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
-                                                            WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
-                                                            GROUP BY a.kodebarang AND a.nup ASC"
-                                                        );
-                                                        $r = mysqli_fetch_array($cek) 
-                                                        ?>
+
                                                         <tr>
-                                                            <td><?php echo "$r[nmukpb]"; ?></td>
-                                                            <td><?php echo "$r[kodebarang]"; ?></td>
-                                                            <td><?php echo "$r[nup]"; ?></td>
-                                                            <td><?php echo "$r[ur_sskel]"; ?></td>
+                                                            <td><?php echo "$rs[nmukpb]"; ?></td>
+                                                            <td><?php echo "$rs[kodebarang]"; ?></td>
+                                                            <td><?php echo "$rs[nup]"; ?></td>
+                                                            <td><?php echo "$rs[ur_sskel]"; ?></td>
                                                             <td>
                                                             <a class='btn bg-blue btn-xs btn-block'
-                                                            href=<?php echo "?module=pmtik&act=detailkondisi&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            href=<?php echo "?module=pmtik&act=detailkondisi&kodebmn=$rs[kodebarang]&noaset=$rs[nup]"; ?>>
                                                             <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
                                                             </a>
                                                             </td>
                                                             <td>
                                                             <a class='btn bg-red btn-xs btn-block'
-                                                            href=<?php echo "?module=pmtik&act=detailhapus&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            href=<?php echo "?module=pmtik&act=detailhapus&kodebmn=$rs[kodebarang]&noaset=$rs[nup]"; ?>>
                                                             <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
                                                             </a>
                                                             </td>
                                                             <td>
                                                             <a class='btn bg-gray btn-xs btn-block'
-                                                            href=<?php echo "?module=pmtik&act=detailpelihara&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            href=<?php echo "?module=pmtik&act=detailpelihara&kodebmn=$rs[kodebarang]&noaset=$rs[nup]"; ?>>
                                                             <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
                                                             </a>
                                                             </td>
                                                             <td>
                                                             <a class='btn bg-green btn-xs btn-block'
-                                                            href=<?php echo "?module=pmtik&act=detailpic&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            href=<?php echo "?module=pmtik&act=detailpic&kodebmn=$rs[kodebarang]&noaset=$rs[nup]"; ?>>
                                                             <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
                                                             </a>
                                                             </td>
                                                             <td>
                                                             <a class='btn bg-maroon btn-xs btn-block'
-                                                            href=<?php echo "?module=pmtik&act=detaildbr&kodebmn=$r[kodebarang]&noaset=$r[nup]"; ?>>
+                                                            href=<?php echo "?module=pmtik&act=detaildbr&kodebmn=$rs[kodebarang]&noaset=$rs[nup]"; ?>>
                                                             <i class="fa fa-search"></i> &nbsp;&nbsp; Tampilkan   
                                                             </a>
                                                             </td>
                                                         </tr>
                                                         </tfoot>
+                                                </table>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    <?php
+                    } else {
+                        echo "Anda tidak berhak mengakses halaman ini.";
+                    }
+                    break;
+
+                    case "detailkondisi":
+                    if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') { 
+                    ?>
+    
+                        <section class="content">
+    
+                            <a class='btn btn-danger btn-sm' href=<?php echo "?module=pmtik"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box box-info">
+                                    <div class="box-header with-border">
+                                      <h6 class="box-title">Detail Peralatan dan Mesin</h6>
+                                    </div>
+                                        <div class="box-body">   
+                                            <table id="table_4" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th bgcolor='#dcdcdc'> KODE BARANG</th>
+                                                        <th bgcolor='#dcdcdc'> NO ASET</th>
+                                                        <th bgcolor='#dcdcdc'> NAMA BARANG</th>
+                                                        <th bgcolor='#dcdcdc'> MEREK</th>
+                                                        <th bgcolor='#dcdcdc'> TANGGAL PERUBAHAN</th>
+                                                        <th bgcolor='#dcdcdc'> ID KONDISI</th>
+                                                        <th bgcolor='#dcdcdc'> KONDISI</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                $tik = mysqli_query($koneksi, 
+                                                          "SELECT a.kodesatker, a.kodebarang, a.tglbuku,
+                                                                  a.nup, a.merek, a.tglperoleh, a.status_psp,
+                                                                  a.kondisibarang,
+                                                                  b.kd_brg, b.ur_sskel, b.satuan,
+                                                                  c.tgltransaksi, c.kodebarang, c.noaset,
+                                                                  c.merek, c.idkondisi, c.keterangan,
+                                                                  d.status_kondisi, d.uraian_kondisi
+                                                           FROM dbtik a
+                                                           LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
+                                                           LEFT JOIN dbubahkondisi c ON c.kodebarang = a.kodebarang AND c.noaset = a.nup 
+                                                           LEFT JOIN kondisi_bmn d ON d.status_kondisi = c.idkondisi
+                                                           WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
+                                                           ORDER BY a.kodebarang ASC");
+                                                $no = 0;
+                                                while ($r = mysqli_fetch_array($tik)) {
+                                                    $no++;
+                                                ?>
+
+                                                        <tr>
+                                                            <td><?php echo "$r[kodebarang]"; ?></td>
+                                                            <td><?php echo "$r[nup]"; ?></td>
+                                                            <td><?php echo "$r[ur_sskel]"; ?></td>
+                                                            <td><?php echo "$r[merek]"; ?></td>
+                                                            <td><?php echo "$r[tgltransaksi]"; ?></td>
+                                                            <td><?php echo "$r[idkondisi]"; ?></td>
+                                                            <td><?php echo "$r[uraian_kondisi]"; ?></td>
+                                                        </tr>
+                                                        </tfoot>
+                                                        <?php } ?>
                                                 </table>   
                                         </div>
                                     </div>
