@@ -1,7 +1,7 @@
 <?php
 include "../../config/koneksi.php";
 $gedung=$_POST['id'];
-$query=mysqli_query($koneksi, "SELECT * FROM dbruangan WHERE ruanggedung ='$gedung'");
+$query=$koneksi->query("SELECT * FROM dbruangan WHERE ruanggedung ='$gedung'");
 $row = mysqli_num_rows($query);
 if($row > 0)
 {

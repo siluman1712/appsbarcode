@@ -17,10 +17,7 @@ $DATABASE = "dbbarcode";
 //$DATABASE = "bkn12_silum4n";
 
 include_once 'psl-config.php';   // As functions.php is not included
-$koneksi = mysqli_connect("$SERVER", "$U_NAME", "$PASSWORD", "$DATABASE");
-// Check connection
-if (mysqli_connect_errno()) {
-  exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-} else {
-  echo "";
-}
+  $koneksi = new mysqli($SERVER,$U_NAME,$PASSWORD,$DATABASE);
+  if($koneksi->connect_errno){
+    echo"Database Tidak Dapat Terhubung";
+  }

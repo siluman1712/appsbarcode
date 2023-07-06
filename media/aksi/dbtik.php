@@ -28,7 +28,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		$nupAW = $_POST['nupAW'];
 		$nupAK = $_POST['nupAK'];
 		for ($i = $nupAW; $i <= $nupAK; $i++) {
-			$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT kodebarang, nup FROM dbtik WHERE kodebarang='$_POST[kodebarang]' AND nup ='$i'"));
+			$cek = mysqli_num_rows($koneksi->query("SELECT kodebarang, nup FROM dbtik WHERE kodebarang='$_POST[kodebarang]' AND nup ='$i'"));
 			if ($cek > 0) {
 ?>
 				<script type="text/javascript">
@@ -47,7 +47,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 			<?php
 
 			} else {
-				mysqli_query($koneksi, "INSERT INTO dbtik
+				$koneksi->query("INSERT INTO dbtik
 								SET	kodesatker	= '$_POST[kdukpb]', 
 									kodebarang	= '$_POST[kodebarang]',
 									nup			= '$i',

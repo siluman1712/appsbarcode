@@ -25,7 +25,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 	if ($module == 'scanbmn' and $act == 'addscan') {
 		$tgl = date('Y-m-d');
-				mysqli_query($koneksi, "INSERT INTO dbscanbmn
+				$koneksi->query("INSERT INTO dbscanbmn
 								SET	kodesatuankerja	= '$_POST[kodesatker]', 
 									kodebarang	= '$_POST[kd_brg]',
 									noaset			= '$_POST[nup]',

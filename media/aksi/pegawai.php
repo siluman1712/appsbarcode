@@ -2,7 +2,7 @@
 include "../../config/koneksi.php";
 $NIP = $_GET['term'];
 $sql = "SELECT PNS_NIPBARU, PNS_PNSNAM FROM m_pupns WHERE PNS_NIPBARU = '$NIP'";
-$hs = mysqli_query($koneksi, $sql);
+$hs = $koneksi->query($sql);
 $json = array();
 while($rs = mysqli_fetch_array($hs)){
 	$json[] = array(

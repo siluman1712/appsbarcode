@@ -11,8 +11,8 @@
 		'captcha' => ['required']
 	];
 
-	$U_NAME  = mysqli_real_escape_string($koneksi, $_POST['uname']);
-	$PASSWORD  = mysqli_real_escape_string($koneksi, md5($_POST['password']));
+	$U_NAME  = $koneksi->real_escape_string($_POST['uname']);
+	$PASSWORD  = $koneksi->real_escape_string(md5($_POST['password']));
 
 
 	if(!empty($U_NAME) && !empty($PASSWORD) && !empty($_POST['captcha']))
@@ -20,7 +20,7 @@
 	   if($_POST['captcha'] == $_SESSION['captcha'])
 	   {
 		$sql="SELECT * FROM a_useraktif WHERE UNAME ='$U_NAME' AND PASSWORD ='$PASSWORD' AND AKTIF = '2'";
-		$result=mysqli_query($koneksi, $sql);
+		$result=$koneksi->query($sql);
 		$count=mysqli_num_rows($result);
 		if($count==1)
 		{
@@ -41,15 +41,15 @@
 			$old_sid = session_id();
 			session_regenerate_id();
 			$new_sid = session_id();
-			mysqli_query($koneksi, "UPDATE a_useraktif SET SESSION_ID='$new_sid' where UNAME='$U_NAME'");
+			$koneksi->query("UPDATE a_useraktif SET SESSION_ID='$new_sid' where UNAME='$U_NAME'");
 			header('location:appsmedia.php?module=home');
 
 			$date = date('Y-m-d H:i:s');
-			mysqli_query($koneksi, "UPDATE a_useraktif SET ISLOGIN = '1', LOGIN_TERAKHIR='$date' WHERE ID='$r[ID]'")
+			$koneksi->query("UPDATE a_useraktif SET ISLOGIN = '1', LOGIN_TERAKHIR='$date' WHERE ID='$r[ID]'")
 			or die (mysqli_error($koneksi));
-			mysqli_query($koneksi, "UPDATE a_useraktif SET STATUS = 'ONLINE' WHERE ID ='$r[ID]'");
-			mysqli_query($koneksi, "UPDATE a_useraktif SET LOGIN_TERAKHIR  = '$date' WHERE ID = '$_SESSION[ID]'");
-			mysqli_query($koneksi, "UPDATE a_useraktif SET LOGIN_TERAKHIR  = '$date' WHERE UNAME = '$_SESSION[UNAME]'");
+			$koneksi->query("UPDATE a_useraktif SET STATUS = 'ONLINE' WHERE ID ='$r[ID]'");
+			$koneksi->query("UPDATE a_useraktif SET LOGIN_TERAKHIR  = '$date' WHERE ID = '$_SESSION[ID]'");
+			$koneksi->query("UPDATE a_useraktif SET LOGIN_TERAKHIR  = '$date' WHERE UNAME = '$_SESSION[UNAME]'");
 			}
 			login_validate();						//setel waktu. jika halaman lebih dari 5 menit tidak digunakan, maka akan logout otomatis
 			header('location:appsmedia.php?module=home');

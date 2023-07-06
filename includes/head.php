@@ -1,7 +1,8 @@
   
   <?php
-$tgl = mysqli_query($koneksi, "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC");
-$rs  = mysqli_fetch_array($tgl); 
+$query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+$tgl    = $koneksi->query($query);
+$rs     = mysqli_fetch_array($tgl);
   ?>
   <header class="main-header">
     <nav class="navbar navbar-static-top">

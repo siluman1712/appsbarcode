@@ -24,12 +24,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	$act = $_GET['act'];
 
 	if ($module == 'settgl' and $act == 'updatetgl') {
-		mysqli_query($koneksi, "UPDATE s_settgl
-				SET	s_tglawal='$_POST[tglawal]',
-						s_tglakhir = '$_POST[tglakhir]',
-						s_thnang = '$_POST[thn_ang]'
-
-				WHERE idtgl = '$_POST[idtgl]'");
+		$koneksi->query("UPDATE s_settgl SET	s_tglawal='$_POST[tglawal]',
+								s_tglakhir = '$_POST[tglakhir]',
+								s_thnang = '$_POST[thn_ang]'
+						WHERE idtgl = '$_POST[idtgl]'");
 	?>
 		<script type="text/javascript">
 			setTimeout(function() {
@@ -48,18 +46,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 }
 
 	elseif ($module == 'penandatanganan' and $act == 'uptttd') {
-		mysqli_query($koneksi, "UPDATE s_ttd
-				SET	kodesatuankerja='$_POST[ukpb]',
-						nip_kpb = '$_POST[NIP1]',
-						nip_bmn = '$_POST[NIP2]',
-						nip_sedia = '$_POST[NIP3]',
-						nama_kpb = '$_POST[NAMA1]',
-						nama_bmn = '$_POST[NAMA2]',
-						nama_sedia = '$_POST[NAMA3]',
-						kota = '$_POST[kota]',
-						tgldibuat = '$_POST[tglDibuat]',
-						tglsetuju = '$_POST[tglSetuju]'
-				WHERE idttd = '$_POST[idttd]'");
+		$koneksi->query("UPDATE s_ttd SET
+								kodesatuankerja='$_POST[ukpb]',
+								nip_kpb = '$_POST[NIP1]',
+								nip_bmn = '$_POST[NIP2]',
+								nip_sedia = '$_POST[NIP3]',
+								nama_kpb = '$_POST[NAMA1]',
+								nama_bmn = '$_POST[NAMA2]',
+								nama_sedia = '$_POST[NAMA3]',
+								kota = '$_POST[kota]',
+								tgldibuat = '$_POST[tglDibuat]',
+								tglsetuju = '$_POST[tglSetuju]'
+						WHERE idttd = '$_POST[idttd]'");
 	?>
 		<script type="text/javascript">
 			setTimeout(function() {
@@ -80,7 +78,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 	elseif ($module=='konfigruangan' AND $act=='kategoriruangan'){
 			
-				mysqli_query($koneksi, "INSERT INTO dbkategoriruang
+				$koneksi->query("INSERT INTO dbkategoriruang
 				SET	kodekategori	= '$_POST[kode]',
 					namakategori	= '$_POST[kategori]'");
 
@@ -103,7 +101,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		}
 
 	elseif ($module == 'konfigruangan' and $act == 'addruang') {
-		mysqli_query($koneksi, "INSERT INTO dbruangan
+		$koneksi->query("INSERT INTO dbruangan
 				SET	ruanggedung	= '$_POST[gedung]',
 					lantai 		= '$_POST[lantai]',
 					uniteselon 	= '$_POST[uniteselon]',
@@ -138,7 +136,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	elseif ($module == 'dbpegawai' and $act == 'baru') {
 		$createdDate = date('Y-m-d');
 
-		mysqli_query($koneksi, "INSERT INTO dbpegawai
+		$koneksi->query("INSERT INTO dbpegawai
 				SET	nip	= '$_POST[nip]',
 					nama_depan 		= '$_POST[PNS_GLRDPN]',
 					nama 	= '$_POST[nama]',
@@ -173,7 +171,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		$repass	=	md5($_POST['rePASSWORD']);
 		if ($pass==$repass) { //proses simpan data, $_POST['pw'] dan $_POST['pw1'] adalah name dari masing masing text password}
 				$tglupdate = date('Y-m-d');
-				mysqli_query($koneksi, "INSERT INTO a_useraktif
+				$koneksi->query("INSERT INTO a_useraktif
 				SET	ID				= '$_POST[ID]',
 					NIP 			= '$_POST[NIP]',
 					UNAME 			= '$_POST[UNAME]',

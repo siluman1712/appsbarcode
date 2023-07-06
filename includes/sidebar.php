@@ -1,11 +1,12 @@
 <?php
-$info = mysqli_query(
-  $koneksi,
-  "SELECT a.NIP, b.PNS_NIPBARU, b.PNS_PNSNAM 
+include "config/koneksi.php";
+$query = "SELECT a.NIP, a.LOGIN_TERAKHIR, 
+                 b.PNS_NIPBARU, b.PNS_PNSNAM 
           FROM a_useraktif a
-          LEFT JOIN m_pupns b ON b.pns_nip = a.NIP
-          ORDER BY id ASC"
-);
+          LEFT JOIN m_pupns b ON b.PNS_NIPBARU = a.NIP
+          WHERE a.NIP = '$_SESSION[NIP]'
+          ORDER BY a.NIP ASC";
+$info = $koneksi->query($query);
 $rs    = mysqli_fetch_array($info);
 ?>
 <aside class="main-sidebar">
@@ -75,9 +76,6 @@ $rs    = mysqli_fetch_array($info);
           <button class='btn bg-green btn-xs flat' >&nbsp;Pinjam Pakai BMN&nbsp;&nbsp;&nbsp;</button>
           </a>
           </li>
-
-
-
           </ul>
         </li>
 

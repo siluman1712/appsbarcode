@@ -25,7 +25,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 	if ($module == 'siprumahnegara' and $act == 'tambahsip') {
 		$tgl = date('Y-m-d');
-				mysqli_query($koneksi, "INSERT INTO dbsip
+				$koneksi->query("INSERT INTO dbsip
 								SET	idsip = '$_POST[nourut]',
 									kodebarang	= '$_POST[kd_brg]',
 									noaset	= '$_POST[nup]',
@@ -67,7 +67,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 			elseif ($module == 'sipupdatestatus' and $act == 'updatesip') {
 				$tgl = date('Y-m-d');
-						mysqli_query($koneksi, "INSERT INTO dbsip
+						$koneksi->query("INSERT INTO dbsip
 										SET	idsip = '$_POST[nourut]',
 											kodebarang	= '$_POST[kd_brg]',
 											noaset	= '$_POST[nup]',

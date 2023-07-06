@@ -25,7 +25,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
 	if ($module == 'perubahankondisi' and $act == 'simpanperubahan') {
 		$tgl = date('Y-m-d');
-				mysqli_query($koneksi, "INSERT INTO dbubahkondisi
+				$koneksi->query("INSERT INTO dbubahkondisi
 								SET	tgltransaksi	= '$_POST[tgltrx]', 
 									kodebarang	= '$_POST[kd_brg]',
 									noaset			= '$_POST[noaset]',

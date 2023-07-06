@@ -26,7 +26,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	if ($module=='penghapusan' AND $act=='simpandata'){
 		$idkondisi = $_POST['idkondisi'];
 		$flag = $_POST['flag'];
-		mysqli_query($koneksi, "INSERT INTO dbpenghapusan (kodebarang, noaset, kondisi, merek, flag, qty) 
+		$koneksi->query("INSERT INTO dbpenghapusan (kodebarang, noaset, kondisi, merek, flag, qty) 
 		SELECT kodebarang, noaset, idkondisi, merek, 2, 1 
 		FROM dbubahkondisi WHERE idkondisi='$idkondisi'");
 
@@ -50,7 +50,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 }
 
 elseif ($module=='penghapusan' AND $act=='simpanhapus'){
-	mysqli_query($koneksi," UPDATE dbpenghapusan 
+	$koneksi->query(" UPDATE dbpenghapusan 
 						   	SET kodebarang = '$_POST[kd_brg]' ,
 							    noaset = '$_POST[nup]' ,
 								qty = '$_POST[qty]' ,
