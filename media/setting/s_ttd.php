@@ -13,13 +13,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query($koneksi, "SELECT * FROM s_settgl ORDER BY idtgl ASC" );
-                    $rs = mysqli_fetch_array($tgl);
-                    $satker = mysqli_query($koneksi, "SELECT * FROM s_satker ORDER BY id ASC");
-                    $s		= mysqli_fetch_array($satker);
-                    $ttd = mysqli_query($koneksi, "SELECT * FROM s_ttd ORDER BY idttd ASC");
-                    $t	= mysqli_fetch_array($ttd);
+                    $tgl = $koneksi->query("SELECT * FROM m_settglsys ORDER BY idtgl ASC");
+                    $rs  = mysqli_fetch_array($tgl);
+
+                    $satker = $koneksi->query("SELECT * FROM s_satker ORDER BY id ASC");
+                    $s      = mysqli_fetch_array($satker);
                     $update = date('Y-m-d');
+
+                    $ttd = $koneksi->query("SELECT * FROM s_ttd ORDER BY idttd ASC");
+                    $t	= mysqli_fetch_array($ttd);
 
 ?>
 
@@ -47,15 +49,17 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $ttd = mysqli_query($koneksi, " SELECT a.kodesatuankerja, a.nip_kpb, a.nama_kpb,
-                                                                                       a.nip_bmn, a.nama_bmn, a.nip_sedia, a.nip_sedia, a.nama_sedia,
-                                                                                       b.kdukpb, b.nmukpb 
-                                                                                FROM s_ttd a
-                                                                                LEFT JOIN s_satker b ON b.kdukpb = a.kodesatuankerja
-                                                                                ORDER BY idttd ASC");
+                                                $query = "  SELECT a.kodesatuankerja, a.nip_kpb, 
+                                                                 a.nama_kpb, a.nip_bmn, a.nama_bmn, 
+                                                                 a.nip_sedia, a.nip_sedia, a.nama_sedia,
+                                                                 b.kdukpb, b.nmukpb 
+                                                            FROM s_ttd a
+                                                            LEFT JOIN s_satker b ON b.kdukpb = a.kodesatuankerja
+                                                            ORDER BY idttd ASC";
+                                                $ttd = $koneksi->query($query);
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($ttd)) {
-                                                    $no++;
+                                                $no++;
                                                 ?>
                                                     <tr>
                                                         <td><?php echo "$no"; ?></td>

@@ -16,9 +16,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
         default:
         if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-        $tgl = mysqli_query($koneksi,"SELECT * FROM m_settglsys ORDER BY idtgl ASC");
+        $tgl = $koneksi->query("SELECT * FROM m_settglsys ORDER BY idtgl ASC");
         $rs  = mysqli_fetch_array($tgl);
-        $satker = mysqli_query($koneksi, "SELECT * FROM s_satker ORDER BY id ASC");
+
+        $satker = $koneksi->query("SELECT * FROM s_satker ORDER BY id ASC");
         $s      = mysqli_fetch_array($satker);
         $update = date('Y-m-d');
 
@@ -31,8 +32,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                     <section class="content">
                         <div class="row">
                         <div class="col-md-12">
-                            <a class='btn bg-blue btn-sm' href=<?php echo "?module=dbpegawai&act=baru"; ?>>
+                            <a class='btn bg-blue btn-ms flat' href=<?php echo "?module=dbpegawai&act=baru"; ?>>
                             <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp; Tambah Data</a>
+                            <br><br>
                         <div class="box">
                             <div class="box-body">
                                 <div class="row">
@@ -52,17 +54,16 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $peg = mysqli_query($koneksi,
-                                                    " SELECT a.nip, a.nama, a.idgolru,
-                                                            a.tmt_golru, a.jabatan, a.tmt_jabatan,
-                                                            b.GOL_KODGOL, b.GOL_GOLNAM, b.GOL_PKTNAM
-                                                    FROM dbpegawai a
-                                                    LEFT JOIN dbgolru b ON b.GOL_KODGOL = a.idgolru
-                                                    ORDER BY a.nip ASC");
-
+                                                $query = "  SELECT  a.nip, a.nama, a.idgolru,
+                                                                    a.tmt_golru, a.jabatan, a.tmt_jabatan,
+                                                                    b.GOL_KODGOL, b.GOL_GOLNAM, b.GOL_PKTNAM
+                                                            FROM dbpegawai a
+                                                            LEFT JOIN dbgolru b ON b.GOL_KODGOL = a.idgolru
+                                                            ORDER BY a.nip ASC";
+                                                $peg = $koneksi->query($query);
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($peg)) {
-                                                    $no++;
+                                                $no++;
                                                 ?>
                                                     <tr>
                                                         <td><?php echo "$no"; ?></td>
@@ -130,15 +131,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                             </form>
                                               <?php
-                                                $a = mysqli_query($koneksi,
-                                                " SELECT a.PNS_NIPBARU, a.PNS_PNSNAM, 
-                                                         a.PNS_GLRDPN, a.PNS_GLRBLK, 
-                                                         a.PNS_GOLRU, a.PNS_TMTGOL,
-                                                         b.GOL_KODGOL, b.GOL_GOLNAM, b.GOL_PKTNAM
-                                                  FROM   m_pupns a
-                                                  LEFT JOIN dbgolru b ON b.GOL_KODGOL = a.PNS_GOLRU
-                                                  WHERE  a.PNS_NIPBARU='$_POST[nipbaru]' 
-                                                  ORDER BY a.PNS_NIPBARU ASC");
+                                              $query =" SELECT  a.PNS_NIPBARU, a.PNS_PNSNAM, 
+                                                                a.PNS_GLRDPN, a.PNS_GLRBLK, 
+                                                                a.PNS_GOLRU, a.PNS_TMTGOL,
+                                                                b.GOL_KODGOL, b.GOL_GOLNAM, b.GOL_PKTNAM
+                                                        FROM m_pupns a
+                                                        LEFT JOIN dbgolru b ON b.GOL_KODGOL = a.PNS_GOLRU
+                                                        WHERE  a.PNS_NIPBARU='$_POST[nipbaru]' 
+                                                        ORDER BY a.PNS_NIPBARU ASC";
+                                                $a = $koneksi->query($query);
                                                 $r = mysqli_fetch_array($a);
                                                 $cekdata = mysqli_num_rows($a);
                                                 if(isset($_POST['nipbaru']) && $cekdata==0 ){
@@ -181,7 +182,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 <?php
                                                                 $dataSql = "SELECT * FROM dbgolru 
                                                                             ORDER BY GOL_KODGOL ASC";
-                                                                $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                                $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                                 while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                                     if ($dataRow['GOL_KODGOL'] == $r['PNS_GOLRU']) {$cek = " selected";
                                                                          } else { $cek = "";}
@@ -262,10 +263,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                 }
                 break;
 
-case "pegDetail":
-  if ($_SESSION['LEVEL']=='admin' OR $_SESSION['LEVEL']=='user'){
+                case "pegDetail":
+                  if ($_SESSION['LEVEL']=='admin' OR $_SESSION['LEVEL']=='user'){
 
-  ?>
+                  ?>
                       <section class="content">
                         <div class="box">
                             <div class="box-body">
@@ -295,8 +296,7 @@ case "pegDetail":
                                 ?>
                                 <br>
                                 <?php
-                                $pegs = mysqli_query($koneksi,
-                                " SELECT    a.pns_instansi, a.pns_nip, a.pns_nama,
+                                $query = "SELECT    a.pns_instansi, a.pns_nip, a.pns_nama,
                                             a.pns_templahir, a.pns_tgllahir, a.pns_tmtgolru,
                                             a.pns_golru, a.pns_tmtjab, a.pns_jabatan, a.pns_kanreg,
                                             a.pns_unitkerja, a.pns_telp, a.pns_plt, a.pns_uraiantambahan,
@@ -318,7 +318,8 @@ case "pegDetail":
                                 LEFT JOIN m_kanreg g ON g.idkanreg = a.pns_kanreg
                                 LEFT JOIN m_instansi h ON h.INS_KODINS = a.pns_instansi
                                 WHERE a.pns_nip = '$_POST[nip] '
-                                ORDER BY a.pns_nip DESC");
+                                ORDER BY a.pns_nip DESC";
+                                $pegs = $koneksi->query($query);
                                 $i = mysqli_fetch_array($pegs);
                                 //Info Kepala
                                 ?>
@@ -422,9 +423,7 @@ case "pegDetail":
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $result = mysqli_query($koneksi,
-                                                    "
-                                                    SELECT  a.pns_instansi, a.pns_nip, a.pns_nama,
+                                                $dp = "SELECT  a.pns_instansi, a.pns_nip, a.pns_nama,
                                                             a.pns_templahir, a.pns_tgllahir, a.pns_tmtgolru,
                                                             a.pns_golru, a.pns_tmtjab, a.pns_jabatan, a.pns_kanreg,
                                                             a.pns_unitkerja, a.pns_telp, a.pns_plt, a.pns_uraiantambahan,
@@ -446,12 +445,11 @@ case "pegDetail":
                                                     LEFT JOIN m_kanreg g ON g.idkanreg = a.pns_kanreg
                                                     LEFT JOIN m_instansi h ON h.INS_KODINS = a.pns_instansi
                                                     WHERE a.pns_nip = '$_POST[nip] '
-                                                    ORDER BY a.pns_nip ASC 
-                                                    ");
-
+                                                    ORDER BY a.pns_nip ASC";
+                                                $result = $koneksi->query($dp);
                                                 $no = 0;
                                                 while ($rs = mysqli_fetch_array($result)) {
-                                                    $no++;
+                                                $no++;
                                                 ?>
                                                     <tr>
                                                     <?php if($rs[pns_plt]=='1' OR $rs[pns_plt]=='2' OR $rs[pns_plt]=='3'){?>    

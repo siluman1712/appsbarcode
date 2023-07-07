@@ -184,7 +184,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             <?php
                                                             $dataSql = "SELECT * FROM dbgedung 
                                                                         ORDER BY gedung ASC";
-                                                            $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                             if ($dataRow['gedung'] == $_POST['gedung']) {
                                                             $cek = " selected";
@@ -212,7 +212,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             <?php
                                                             $dataSql = "SELECT * FROM dbuniteselon 
                                                                         ORDER BY idues ASC";
-                                                            $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                             if ($dataRow['uniteselon'] == $_POST['uniteselon']) {
                                                             $cek = " selected";
@@ -234,7 +234,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             <?php
                                                             $dataSql = "SELECT * FROM dbkategoriruang 
                                                                         ORDER BY idkat ASC";
-                                                            $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                             if ($dataRow['kodekategori'] == $_POST['kategoriruang']) {
                                                             $cek = " selected";
@@ -281,6 +281,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <!-- /.box-body -->
                                                 
                                                 <div class="form-group ">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
                                                 <button type="reset" class="btn bg-blue btn-md btn-flat">
                                                 <i class="fa fa-times"> </i>&nbsp;&nbsp;&nbsp;&nbsp; Reset</button>
      
