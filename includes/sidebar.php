@@ -21,6 +21,11 @@ $rs    = mysqli_fetch_array($info);
         Database Aset / BMN &nbsp;&nbsp;&nbsp;
         </a></li>
 
+        <li><a href="?module=pendetailanbmn">
+        <i class="fa fa-database"></i>
+        Pendetailan BMN &nbsp;&nbsp;&nbsp;
+        </a></li>
+
         <li><a href="?module=scanbmn" title="Scan BMN">
         <i class="fa fa-sun-o"></i>
         Scan Barang / Daftar &nbsp;&nbsp;&nbsp; 

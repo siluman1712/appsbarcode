@@ -7,8 +7,10 @@ include "config/koneksi.php";
 date_default_timezone_set("Asia/Bangkok");
 
 $dbtik = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
-                                            a.nup, a.merek, a.tglperoleh
+                                         a.nup, a.merek, a.tglperoleh,
+                                         a.statusbmn, a.kondisibarang
                                     FROM dbtik a
+                                    WHERE a.statusbmn = '13'  
                                     ORDER BY a.kodebarang ASC");
 $tik = mysqli_num_rows($dbtik);
 
@@ -205,6 +207,12 @@ elseif ($_GET['module'] == 'pic') {
 elseif ($_GET['module'] == 'scanbmn') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/scanbmn.php';
+  }
+}
+
+elseif ($_GET['module'] == 'pendetailanbmn') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/pendetailanbmn.php';
   }
 }
 

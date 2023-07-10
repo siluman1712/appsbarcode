@@ -16,11 +16,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
+                    $query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+                    $tgl    = $koneksi->query($query);
                     $rs     = mysqli_fetch_array($tgl);
                     $update = date('Y-m-d');
 
@@ -56,8 +53,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $tik = mysqli_query($koneksi, 
-                                                          "SELECT a.kodesatker, a.kodebarang, 
+                                                $query = "SELECT a.kodesatker, a.kodebarang, 
                                                                   a.tglbuku, a.status_kondisi,
                                                                   a.nup, a.merek, a.tglperoleh, 
                                                                   a.status_psp, a.tgl_psp, a.nomor_psp,
@@ -74,10 +70,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN status_psp e ON e.status_psp = a.status_psp
                                                            LEFT JOIN kondisi_bmn f ON f.status_kondisi = a.status_kondisi
                                                            LEFT JOIN status_penggunaan g ON g.id_status = a.status_penggunaan
-                                                           ORDER BY a.kodebarang ASC");
+                                                           ORDER BY a.kodebarang ASC";
+                                                $dbrn = $koneksi->query($query);
                                                 $no = 0;
-                                                while ($r = mysqli_fetch_array($tik)) {
-                                                    $no++;
+                                                while ($r = mysqli_fetch_array($dbrn)) {
+                                                $no++;
                                                 ?>
                                                     <tr>
                                                         <td><?php echo "$no"; ?></td>

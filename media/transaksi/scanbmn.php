@@ -13,12 +13,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT * FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
-                    $rs = mysqli_fetch_array($tgl);
+                    $query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+                    $tgl    = $koneksi->query($query);
+                    $rs     = mysqli_fetch_array($tgl);
                     $update = date('Y-m-d');
 
 ?>
@@ -44,7 +41,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> qty</th>
                                                     <th bgcolor='#dcdcdc'> Tgl Perolehan</th>
                                                     <th bgcolor='#dcdcdc'> Harga Perolehan</th>
-                                                    <th bgcolor='#dcdcdc'> Kondisi</th>
                                                     <th bgcolor='#dcdcdc'> Merek / Keterangan</th>
                                                     <th bgcolor='#dcdcdc'> flag</th>
                                                     <th bgcolor='#dcdcdc'> Transaksi</th>
@@ -53,20 +49,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $tik = mysqli_query($koneksi, 
+                                                $tik = $koneksi->query( 
                                                           "SELECT a.kodebarang, a.noaset, a.merek, a.prosedur,
                                                                   a.tglperoleh, a.t_anggaran, 
                                                                   a.hargaperolehan, a.kodesatuankerja,  
                                                                   a.qty, a.kondisi_bmn, a.flag,
                                                                   b.kd_brg, b.ur_sskel, a.periode,
                                                                   c.kdukpb, c.nmukpb,
-                                                                  d.status_kondisi, d.uraian_kondisi,
-                                                                  e.status_trx, e.uraian_trx
+                                                                  d.status_trx, d.uraian_trx
                                                            FROM dbscanbmn a
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                            LEFT JOIN s_satker c ON c.kdukpb = a.kodesatuankerja
-                                                           LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisi_bmn
-                                                           LEFT JOIN status_transaksi e ON e.status_trx = a.prosedur
+                                                           LEFT JOIN status_transaksi d ON d.status_trx = a.prosedur
                                                            ORDER BY a.kodebarang ASC");
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($tik)) {
@@ -78,8 +72,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[noaset]"; ?></td>
                                                         <td><?php echo "$r[qty]"; ?></td>
                                                         <td><?php echo "$r[tglperoleh]"; ?></td>
-                                                        <td><?php echo "$r[hargaperolehan]"; ?><br>
-                                                        <td><?php echo "$r[uraian_kondisi]"; ?><br>
+                                                        <td><?php echo "$r[hargaperolehan]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
                                                         <td>
                                                         <span class="badge bg-red">
@@ -87,11 +80,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         </td>
                                                         
                                                         <td>
-                                                        <?php if($r['prosedur']=='21'){?>
+                                                        <?php if($r['prosedur']=='22'){?>
                                                         <span class="badge bg-green">
                                                         <?php echo "$r[uraian_trx]"; ?>
                                                         </span>
-                                                        <?php } elseif($r['prosedur']=='22') { ?>
+                                                        <?php } elseif($r['prosedur']=='23') { ?>
+                                                        <span class="badge bg-orange">
+                                                        <?php echo "$r[uraian_trx]"; ?>
+                                                        </span>
+                                                        <?php } elseif($r['prosedur']=='24') { ?>
                                                         <span class="badge bg-blue">
                                                         <?php echo "$r[uraian_trx]"; ?>
                                                         </span>

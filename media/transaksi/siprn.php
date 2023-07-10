@@ -13,12 +13,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT * FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
-                    $rs = mysqli_fetch_array($tgl);
+                    $query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+                    $tgl    = $koneksi->query($query);
+                    $rs     = mysqli_fetch_array($tgl);
                     $update = date('Y-m-d');
 
 ?>
@@ -54,7 +51,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $tik = mysqli_query($koneksi, 
+                                                $tik = $koneksi->query(
                                                           "SELECT a.penghuni_nip, a.penghuni_nilaisewa, 
                                                                   a.penghuni_nama, a.penghuni_tmthuni,
                                                                   a.penghuni_sksip, a.penghuni_tglsk, 
@@ -138,7 +135,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                 case "sip":
                 if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
-                        $query = mysqli_query($koneksi, "SELECT max(idsip) as urutawal FROM dbsip");
+                        $query = $koneksi->query("SELECT max(idsip) as urutawal FROM dbsip");
                         $data = mysqli_fetch_array($query);
                         $nourut = $data['urutawal'];  
                         $urutan = (int) substr($nourut, -2, 2);   
@@ -180,8 +177,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                             </form>
                                             <?php
-                                            $a = mysqli_query(
-                                                $koneksi,
+                                            $a = $koneksi->query(
                                                 "   SELECT  a.kodebarang, a.nup, a.merek, 
                                                             a.tglperoleh, a.kodesatker,
                                                             a.t_anggaran, a.hargaperolehan,
@@ -313,9 +309,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <select class="form-control" name='golrn' id='gol'>
                                                             <option value='BLANK'>PILIH</option>
                                                             <?php
-                                                            $dataSql = "SELECT * FROM dbgolrn 
-                                                                        ORDER BY idgolrn ASC";
-                                                            $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                            $dataSql = "SELECT * FROM dbgolrn ORDER BY idgolrn ASC";
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                             if ($dataRow['golrn'] == $_POST['golrn']) {
                                                             $cek = " selected";
@@ -335,7 +330,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <?php
                                                         $dataSql = "SELECT * FROM dbtipern 
                                                                     ORDER BY idtipern ASC";
-                                                        $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                        $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                         while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                         if ($dataRow['tipern'] == $_POST['typern']) {
                                                         $cek = " selected";
@@ -410,7 +405,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <?php
                                                         $dataSql = "SELECT * FROM status_penghunian 
                                                                     ORDER BY idstatus_hunian ASC";
-                                                        $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
+                                                        $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
                                                         while ($dataRow = mysqli_fetch_array($dataQry)) {
                                                         if ($dataRow['idstatus_hunian'] == $_POST['penghuni_status']) {
                                                         $cek = " selected";
