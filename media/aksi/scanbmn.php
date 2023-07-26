@@ -32,14 +32,16 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 									qty = '1',
 									merek		= '$_POST[merek]', 
 									tglperoleh	= '$_POST[tglperoleh]',
+									tglusul	= '$_POST[tglusul]',
 									prosedur = '$_POST[prosedur]',
 									t_anggaran	= '$_POST[t_anggaran]',
 									periode = '$_POST[periode]',
+									kondisi_bmn = '$_POST[idkondisi]',
 									hargaperolehan = '$_POST[h_peroleh]',
 									koderuangan = '$_POST[koderuang]',
 									flag = '1'");
 
-		$koneksi->query("UPDATE dbtik SET merek='$_POST[merek]'
+		$koneksi->query("UPDATE dbtik SET merek='$_POST[merek]', kondisibarang='$_POST[idkondisi]' 
 						 WHERE kodebarang = '$_POST[kd_brg]' AND nup = '$_POST[nup]'");
 
 

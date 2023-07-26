@@ -13,12 +13,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT * FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
-                    $rs = mysqli_fetch_array($tgl);
+                    $query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+                    $tgl    = $koneksi->query($query);
+                    $rs     = mysqli_fetch_array($tgl);
                     $update = date('Y-m-d');
 
 ?>
@@ -44,7 +41,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <th bgcolor='#dcdcdc'> Merek </th>
                                                     <th bgcolor='#dcdcdc'> Tanggal Transaksi </th>
                                                     <th bgcolor='#dcdcdc'> Perubahan [Kondisi BMN] </th>
-                                                    <th bgcolor='#dcdcdc'> Flag</th>
                                                     <th bgcolor='#dcdcdc'> Keterangan</th>
                                                 </tr>
                                             </thead>
@@ -53,7 +49,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 $dist = mysqli_query($koneksi, 
                                                           "SELECT a.tgltransaksi, a.idkondisi, a.merek, 
                                                                   a.noaset, a.kodebarang, a.keterangan,
-                                                                  b.kd_brg, b.ur_sskel, b.satuan, a.flag,
+                                                                  b.kd_brg, b.ur_sskel, b.satuan,
                                                                   c.status_kondisi, c.uraian_kondisi
                                                            FROM dbubahkondisi a
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
@@ -83,11 +79,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             [<?php echo "$r[idkondisi]"; ?>] <?php echo "$r[uraian_kondisi]"; ?>
                                                             </span>
                                                             <?php } ?>
-                                                        </td>
-                                                        <td>
-                                                            <span class="badge bg-maroon">
-                                                            <?php echo "$r[flag]"; ?>
-                                                            </span>
                                                         </td>
                                                         <td><?php echo "$r[keterangan]"; ?></td>
                                                     </tr>

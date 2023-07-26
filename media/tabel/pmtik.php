@@ -85,10 +85,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[merek]"; ?></td>
                                                         <td><?php echo "$r[uraian_kondisi]"; ?></td>
                                                         <td><?php echo "$r[t_anggaran]"; ?></td>
-                                                        <td align="center">
-                                                        <span class="badge bg-aqua">
-                                                        <?php echo "$r[uraianstatus_psp]"; ?></span>
+                                                        <td><?php if($r['status_psp']=='01'){?>
+                                                            <span class="badge bg-red">[<?php echo "$r[status_psp]"; ?>] 
+                                                            <?php echo "$r[uraianstatus_psp]"; ?></span>
+                                                            <?php } elseif($r['status_psp']=='02') { ?>
+                                                            <span class="badge bg-green">[<?php echo "$r[status_psp]"; ?>] 
+                                                            <?php echo "$r[uraianstatus_psp]"; ?></span>
+                                                            <?php }else{ ?>
+                                                            <span class="badge bg-maroon">[<?php echo "$r[status_psp]"; ?>] 
+                                                            <?php echo "$r[uraianstatus_psp]"; ?></span>
+                                                            <?php } ?>
                                                         </td>
+
                                                         <td align="center">
                                                         <span class="badge bg-green">
                                                         <?php echo "$r[uraianstatus]"; ?></span>
@@ -301,6 +309,27 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 control-label">Status BMN</label>
+                                                    <div class="col-sm-2">
+                                                        <select class="form-control s2" name='statusbmn'>
+                                                            <option value='BLANK'>PILIH</option>
+                                                            <?php
+                                                            $dataSql = "SELECT * FROM bmnstatus ORDER BY appsstatus ASC";
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
+                                                            while ($dataRow = mysqli_fetch_array($dataQry)) {
+                                                            if ($dataRow['appsstatus'] == $_POST['statusbmn']) {
+                                                            $cek = " selected";
+                                                            } else { $cek = ""; }
+                                                            echo "
+                                                            <option value='$dataRow[appsstatus]' $cek>$dataRow[appsstatus] - $dataRow[uraianstatus]</option>";
+                                                            }
+                                                            $sqlData = "";
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Keterangan</label>
                                                     <div class="col-sm-6">
@@ -335,80 +364,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                     echo "Anda tidak berhak mengakses halaman ini.";
                 }
                 break;
-
-                
-
-                    case "detailkondisi":
-                    if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') { 
-                    ?>
-    
-                        <section class="content">
-    
-                            <a class='btn btn-danger btn-sm' href=<?php echo "?module=pmtik"; ?>><i class='fa fa-arrow-left'></i>&nbsp;&nbsp;&nbsp;KEMBALI</a>
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="box box-info">
-                                    <div class="box-header with-border">
-                                      <h6 class="box-title">Detail Peralatan dan Mesin</h6>
-                                    </div>
-                                        <div class="box-body">   
-                                            <table id="table_4" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th bgcolor='#dcdcdc'> KODE BARANG</th>
-                                                        <th bgcolor='#dcdcdc'> NO ASET</th>
-                                                        <th bgcolor='#dcdcdc'> NAMA BARANG</th>
-                                                        <th bgcolor='#dcdcdc'> MEREK</th>
-                                                        <th bgcolor='#dcdcdc'> TANGGAL PERUBAHAN</th>
-                                                        <th bgcolor='#dcdcdc'> ID KONDISI</th>
-                                                        <th bgcolor='#dcdcdc'> KONDISI</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php
-                                                $queri ="SELECT a.kodesatker, a.kodebarang, a.tglbuku,
-                                                                  a.nup, a.merek, a.tglperoleh, a.status_psp,
-                                                                  a.kondisibarang,
-                                                                  b.kd_brg, b.ur_sskel, b.satuan,
-                                                                  c.tgltransaksi, c.kodebarang, c.noaset,
-                                                                  c.merek, c.idkondisi, c.keterangan,
-                                                                  d.status_kondisi, d.uraian_kondisi
-                                                           FROM dbtik a
-                                                           LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
-                                                           LEFT JOIN dbubahkondisi c ON c.kodebarang = a.kodebarang AND c.noaset = a.nup 
-                                                           LEFT JOIN kondisi_bmn d ON d.status_kondisi = c.idkondisi
-                                                           WHERE a.kodebarang = '$_GET[kodebmn]' AND a.nup = '$_GET[noaset]'
-                                                           ORDER BY a.kodebarang ASC";
-                                                $tik = $koneksi->query($kueri);
-                                                $no = 0;
-                                                while ($r = mysqli_fetch_array($tik)) {
-                                                $no++;
-                                                ?>
-
-                                                        <tr>
-                                                            <td><?php echo "$r[kodebarang]"; ?></td>
-                                                            <td><?php echo "$r[nup]"; ?></td>
-                                                            <td><?php echo "$r[ur_sskel]"; ?></td>
-                                                            <td><?php echo "$r[merek]"; ?></td>
-                                                            <td><?php echo "$r[tgltransaksi]"; ?></td>
-                                                            <td><?php echo "$r[idkondisi]"; ?></td>
-                                                            <td><?php echo "$r[uraian_kondisi]"; ?></td>
-                                                        </tr>
-                                                        </tfoot>
-                                                        <?php } ?>
-                                                </table>   
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    <?php
-                    } else {
-                        echo "Anda tidak berhak mengakses halaman ini.";
-                    }
-                    break;
                 
                 ?>
 <?php

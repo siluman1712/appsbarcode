@@ -28,7 +28,7 @@ $rs    = mysqli_fetch_array($info);
 
         <li><a href="?module=scanbmn" title="Scan BMN">
         <i class="fa fa-sun-o"></i>
-        Scan Barang / Daftar &nbsp;&nbsp;&nbsp; 
+        Pengusulan Transaksi &nbsp;&nbsp;&nbsp; 
         </a>
         </li>
 
@@ -72,7 +72,7 @@ $rs    = mysqli_fetch_array($info);
           </a>
           </li>
 
-          <li><a href="?module=pemeliharaan" title="Pemeliharaan BMN">
+          <li><a href="?module=pemeliharaanbmn" title="Pemeliharaan BMN">
           <button class='btn bg-green btn-xs flat' >&nbsp;Pemeliharaan BMN &nbsp;&nbsp;&nbsp; </button>
           </a>
           </li>
@@ -81,6 +81,12 @@ $rs    = mysqli_fetch_array($info);
           <button class='btn bg-green btn-xs flat' >&nbsp;Pinjam Pakai BMN&nbsp;&nbsp;&nbsp;</button>
           </a>
           </li>
+
+          <li><a href="?module=updatepsp" title="PSP BMN">
+          <button class='btn bg-blue btn-xs flat' >&nbsp;Update PSP BMN&nbsp;&nbsp;&nbsp;</button>
+          </a>
+          </li>
+
           </ul>
         </li>
 

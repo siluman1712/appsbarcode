@@ -201,8 +201,8 @@ $(document).ready(function(){
   });
 
     $('#table_4').DataTable({
-      'paging'      : false,
-      'lengthChange': true,
+      'paging'      : true,
+      'lengthChange': false,
       'searching'   : false,
       'ordering'    : true,
       'info'        : false,

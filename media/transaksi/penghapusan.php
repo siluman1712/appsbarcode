@@ -12,14 +12,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         $aksi = "media/aksi/penghapusan.php";
         switch ($_GET['act']) {
             default:
-                if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT * FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
-                    $rs = mysqli_fetch_array($tgl);
-                    $update = date('Y-m-d');
+                if ($_SESSION['LEVEL'] == 'admin') { 
+                $tgl = $koneksi->query("SELECT * FROM m_settglsys ORDER BY idtgl ASC");
+                $rs  = mysqli_fetch_array($tgl);
+
+                $satker = $koneksi->query("SELECT * FROM s_satker ORDER BY id ASC");
+                $s      = mysqli_fetch_array($satker);
+                $update = date('Y-m-d');
 
 ?>
                     <section class="content-header">
@@ -148,8 +147,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                         </form>
 
                                         <?php
-                                        $a = mysqli_query(
-                                            $koneksi,
+                                        $a = $koneksi->query(
                                             "   SELECT  a.kodebarang, a.noaset,
                                                         a.flag, a.idkondisi, a.keterangan,
                                                         b.kd_brg, b.ur_sskel,

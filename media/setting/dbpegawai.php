@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 error_reporting('E_NONE');
 include('../../config/fungsi_indotgl.php');
-if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
+if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) { 
     echo "<link href='bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
       			<center>
       			Modul Tidak Bisa Di Akses,

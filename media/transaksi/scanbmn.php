@@ -21,25 +21,23 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 ?>
                     <section class="content-header">
                       <h1>
-                        Pendaftaran Barang Milik Negara
-                        <small>Pendaftaran BMN Rusak Berat, PSP dan Inventaris Ulang</small>
+                        Rekam Usulan BMN
+                        <small>Pengusulan BMN [PSP], [Pemeliharaan], [SENSUS / Inventaris Ulang] dan [Peminjaman]</small>
                       </h1>
                     </section>
                     <section class="content">
-                    <a class='btn bg-navy btn-md flat' href=<?php echo "?module=scanbmn&act=addscan"; ?>>
-                    <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Scan BMN Baru</a>
                         <div class="box">
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                    <table id="table_1" class="table table-bordered table-striped responsive">
+                                    <table id="table_4" class="table table-bordered table-striped responsive">
                                             <thead>
                                                 <tr>
                                                     <th bgcolor='#dcdcdc'> Kode Barang </th>
                                                     <th bgcolor='#dcdcdc'> Uraian Barang</th>
                                                     <th bgcolor='#dcdcdc'> No Aset / NUP</th>
                                                     <th bgcolor='#dcdcdc'> qty</th>
-                                                    <th bgcolor='#dcdcdc'> Tgl Perolehan</th>
+                                                    <th bgcolor='#dcdcdc'> Tgl Usul</th>
                                                     <th bgcolor='#dcdcdc'> Harga Perolehan</th>
                                                     <th bgcolor='#dcdcdc'> Merek / Keterangan</th>
                                                     <th bgcolor='#dcdcdc'> flag</th>
@@ -51,7 +49,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <?php
                                                 $tik = $koneksi->query( 
                                                           "SELECT a.kodebarang, a.noaset, a.merek, a.prosedur,
-                                                                  a.tglperoleh, a.t_anggaran, 
+                                                                  a.tglperoleh, a.t_anggaran, a.tglusul,
                                                                   a.hargaperolehan, a.kodesatuankerja,  
                                                                   a.qty, a.kondisi_bmn, a.flag,
                                                                   b.kd_brg, b.ur_sskel, a.periode,
@@ -61,6 +59,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                            LEFT JOIN s_satker c ON c.kdukpb = a.kodesatuankerja
                                                            LEFT JOIN status_transaksi d ON d.status_trx = a.prosedur
+                                                           WHERE a.flag = '1'
                                                            ORDER BY a.kodebarang ASC");
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($tik)) {
@@ -71,7 +70,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <td><?php echo "$r[ur_sskel]"; ?></td>
                                                         <td><?php echo "$r[noaset]"; ?></td>
                                                         <td><?php echo "$r[qty]"; ?></td>
-                                                        <td><?php echo "$r[tglperoleh]"; ?></td>
+                                                        <td><?php echo "$r[tglusul]"; ?></td>
                                                         <td><?php echo "$r[hargaperolehan]"; ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
                                                         <td>
@@ -102,6 +101,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </tfoot>
                                                 <?php } ?>
                                         </table>  
+                                    <a class='btn bg-blue btn-sm' href=<?php echo "?module=scanbmn&act=UsulBaru"; ?>>
+                                    <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Usul Baru Transaksi</a>
+                                    <a class='btn bg-blue btn-sm' href=<?php echo "?module=home"; ?>>
+                                    <i class="fa fa-home"></i>&nbsp;&nbsp;&nbsp; Kembali ke Beranda</a>
                                     </div>
                                 </div>
                             </div>
@@ -115,14 +118,12 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                 }
                 break;
 
-                case "addscan":
+                case "UsulBaru":
                 if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
 
                 ?>
 
                     <section class="content">
-
-                        <a class='btn btn-success btn-ms' href=<?php echo "?module=scanbmn"; ?>>KEMBALI</a>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="box">
@@ -149,19 +150,27 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                             </form>
                                               <?php
-                                                $a = mysqli_query($koneksi,
+                                                $a = $koneksi->query(
                                                 " SELECT a.kodebarang, a.nup, a.merek, 
                                                          a.tglperoleh, a.kodesatker,
                                                          a.t_anggaran, a.hargaperolehan,
                                                          b.kd_brg, b.ur_sskel, b.satuan,
                                                          c.kodebarang, c.noaset, c.koderuang,
-                                                         d.koderuangan, d.namaruangan
+                                                         d.koderuangan, d.namaruangan,
+                                                         e.kodebarang, e.noaset, e.picnip,
+                                                         e.picnama,
+                                                         f.kodebarang, f.noaset, f.idkondisi,
+                                                         f.keterangan, f.idperubahan,
+                                                         g.status_kondisi, g.uraian_kondisi
                                                   FROM   dbtik a
                                                   LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                   LEFT JOIN dbdistribusi c ON c.kodebarang = a.kodebarang AND c.noaset = a.nup
                                                   LEFT JOIN dbruangan d ON d.koderuangan = c.koderuang
+                                                  LEFT JOIN dbpicbmn e ON e.kodebarang = a.kodebarang AND e.noaset = a.nup
+                                                  LEFT JOIN dbubahkondisi f ON f.kodebarang = a.kodebarang AND f.noaset = a.nup
+                                                  LEFT JOIN kondisi_bmn g ON g.status_kondisi = f.idkondisi
                                                   WHERE  a.kodebarang='$_POST[kodebmn]' AND a.nup = '$_POST[noaset]'
-                                                  ORDER BY a.kodebarang AND a.nup ASC");
+                                                  ORDER BY a.kodebarang AND a.nup AND f.idperubahan desc");
                                                 $r = mysqli_fetch_array($a);
                                                 $cekdata = mysqli_num_rows($a);
                                                 if(isset($_POST['kodebmn']) && $cekdata==0 ){
@@ -222,13 +231,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Merek</label>
-                                                    <div class="col-sm-3">
-                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>'>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
                                                     <label class="col-sm-2 control-label">Harga Perolehan</label>
                                                     <div class="col-sm-2">
                                                     <input type="text" class="form-control" name='h_peroleh' value='<?php echo $r[hargaperolehan]; ?>' readonly>
@@ -246,10 +248,52 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 control-label">Prosedur Transaksi</label>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">P I C</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='picnip' value='<?php echo "$r[picnip]"; ?>' readonly>
+                                                    </div>
+
                                                     <div class="col-sm-4">
-                                                        <select class="form-control" name='prosedur' id='prosedur' onchange="tampilkan()">
+                                                    <input type="text" class="form-control" name='picnama' value='<?php echo "$r[picnama]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Merek</label>
+                                                    <div class="col-sm-3">
+                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>'>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Tanggal Usul</label>
+                                                    <div class="col-sm-2">
+                                                        <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name="tglusul" value='<?php echo "$_POST[tglusul]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Pengusulan">
+                                                        </div><!-- input-group -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 control-label">Kondisi Barang</label>
+                                                    <div class="col-sm-3">
+                                                        <select class="form-control" name='idkondisi'>
+                                                            <option value='BLANK'>PILIH</option>
+                                                            <option value='31'>[31] - Kondisi BAIK [BB]</option>
+                                                            <option value='32'>[32] - Kondisi RUSAK RINGAN [RR]</option>
+                                                            <option value='33'>[33] - Kondisi RUSAK BERAT [RB]</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 control-label">Prosedur Transaksi (Usulan)</label>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control" name='prosedur'>
                                                             <option value='BLANK'>PILIH</option>
                                                             <option value='22'>[22] - Proses Penetapan Status Pengguna</option>
                                                             <option value='23'>[23] - Proses Inventaris / Sensus</option>
@@ -262,8 +306,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                 <fieldset>
                                                 <label for='Kode' class='col-sm-2 control-label'></label>
-                                                <button type=submit Data class='btn btn-primary btn-md flat'>
-                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpan </button>
+                                                &nbsp;
+                                                <button type=submit Data class='btn btn-primary btn-ms'>
+                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpan Usulan </button>
+
+                                                <button type=reset Data class='btn btn-primary btn-ms'>
+                                                <i class='fa fa-retweet'></i>&nbsp;&nbsp;&nbsp; Batal Usulan [reset] </button>
+
+                                                <a class='btn btn-primary btn-ms' href=<?php echo "?module=scanbmn"; ?>><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;&nbsp; Kembali </a>
                                                 </fieldset>
 
                                             </form>

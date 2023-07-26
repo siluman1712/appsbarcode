@@ -31,8 +31,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 									noaset			= '$_POST[noaset]',
 									merek		= '$_POST[merek]', 
 									idkondisi	= '$_POST[kondisi]',
-									keterangan	= '$_POST[keterangan]',
-									flag = '1'");
+									keterangan	= '$_POST[keterangan]'");
+
+				$koneksi->query("UPDATE dbtik SET kondisibarang='$_POST[kondisi]'
+						 		 WHERE kodebarang = '$_POST[kd_brg]' AND nup = '$_POST[noaset]'");
 
 			?>
 				<script type="text/javascript">

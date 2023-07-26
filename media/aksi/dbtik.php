@@ -60,7 +60,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 									status_psp = '$_POST[status_psp]',
 									nomor_psp = '$_POST[nopsp]',
 									tgl_psp = '$_POST[tglpsp]',
-									status_kondisi = '$_POST[kondisi]'");
+									statusbmn = '$_POST[statusbmn]',
+									kondisibarang = '$_POST[kondisi]'");
 
 			?>
 				<script type="text/javascript">
