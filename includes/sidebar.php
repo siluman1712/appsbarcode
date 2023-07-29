@@ -56,6 +56,12 @@ $rs    = mysqli_fetch_array($info);
         </a>
         </li>
 
+        <li><a href="?module=import_xceldb">
+        <i class="fa fa-database"></i>
+        Import Data Excel to DB &nbsp;&nbsp;&nbsp; 
+        </a>
+        </li>
+
     <li class="header"><font color='#fff'>MENU TRANSAKSI</font></li>
 
         <li class="treeview">
@@ -84,6 +90,16 @@ $rs    = mysqli_fetch_array($info);
 
           <li><a href="?module=updatepsp" title="PSP BMN">
           <button class='btn bg-blue btn-xs flat' >&nbsp;Update PSP BMN&nbsp;&nbsp;&nbsp;</button>
+          </a>
+          </li>
+
+          <li><a href="?module=dbr" title="DBR">
+          <button class='btn bg-orange btn-xs flat' >&nbsp;Insert Barang Ruangan&nbsp;&nbsp;&nbsp;</button>
+          </a>
+          </li>
+
+          <li><a href="?module=updatedbr" title="DBR">
+          <button class='btn bg-orange btn-xs flat' >&nbsp;Update Barang Ruangan&nbsp;&nbsp;&nbsp;</button>
           </a>
           </li>
 
@@ -149,30 +165,9 @@ $rs    = mysqli_fetch_array($info);
                 <button class='btn bg-blue btn-xs flat' >
                 <i class='fa fa-retweet text-white'></i>&nbsp;&nbsp;Update Status SIP&nbsp;&nbsp;&nbsp;</button>
                 </a>
-                </li>
-                
+                </li>   
           </ul>
         </li>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-car"></i> <span>KENDARAAN DINAS</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-
-            <li>
-            <a href="?module=#">
-            <button class='btn bg-red btn-ms flat' >
-            <i class='fa fa-bomb text-white'></i>&nbsp;&nbsp;UNDER CONTRUCTION&nbsp;&nbsp;&nbsp;</button>
-            </a>
-            </li>
-                
-          </ul>
-        </li>
-
     </ul>
   </section>
   <!-- /.sidebar -->

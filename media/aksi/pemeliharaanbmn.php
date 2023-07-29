@@ -83,20 +83,38 @@ elseif ($module=='pemeliharaanbmn' AND $act=='simpandetail'){
 						   	SET kodebarang = '$_POST[kd_brg]' ,
 							    noaset = '$_POST[nup]', 
 							    tindaklanjut = '$_POST[tinjut]',
-							    hasil_tinjut = '$_POST[hasil_tinjut]' ,
-							    keterangan = '$_POST[keterangan]', 
-							    flag = '2',
-								tgl_selesaipelihara = '$_POST[tgl_selesaipelihara]'
+							    pelaksana_tinjut = '$_POST[pelaksanatl]' ,
+							    keterangan1 = '$_POST[keterangan1]'
 
 						   	WHERE kodebarang = '$_POST[kd_brg]' AND noaset = '$_POST[nup]'");
 
 
-	if (status_pelihara = '52') {
-	$koneksi->query("UPDATE dbtik SET kondisibarang = '31', statusbmn = '19' 
-					 WHERE kodebarang = '$_POST[kd_brg]' AND noaset = '$_POST[nup]'");
-	$koneksi->query("UPDATE dbpemeliharaan SET status_pelihara = '52' 
-					 WHERE kodebarang = '$_POST[kd_brg]' AND noaset = '$_POST[nup]'");
+	?>
+	<script type="text/javascript">
+		setTimeout(function() {
+			swal({
+				title: 'SUKSES',
+				text: 'Simpan Berhasil',
+				type: 'success',
+				showConfirmButton: false
+			});
+		}, 10);
+		window.setTimeout(function() {
+			window.location.replace('../../appsmedia.php?module=pemeliharaanbmn');
+		}, 1500);
+	</script>
+	<?php
 	}
+
+	elseif ($module=='pemeliharaanbmn' AND $act=='simpanhtl'){
+	$koneksi->query(" UPDATE dbpemeliharaan 
+						   	SET kodebarang = '$_POST[kd_brg]' ,
+							    noaset = '$_POST[nup]', 
+							    hasil_tinjut = '$_POST[hasil_tinjut]',
+							    keterangan2 = '$_POST[keterangan2]' ,
+							    tgl_selesaipelihara = '$_POST[tglselesai]'
+
+						   	WHERE kodebarang = '$_POST[kd_brg]' AND noaset = '$_POST[nup]'");
 
 
 	?>

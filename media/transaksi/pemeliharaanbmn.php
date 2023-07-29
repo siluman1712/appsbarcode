@@ -13,7 +13,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                $tgl = $koneksi->query("SELECT * FROM m_settglsys ORDER BY idtgl ASC");
+                $tgl = $koneksi->query("SELECT * FROM s_settgl ORDER BY idtgl ASC");
                 $rs  = mysqli_fetch_array($tgl);
 
                 $satker = $koneksi->query("SELECT * FROM s_satker ORDER BY id ASC");
@@ -38,19 +38,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                         <table id="table_4" class="table table-bordered table-striped responsive">
                                             <thead>
                                                 <tr>
-                                                    <th bgcolor='#dcdcdc'> Kode Barang </th>
-                                                    <th bgcolor='#dcdcdc'> Uraian Barang</th>
-                                                    <th bgcolor='#dcdcdc'> No Aset / NUP</th>
+                                                    <th bgcolor='#dcdcdc'> Kode <br>No Aset <br> Uraian </th>
                                                     <th bgcolor='#dcdcdc'> qty</th>
                                                     <th bgcolor='#dcdcdc'> Tgl Usul</th>
                                                     <th bgcolor='#dcdcdc'> Merek / Keterangan</th>
                                                     <th bgcolor='#dcdcdc'> Permasalahan</th>
                                                     <th bgcolor='#dcdcdc'> Rencana Perbaikan</th>
                                                     <th bgcolor='#dcdcdc'> Tindak Lanjut</th>
+                                                    <th bgcolor='#dcdcdc'> Ket TL</th>
                                                     <th bgcolor='#dcdcdc'> Hasil Tinjut</th>
-                                                    <th bgcolor='#dcdcdc'> Keterangan</th>
+                                                    <th bgcolor='#dcdcdc'> Ket HTL</th>
                                                     <th bgcolor='#dcdcdc'> Tgl Selesai</th>
-                                                    <th bgcolor='#dcdcdc' width="50px"> Proses</th>
+                                                    <th bgcolor='#dcdcdc' width="25px"> Proses</th>
 
                                                 </tr>
                                             </thead>
@@ -58,42 +57,62 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 <?php
                                                 $tik = $koneksi->query( 
                                                           "SELECT a.kodebarang, a.noaset, a.merek, a.prosedur,
-                                                                  a.tglperolehan, a.tgl_pemeliharaan, 
-                                                                  a.nilaiperolehan, a.permasalahan,   
+                                                                  a.tglperolehan, a.tgl_pemeliharaan, a.tindaklanjut, 
+                                                                  a.nilaiperolehan, a.permasalahan, a.keterangan1, 
                                                                   a.qty, a.kondisi, a.flag, a.rencanapelihara,
+                                                                  a.tgl_selesaipelihara, a.hasil_tinjut,
+                                                                  a.keterangan2,
                                                                   b.kd_brg, b.ur_sskel,
-                                                                  d.status_trx, d.uraian_trx
+                                                                  d.status_trx, d.uraian_trx,
+                                                                  e.idhasil, e.uraian_hasiltl
                                                            FROM dbpemeliharaan a
                                                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
                                                            LEFT JOIN status_transaksi d ON d.status_trx = a.prosedur
-                                                           WHERE a.flag = '1' 
+                                                           LEFT JOIN hasil_tinjut e ON e.idhasil = a.hasil_tinjut
+                                                           WHERE (a.flag IN ('1','2'))  AND a.tgl_pemeliharaan BETWEEN '$rs[s_tglawal]' AND '$rs[s_tglakhir]'
                                                            ORDER BY a.kodebarang ASC");
                                                 $no = 0;
                                                 while ($r = mysqli_fetch_array($tik)) {
                                                     $no++;
                                                 ?>
                                                     <tr>
-                                                        <td><?php echo "$r[kodebarang]"; ?></td>
-                                                        <td><?php echo "$r[ur_sskel]"; ?></td>
-                                                        <td><?php echo "$r[noaset]"; ?></td>
+                                                        <td>
+                                                        <?php echo "$r[kodebarang]"; ?>&nbsp;
+                                                        <strong><?php echo "$r[noaset]"; ?></strong><br>
+                                                        <?php echo "$r[ur_sskel]"; ?>    
+                                                        </td>
                                                         <td><?php echo "$r[qty]"; ?></td>
                                                         <td><?php echo indotgl($r[tgl_pemeliharaan]); ?></td>
                                                         <td><?php echo "$r[merek]"; ?></td>
                                                         <td><?php echo "$r[permasalahan]"; ?></td>
                                                         <td><?php echo "$r[rencanapelihara]"; ?></td>
                                                         <td><?php echo "$r[tindaklanjut]"; ?></td>
-                                                        <td><?php echo "$r[hasil_tinjut]"; ?></td>
-                                                        <td><?php echo "$r[keterangan]"; ?></td>
+                                                        <td><?php echo "$r[keterangan1]"; ?></td>
+                                                        <td>[<?php echo "$r[hasil_tinjut]"; ?>]&nbsp;
+                                                            <?php echo "$r[uraian_hasiltl]"; ?></td>
+                                                        <td><?php echo "$r[keterangan2]"; ?></td>
                                                         <td><?php echo "$r[tgl_selesaipelihara]"; ?></td>
+                                                        <?php if($r['flag']=='1'){?>
                                                         <td>
                                                         <a class='btn bg-navy btn-sm btn-block' href=<?php echo "?module=pemeliharaanbmn&act=detail&kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>>
                                                         <i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp; Detail</a>
 
                                                         <a class='btn bg-navy btn-sm btn-block' href=<?php echo "?module=pemeliharaanbmn&act=tinjut&kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>>
-                                                        <i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp; Tindak Lanjut</a>
+                                                        <i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp; TL</a>
 
-                                                        <a class='btn bg-navy btn-sm btn-block' href=<?php echo "?module=pemeliharaanbmn&act=cetaklabel&kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>>
-                                                        <i class="fa fa-print"></i>&nbsp;&nbsp;&nbsp; Cetak Label</a>
+                                                        <a class='btn bg-navy btn-sm btn-block' href=<?php echo "?module=pemeliharaanbmn&act=h_tinjut&kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>>
+                                                        <i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp; HTL</a>
+<br>
+                                                        <form method=POST action='<?php echo "media/cetak/kartupelihara.php?kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>' target='_blank'>
+                                                        <button type=submit class='btn bg-blue btn-sm btn-block'><i class='fa fa-print'></i>&nbsp;&nbsp;&nbsp;Kartu</button>
+                                                        </form>
+                                                        </td>
+                                                        <?php } else { ?>
+                                                        <td>
+                                                        <form method=POST action='<?php echo "media/cetak/kartupelihara.php?kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>' target='_blank'>
+                                                        <button type=submit class='btn bg-blue btn-sm btn-block'><i class='fa fa-print'></i>&nbsp;&nbsp;&nbsp;Kartu</button>
+                                                        </form>
+                                                        <?php } ?>
                                                         </td>
                                                     </tr>
                                                     </tfoot>
@@ -103,7 +122,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                 </div>
                             </div>
                         </div>
-                        <badge class='badge bg-aqua flat'>* TL = Tindak Lanjut</badge>
+                        <badge class='badge bg-red flat'>* TL = Tindak Lanjut</badge><br>
+                        <badge class='badge bg-red flat'>* HTL = Hasil Tindak Lanjut</badge>
                     </section>
 
                 <?php
@@ -381,8 +401,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                         if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
                             $query="SELECT a.kodebarang, a.noaset, a.merek, a.prosedur,
                                     a.tglperolehan, a.tgl_pemeliharaan, a.permasalahan,
-                                    a.nilaiperolehan, a.rencanapelihara,
-                                    a.qty, a.kondisi, a.flag,
+                                    a.nilaiperolehan, a.rencanapelihara, a.keterangan1,
+                                    a.qty, a.kondisi, a.flag, a.pelaksana_tinjut,
                                     b.kd_brg, b.ur_sskel, b.satuan,
                                     c.status_kondisi, c.uraian_kondisi,
                                     d.status_trx, d.uraian_trx,
@@ -483,18 +503,216 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
+                                                <div class='form-group'>
+                                                    <label class="col-sm-1 control-label">Pengerjaan</label>
+                                                    <div class='col-sm-2'>
+                                                        <select class="s2 form-control" style="width: 100%" name='pelaksanatl'>
+                                                            <option value='BLANK'>PELAKSANA TINJUT</option>
+                                                            <?php
+                                                            $dataSql = "SELECT  * FROM pelaksana_tinjut ORDER BY idptinjut ASC";
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
+                                                            while ($dataRow = mysqli_fetch_array($dataQry)) {
+                                                            if ($dataRow['idptinjut'] == $_POST['uraian_ptinjut']) { $cek = " selected";} 
+                                                            else { $cek = ""; }
+                                                            echo "
+                                                            <option value='$dataRow[idptinjut]' $cek>$dataRow[idptinjut]  -  $dataRow[uraian_ptinjut]</option>";
+                                                                }
+                                                                $sqlData = "";
+                                                                ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <label class="col-sm-1 control-label">Tindak Lanjut Pemeliharaan</label>
                                                     <div class="col-sm-5">
                                                     <textarea class="form-control" type="text" rows="5" name='tinjut'  placeholder="isi dengan Tindak Lanjut Pemeliharaan" >
+                                                    <?php echo "$r[tindaklanjut]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">Keterangan</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="5" name='keterangan1'  placeholder="isi dengan Tindak Lanjut Pemeliharaan" >
+                                                    <?php echo "$r[keterangan1]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+
+                                                <label for='Kode' class='col-sm-1 control-label'></label>
+                                                <button type=submit Data class='btn bg-blue btn-sm'>
+                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpai Detail </button>
+
+                                                <a class='btn bg-blue btn-sm' href=<?php echo "?module=pemeliharaanbmn"; ?>><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;&nbsp; Kembali</a>
+
+                                            </form>
+
+                                            
+                                                    </div>
+                                                </div>        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        <?php
+                        } else {
+                            echo "Anda tidak berhak mengakses halaman ini.";
+                        }
+                        break;
+
+                        case "h_tinjut":
+                        if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+                            $query="SELECT a.kodebarang, a.noaset, a.merek, a.prosedur,
+                                    a.tglperolehan, a.tgl_pemeliharaan, a.permasalahan,
+                                    a.nilaiperolehan, a.rencanapelihara, a.keterangan1,
+                                    a.qty, a.kondisi, a.flag, a.pelaksana_tinjut,
+                                    a.tindaklanjut, a.hasil_tinjut, a.keterangan1,
+                                    b.kd_brg, b.ur_sskel, b.satuan,
+                                    c.status_kondisi, c.uraian_kondisi,
+                                    d.status_trx, d.uraian_trx,
+                                    e.kodebarang, e.noaset, e.koderuang,
+                                    f.koderuangan, f.namaruangan,
+                                    g.kodebarang, g.noaset, g.picnip, g.picnama
+                            FROM dbpemeliharaan a
+                            LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang
+                            LEFT JOIN kondisi_bmn c ON c.status_kondisi = a.kondisi
+                            LEFT JOIN status_transaksi d ON d.status_trx = a.prosedur
+                            LEFT JOIN dbdistribusi e ON e.kodebarang = a.kodebarang AND e.noaset = a.noaset
+                            LEFT JOIN dbruangan f ON f.koderuangan = e.koderuang
+                            LEFT JOIN dbpicbmn g ON g.kodebarang = a.kodebarang AND g.noaset = a.noaset
+                            WHERE a.flag = '1' AND a.kodebarang = '$_GET[kodebarang]' AND a.noaset = '$_GET[noaset]'
+                            ORDER BY a.kodebarang ASC";
+                            $tampil = $koneksi->query($query);
+                            $r  = mysqli_fetch_array($tampil);
+        
+                        ?>
+        
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+
+                                                <form id='scan' method='post' class='form-horizontal' action='<?php echo "$aksi?module=pemeliharaanbmn&act=simpanhtl"; ?>' enctype='multipart/form-data'>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">Kode BMN</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='kd_brg' id="kd_brg" value='<?php echo "$r[kd_brg]"; ?>' readonly>
+                                                    </div>
+
+                                                    <label class="col-sm-1 control-label">Uraian BMN</label>
+                                                    <div class="col-sm-3">
+                                                    <input type="text" class="form-control" name='nm_brg' id="nm_brg" value='<?php echo "$r[ur_sskel]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">No Aset</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='nup' value='<?php echo "$r[noaset]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label" >Merek</label>
+                                                    <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name='merek' value='<?php echo "$r[merek]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">P I C NIP</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='picnip' value='<?php echo $r[picnip]; ?>' readonly>
+                                                    </div>
+
+                                                    <label class="col-sm-1 control-label">P I C NAMA</label>
+                                                    <div class="col-sm-3">
+                                                    <input type="text" class="form-control" name='picnama' value='<?php echo $r[picnama]; ?>' readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">KODE DBR</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='koderuang' value='<?php echo $r[koderuang]; ?>' readonly>
+                                                    </div>
+
+                                                    <label class="col-sm-1 control-label">URAIAN DBR</label>
+                                                    <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name='namaruang' value='<?php echo $r[namaruangan]; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">Tgl Usul</label>
+                                                    <div class="col-sm-1">
+                                                    <input type="text" class="form-control" name='tglusul' value='<?php echo "$r[tgl_pemeliharaan]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class='form-group'>
+                                                    <label class="col-sm-1 control-label">Pengerjaan</label>
+                                                    <div class='col-sm-2'>
+                                                        <select class="s2 form-control" style="width: 100%" name='pelaksanatl'>
+                                                            <option value='BLANK'>PELAKSANA TINJUT</option>
+                                                            <?php
+                                                            $dataSql = "SELECT  * FROM pelaksana_tinjut ORDER BY idptinjut ASC";
+                                                            $dataQry = $koneksi->query($dataSql) or die("Gagal Query" . $koneksi->error);
+                                                            while ($dataRow = mysqli_fetch_array($dataQry)) {
+                                                            if ($dataRow['idptinjut'] == $r['pelaksana_tinjut']) { $cek = " selected";} 
+                                                            else { $cek = ""; }
+                                                            echo "
+                                                            <option value='$dataRow[idptinjut]' $cek>$dataRow[idptinjut]  -  $dataRow[uraian_ptinjut]</option>";
+                                                                }
+                                                                $sqlData = "";
+                                                                ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">Permasalahan</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="5" name='permasalahanbmn'  placeholder="isi dengan Permasalahan BMN yang akan dipelihara" readonly>
+                                                    <?php echo "$r[permasalahan]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <label class="col-sm-1 control-label">Rencana Pemeliharaan</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="5" name='rencanapelihara'  placeholder="isi dengan Perencaan Pemeliharaan BMN yang akan dipelihara" readonly>
                                                     <?php echo "$r[rencanapelihara]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">
+                                                    Tindak Lanjut Pelaksana Pemeliharaan</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="4" name='tinjut'  placeholder="isi dengan Tindak Lanjut Pemeliharaan" readonly>
+                                                    <?php echo "$r[tindaklanjut]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">
+                                                    Keterangan Tindak Lanjut Pelaksana</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="4" name='keterangan1'  placeholder="isi dengan Tindak Lanjut Pemeliharaan" readonly>
+                                                    <?php echo "$r[keterangan1]"; ?>
                                                     </textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class='form-group'>
                                                     <label class="col-sm-1 control-label">Hasil Tindak Lanjut</label>
-                                                    <div class='col-sm-2'>
+                                                    <div class='col-sm-3'>
                                                         <select class="s2 form-control" style="width: 100%" name='hasil_tinjut'>
                                                             <option value='BLANK'>HASIL TINJUT</option>
                                                             <?php
@@ -512,9 +730,33 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     </div>
                                                 </div>
 
-                                                <label for='Kode' class='col-sm-1 control-label'></label>
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">
+                                                    Keterangan Hasil Tindak Lanjut</label>
+                                                    <div class="col-sm-5">
+                                                    <textarea class="form-control" type="text" rows="4" name='keterangan2'  placeholder="isi dengan Tindak Lanjut Pemeliharaan">
+                                                    <?php echo "$r[keterangan2]"; ?>
+                                                    </textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">Tanggal Selesai</label>
+                                                    <div class="col-md-2">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name='tglselesai' value='<?php echo "$rs[s_tglakhir]"; ?>' data-toggle="tooltip" data-placement="top" title="Tanggal Akhir">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <label class="col-sm-1 control-label"></label>
                                                 <button type=submit Data class='btn bg-blue btn-sm'>
-                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpai Detail </button>
+                                                <i class='fa fa-check'></i>&nbsp;&nbsp;&nbsp; Simpai Hasil Tindak Lanjut </button>
 
                                                 <a class='btn bg-blue btn-sm' href=<?php echo "?module=pemeliharaanbmn"; ?>><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;&nbsp; Kembali</a>
 

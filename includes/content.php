@@ -10,7 +10,7 @@ $dbtik = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
                                          a.nup, a.merek, a.tglperoleh,
                                          a.statusbmn, a.kondisibarang
                                     FROM dbtik a
-                                    WHERE a.statusbmn = '13'  
+                                    WHERE (a.statusbmn IN ('11','13','18','19'))  
                                     ORDER BY a.kodebarang ASC");
 $tik = mysqli_num_rows($dbtik);
 
@@ -255,6 +255,12 @@ elseif ($_GET['module'] == 'sipupdatestatus') {
 elseif ($_GET['module'] == 'pemeliharaanbmn') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/transaksi/pemeliharaanbmn.php';
+  }
+}
+
+elseif ($_GET['module'] == 'updatepsp') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/transaksi/updatepsp.php';
   }
 }
 

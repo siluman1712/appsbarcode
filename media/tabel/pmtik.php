@@ -57,7 +57,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                   a.tglbuku, a.t_anggaran,
                                                                   a.nup, a.merek, a.tglperoleh, 
                                                                   a.status_psp, a.kondisibarang,
-                                                                  a.statusbmn,
+                                                                  a.statusbmn, 
                                                                   b.kd_brg, b.ur_sskel, 
                                                                   c.kdukpb, c.nmukpb,
                                                                   d.status_kondisi, d.uraian_kondisi,
@@ -69,7 +69,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisibarang
                                                            LEFT JOIN status_psp e ON e.status_psp = a.status_psp
                                                            LEFT JOIN bmnstatus f ON f.appsstatus = a.statusbmn
-                                                           WHERE a.statusbmn = '13' AND a.kondisibarang = '31'
+                                                           WHERE (a.statusbmn IN ('11','13','19')) AND a.kondisibarang = '31'
                                                            ORDER BY a.kodebarang ASC";
                                                 $tik = $koneksi->query($query);
                                                 $no = 0;
@@ -98,8 +98,15 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         </td>
 
                                                         <td align="center">
+                                                        <?php if($r['statusbmn']=='13'){?>
                                                         <span class="badge bg-green">
-                                                        <?php echo "$r[uraianstatus]"; ?></span>
+                                                        <?php echo "$r[uraianstatus]"; ?>
+                                                        </span>
+                                                        <?php } else { ?>
+                                                        <span class="badge bg-maroon">
+                                                        <?php echo "$r[uraianstatus]"; ?>
+                                                        </span>
+                                                        <?php }?>
                                                         </td>
                                                     </tr>
                                                     </tfoot>
@@ -267,11 +274,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         </select>
                                                     </div>
                                                 </div>
-
+                                                <!--
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">No PSP</label>
                                                     <div class="col-sm-4">
-                                                    <input type="text" maxlength="100" class="form-control" name='nopsp' value='<?php echo "$_POST[nopsp]"; ?>'>
+                                                    <input type="text" maxlength="100" class="form-control" name='nopsp' value='<?php //echo "$_POST[nopsp]"; ?>'>
                                                     </div>
                                                 </div>
 
@@ -283,10 +290,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                     <i class="fa fa-calendar"></i>
                                                     </div>
                                                         <input type="text" class="form-control datepicker" placeholder="yyyy/mm/dd" name="tglpsp" data-toggle="tooltip" data-placement="top" title="Tanggal Awal">
-                                                    </div><!-- input-group -->
+                                                    </div>
                                                 </div>
                                                 </div>
-
+                                                -->
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 control-label">Status Kondisi BMN</label>
                                                     <div class="col-sm-2">
