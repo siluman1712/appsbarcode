@@ -35,6 +35,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 									kodebarang		= '$_POST[kodebarang]',
 									no_bast			= '$_POST[nobast]',
 									t_anggaran		= '$_POST[tanggaran]',
+									status_distribusi = '80',
 									noaset			= '$i',
 									keterangan 		= '$_POST[keterangan]'");
 

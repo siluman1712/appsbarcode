@@ -69,7 +69,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisibarang
                                                            LEFT JOIN status_psp e ON e.status_psp = a.status_psp
                                                            LEFT JOIN bmnstatus f ON f.appsstatus = a.statusbmn
-                                                           WHERE (a.statusbmn IN ('11','13','19')) AND a.kondisibarang = '31'
+                                                           WHERE (a.statusbmn IN ('11','13','14','19')) AND a.kondisibarang = '31'
                                                            ORDER BY a.kodebarang ASC";
                                                 $tik = $koneksi->query($query);
                                                 $no = 0;

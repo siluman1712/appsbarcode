@@ -125,7 +125,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		
 	</td>
 	<td colspan="4" align="center">
-	<img src="../../dist/img/headLogo.png" width="65px" height="65px" align='left' />
+	<img src="../../dist/img/headLogo.png" width="60px" height="60px" align='left' />
 	<font face="arial" size="2">
 	<strong>
 		KARTU PEMELIHARAN <br>PERALATAN DAN MESIN<br>

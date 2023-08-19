@@ -198,8 +198,9 @@ kami yang bertanda tangan dibawah ini :
 		<thead>
 			<tr>
 				<th width='150' >(KD - NAMA BARANG)</th>
-				<th  >NOASET</th>
+				<th >NOASET</th>
 				<th >SAT</th>
+				<th >QTY</th>
 				<th >TA</th>
 				<th width='200px' >MEREK_TYPE</th>
 				<th width='65px' >NILAI PEROLEHAN</th>
@@ -208,7 +209,9 @@ kami yang bertanda tangan dibawah ini :
 		</thead>
 		<tbody>
 		<?php
-		$query = "SELECT a.tgldistribusi, a.kodebarang, a.noaset,
+		$query = "SELECT a.tgldistribusi, COUNT(a.kodebarang) AS QTY, 
+										 MAX(a.noaset) AS MAXnoaset, 
+										 MIN(a.noaset) AS MINnoaset,
 										 a.koderuang, a.keterangan,
 										 b.kodebarang, b.nup, b.merek,
 										 b.t_anggaran, b.hargaperolehan,
@@ -227,8 +230,9 @@ kami yang bertanda tangan dibawah ini :
 		?>
 			<tr>
 				<td><?php echo $r['kd_brg']; ?> <?php echo $r['ur_sskel']; ?></td>
-				<td align="center"><?php echo $r['noaset']; ?></td>
+				<td align="center"><?php echo $r['MINnoaset']; ?> - <?php echo $r['MAXnoaset']; ?></td>
 				<td align="center"><?php echo $r['satuan']; ?></td>
+				<td align="center"><?php echo $r['QTY']; ?></td>
 				<td align="center"><?php echo $r['t_anggaran']; ?></td>
 				<td><?php echo $r['merek']; ?></td>
 				<td align="center"><?php echo rupiah($r['hargaperolehan']); ?></td>

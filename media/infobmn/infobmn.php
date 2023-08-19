@@ -13,13 +13,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
         switch ($_GET['act']) {
             default:
                 if ($_SESSION['LEVEL'] == 'admin') {
-                    $tgl = mysqli_query(
-                        $koneksi,
-                        "SELECT * FROM s_settgl
-                         ORDER BY idtgl ASC"
-                    );
-                    $rs = mysqli_fetch_array($tgl);
-                    $update = date('Y-m-d');
+                    $query  = "SELECT s_tglawal, s_tglakhir, s_thnang FROM s_settgl ORDER BY idtgl ASC";
+                    $tgl    = $koneksi->query($query);
+                    $rs     = mysqli_fetch_array($tgl);
 
 ?>
                     <section class="content-header">
@@ -54,15 +50,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                         </form>
 
                                         <?php
-                                        $a = mysqli_query(
-                                            $koneksi,
-                                            "   SELECT  a.status_psp, a.status_kondisi, a.status_bmn, 
+                                        $a = $koneksi->query(
+                                            "   SELECT  a.status_psp, a.status_kondisi, a.statusbmn, 
                                                         b.status_psp, b.uraianstatus_psp,
                                                         c.appsstatus, c.uraianstatus
                                                         FROM dbtik a
                                                 LEFT JOIN status_psp b ON b.status_psp = a.status_psp 
-                                                LEFT JOIN bmnstatus c ON c.appsstatus = a.status_bmn 
-                                                WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.status_bmn LIKE '%$_POST[kategori]%' 
+                                                LEFT JOIN bmnstatus c ON c.appsstatus = a.statusbmn 
+                                                WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.statusbmn LIKE '%$_POST[kategori]%' 
                                                 ORDER BY a.status_psp ASC"
                                         );
                                         $data = mysqli_fetch_array($a);
@@ -92,10 +87,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                             </thead>
                                             <tbody>
                                                     <?php
-                                                    $cek = mysqli_query(
-                                                        $koneksi,
+                                                    $cek = $koneksi->query(
                                                         "SELECT  a.kodebarang, a.nup, a.merek, a.status_psp,
-                                                                 a.tglperoleh, a.status_kondisi, a.status_bmn,
+                                                                 a.tglperoleh, a.kondisibarang, a.statusbmn,
                                                                  b.kd_brg, b.ur_sskel,
                                                                  c.status_psp, c.uraianstatus_psp,
                                                                  d.status_kondisi, d.uraian_kondisi,
@@ -104,9 +98,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                          FROM dbtik a
                                                          LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
                                                          LEFT JOIN status_psp c ON c.status_psp = a.status_psp 
-                                                         LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.status_kondisi 
-                                                         LEFT JOIN bmnstatus e ON e.appsstatus = a.status_bmn 
-                                                         WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.status_bmn LIKE '%$_POST[kategori]%' 
+                                                         LEFT JOIN kondisi_bmn d ON d.status_kondisi = a.kondisibarang 
+                                                         LEFT JOIN bmnstatus e ON e.appsstatus = a.statusbmn 
+                                                         WHERE  a.status_psp LIKE '%$_POST[kategori]%' OR a.statusbmn LIKE '%$_POST[kategori]%' 
                                                          ORDER BY a.kodebarang AND a.nup ASC"
                                                     );
 
@@ -158,6 +152,6 @@ function tampilkan(){
     {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='01'>[01] - Belum Dilakukan PSP</option><option value='02'>[02] - Sudah Dilakukan PSP</option><option value='03'>[03] - Tidak Diketahui</option>";}
 
   else if (pencarian=="02")
-    {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='21'>[21] - Proses Penghapusan</option><option value='22'>[22] - Proses Penetapan Status Pengguna [PSP]</option><option value='23'>[23] - Proses Inventarisir / Sensus</option><option value='24'>[24] - Proses Peminjaman</option><option value='25'>[25] - Proses Pemeliharaan</option>";}
+    {document.getElementById("kategori").innerHTML="<option value='BLANK'>PILIH</option><option value='22'>[22] - Proses Penetapan Status Pengguna [PSP]</option><option value='23'>[23] - Proses Inventarisir / Sensus</option><option value='24'>[24] - Proses Peminjaman</option><option value='25'>[25] - Proses Pemeliharaan</option>";}
 }
 </script>
