@@ -34,18 +34,23 @@ echo "";
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <style type="text/css">
-		body {
-			font-family: "Arial";
-			font-size: 13px;
-		}
-		
- 
+body{
+	font-family: sans-serif;
+	font-size: 13px;
+}
+.table1 {
+    font-family: sans-serif;
+    color: #232323;
+    border-collapse: collapse;
+}
+
 .table1, th {
 	  font-family: Arial;
-    font-size: 11px;
-    border: 1px solid #000;
-    padding: 2px 3px;
+    font-size: 12px;
+    border: 1px solid #999;
+    padding: 1px 1px;
 }
+
 	</style>
 </head>
 <body>
@@ -203,8 +208,8 @@ kami yang bertanda tangan dibawah ini :
 				<th >QTY</th>
 				<th >TA</th>
 				<th width='200px' >MEREK_TYPE</th>
-				<th width='65px' >NILAI PEROLEHAN</th>
-				<th width='65px' >KETERANGAN</th>
+				<th width='75px' >NILAI PEROLEHAN</th>
+				<th width='65px' >KET.</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -229,7 +234,7 @@ kami yang bertanda tangan dibawah ini :
 		$no++;
 		?>
 			<tr>
-				<td><?php echo $r['kd_brg']; ?> <?php echo $r['ur_sskel']; ?></td>
+				<td height="35"><?php echo $r['kd_brg']; ?> <?php echo $r['ur_sskel']; ?></td>
 				<td align="center"><?php echo $r['MINnoaset']; ?> - <?php echo $r['MAXnoaset']; ?></td>
 				<td align="center"><?php echo $r['satuan']; ?></td>
 				<td align="center"><?php echo $r['QTY']; ?></td>
