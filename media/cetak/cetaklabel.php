@@ -121,7 +121,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<font face="Roboto" size="2">
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
-				<?php echo "$barcode[tglperoleh]"; ?> | <?php echo "$barcode[koderuang]"; ?><br>
+				<?php echo "$barcode[koderuang]"; ?> | <?php echo "$barcode[tglperoleh]"; ?><br>
 				</font>
 			</td>
 	<td><img src="../../_qrcodeimg/<?php echo $namafile; ?>"></td>
