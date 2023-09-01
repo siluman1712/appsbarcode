@@ -120,7 +120,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<font face="Roboto" size="2">
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
-				<?php echo "$barcode[tglperoleh]"; ?><br>
+				<?php echo indotgl($barcode['tglperoleh']); ?><br>
 				</font>
 				<font face="Roboto" size="0.875em">
 				#<?php echo "$barcode[namaruangan]"; ?>
