@@ -111,7 +111,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	</font>
 	</td>
 </tr>
-
 <tr>
 	<td></td>
 	<td>	<font face="arial" size="4">
@@ -121,7 +120,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<font face="Roboto" size="2">
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
-				<?php echo "$barcode[koderuang]"; ?> | <?php echo "$barcode[tglperoleh]"; ?><br>
+				<?php echo "$barcode[tglperoleh]"; ?><br>
+				</font>
+				<font face="Roboto" size="0.875em">
+				#<?php echo "$barcode[koderuang]"; ?> | <?php echo "$barcode[namaruangan]"; ?>
 				</font>
 			</td>
 	<td><img src="../../_qrcodeimg/<?php echo $namafile; ?>"></td>
