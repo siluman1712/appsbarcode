@@ -103,7 +103,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				QRCode::png($teks_qrcode, $tempdir . $namafile, $quality, $ukuran, $padding);
 			?>
 <tr>
-	
+	<td><font color="#fff"></td>
 	<td align="center" colspan="4">
 	<font face="arial" size="2">
 	<?php echo "$barcode[nmpb]"; ?><br>
