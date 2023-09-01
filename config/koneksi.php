@@ -1,15 +1,15 @@
 <?php
 // membuat koneksi database
 
-$SERVER = "localhost";
-$U_NAME = "root";
-$PASSWORD = "";
-$DATABASE = "dbbarcode";
-
-//$SERVER = "178.100.212.8";
-//$U_NAME = "bmnkanreg";
-//$PASSWORD = "Kanreg12";
+//$SERVER = "localhost";
+//$U_NAME = "root";
+//$PASSWORD = "";
 //$DATABASE = "dbbarcode";
+
+$SERVER = "178.100.212.8";
+$U_NAME = "bmnkanreg";
+$PASSWORD = "Kanreg12";
+$DATABASE = "dbbarcode";
 
 //$SERVER = "10.100.3.142";
 //$U_NAME = "siluman";

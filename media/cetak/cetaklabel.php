@@ -103,7 +103,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				QRCode::png($teks_qrcode, $tempdir . $namafile, $quality, $ukuran, $padding);
 			?>
 <tr>
-	<td><font color="#fff">sdfsddssdfds</td>
+	
 	<td align="center" colspan="4">
 	<font face="arial" size="2">
 	<?php echo "$barcode[nmpb]"; ?><br>
@@ -122,8 +122,11 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
 				<?php echo "$barcode[tglperoleh]"; ?> | <?php echo "$barcode[koderuang]"; ?><br>
-				<small>#[<?php echo "$barcode[koderuang]"; ?>]<?php echo "$barcode[namaruangan]"; ?></small>
-				</font></td>
+				</font>
+				<font face="Roboto" size="0.875em">
+				#[<?php echo "$barcode[koderuang]"; ?>]<?php echo "$barcode[namaruangan]"; ?>
+				</font>
+			</td>
 	<td><img src="../../_qrcodeimg/<?php echo $namafile; ?>"></td>
 </tr>
 
