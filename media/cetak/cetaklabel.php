@@ -107,7 +107,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	<td align="center" colspan="4">
 	<font face="arial" size="2">
 	<?php echo "$barcode[nmpb]"; ?><br>
-	<?php echo "$barcode[kodesatker]"; ?>.<?php echo "$barcode[t_anggaran]"; ?>
+	<?php echo "$barcode[kodesatker]"; ?>.<?php echo "$barcode[t_anggaran]"; ?>.
+	<?php echo "$barcode[tglperoleh]"; ?>
 	</font>
 	</td>
 </tr>
@@ -120,7 +121,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<font face="Roboto" size="2">
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
-				<?php echo "$barcode[tglperoleh]"; ?><br>
 				</font>
 				<font face="Roboto" size="0.875em">
 				#<?php echo "$barcode[koderuang]"; ?> | <?php echo "$barcode[namaruangan]"; ?>
