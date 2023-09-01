@@ -123,9 +123,6 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<?php echo "$barcode[merek]"; ?><br>
 				<?php echo "$barcode[tglperoleh]"; ?> | <?php echo "$barcode[koderuang]"; ?><br>
 				</font>
-				<font face="Roboto" size="0.875em">
-				#[<?php echo "$barcode[koderuang]"; ?>]<?php echo "$barcode[namaruangan]"; ?>
-				</font>
 			</td>
 	<td><img src="../../_qrcodeimg/<?php echo $namafile; ?>"></td>
 </tr>
