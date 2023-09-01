@@ -66,10 +66,14 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
             a.merek, a.t_anggaran,
             a.tglperoleh, a.kodesatker,
             b.kd_brg, b.ur_sskel,
-            c.kdukpb, c.nmukpb, c.nmpb
+            c.kdukpb, c.nmukpb, c.nmpb,
+            d.kodebarang, d.noaset, d.koderuang,
+            e.koderuangan, e.namaruangan
             FROM   dbtik a
             LEFT JOIN b_nmbmn b ON b.kd_brg = a.kodebarang 
             LEFT JOIN s_satker c ON c.kdukpb = a.kodesatker
+            LEFT JOIN dbdistribusi d ON d.kodebarang = a.kodebarang AND d.noaset = a.nup 
+            LEFT JOIN dbruangan e ON e.koderuangan = d.koderuang
             WHERE  a.kodebarang ='$kodebarang'
             AND  a.nup BETWEEN '$nupAW ' AND '$nupAK'
             ORDER BY a.kodebarang AND a.nup ASC";
@@ -117,7 +121,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				<font face="Roboto" size="2">
 				<strong><?php echo "$barcode[ur_sskel]"; ?></strong><br>
 				<?php echo "$barcode[merek]"; ?><br>
-				<?php echo "$barcode[tglperoleh]"; ?>
+				<?php echo "$barcode[tglperoleh]"; ?> | <?php echo "$barcode[koderuang]"; ?><br>
+				<small>#[<?php echo "$barcode[koderuang]"; ?>]<?php echo "$barcode[namaruangan]"; ?></small>
 				</font></td>
 	<td><img src="../../_qrcodeimg/<?php echo $namafile; ?>"></td>
 </tr>

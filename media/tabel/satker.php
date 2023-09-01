@@ -40,7 +40,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table id="table_4" class="table table-bordered table-striped responsive">
+                                        <table id="table_4" class="table ">
                                             <thead>
                                                 <tr>
                                                     <th bgcolor='#dcdcdc'> id </th>

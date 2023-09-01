@@ -10,7 +10,7 @@ $dbtik = mysqli_query($koneksi," SELECT  a.kodebarang, a.kodesatker,
                                          a.nup, a.merek, a.tglperoleh,
                                          a.statusbmn, a.kondisibarang
                                     FROM dbtik a
-                                    WHERE (a.statusbmn IN ('11','13','18','19'))  
+                                    WHERE (a.statusbmn IN ('11','13','14','18','19'))  
                                     ORDER BY a.kodebarang ASC");
 $tik = mysqli_num_rows($dbtik);
 
