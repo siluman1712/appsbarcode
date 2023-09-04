@@ -227,14 +227,14 @@ kami yang bertanda tangan dibawah ini :
 							LEFT JOIN b_nmbmn c ON c.kd_brg = a.kodebarang
 							LEFT JOIN dbruangan d ON d.koderuangan = a.koderuang
 							WHERE a.koderuang='$koderuangan' AND a.tgldistribusi ='$tgldistribusi'
-							ORDER BY a.koderuang ASC";
-		$cek = mysqli_query($koneksi,$query);
+							GROUP BY a.kodebarang ASC";
+		$cek = mysqli_query($koneksi,$query); 
 		$no = 1;
     while ($r = mysqli_fetch_array($cek)){
 		$no++;
 		?>
 			<tr>
-				<td height="35"><?php echo $r['kd_brg']; ?> <?php echo $r['ur_sskel']; ?></td>
+				<td height="22"><?php echo $r['kd_brg']; ?> <?php echo $r['ur_sskel']; ?></td>
 				<td align="center"><?php echo $r['MINnoaset']; ?> - <?php echo $r['MAXnoaset']; ?></td>
 				<td align="center"><?php echo $r['satuan']; ?></td>
 				<td align="center"><?php echo $r['QTY']; ?></td>

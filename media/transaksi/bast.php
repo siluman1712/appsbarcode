@@ -1,6 +1,6 @@
 
 
-<?php
+<?php 
 session_start();
 if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
     echo "<link href='bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
