@@ -68,7 +68,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 $query = "SELECT a.ruanggedung, a.lantai, a.uniteselon,
                                                                   a.urutruangan, a.koderuangan, a.namaruangan,
                                                                   a.luasruangan, a.nippenanggungjawab, 
-                                                                  a.kategori, a.namapenanggungjawab,
+                                                                  a.kategori, a.namapenanggungjawab, a.kdukpb,
                                                                   b.gedung, b.uraiangedung,
                                                                   c.gedung, c.ltgedung, c.uraianlantai,
                                                                   d.uniteselon, d.uraian,
@@ -79,6 +79,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                            AND c.ltgedung = a.lantai
                                                            LEFT JOIN dbuniteselon d ON d.uniteselon = a.uniteselon
                                                            LEFT JOIN dbkategoriruang e ON e.kodekategori = a.kategori
+                                                           WHERE a.kdukpb = '$_SESSION[LOKINS]'
                                                            ORDER BY a.ruanggedung ASC";
                                                 $dbruang = $koneksi->query($query);
                                                 $no = 0;
@@ -127,7 +128,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                     $tgl    = $koneksi->query($query);
                     $rs     = mysqli_fetch_array($tgl);
                     
-                    $qry    ="SELECT kdukpb, nmukpb, ukpb FROM s_satker ORDER BY kdukpb ASC";
+                    $qry    ="SELECT kdukpb, nmukpb, ukpb 
+                              FROM s_satker 
+                              WHERE kdukpb = '$_SESSION[LOKINS]' 
+                              ORDER BY kdukpb ASC";
                     $kpb    = $koneksi->query($qry);
                     $sk     = mysqli_fetch_array($kpb);
 
@@ -162,7 +166,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 
                                                         <div class="col-sm-2">
                                                         <label>Kode Satuan Kerja</label>
-                                                            <input type="text" class="form-control" name='kdukpb' id="kdukpb" value='<?php echo "$sk[kdukpb]"; ?>' readonly>
+                                                            <input type="text" class="form-control" name='LOKINS' id="kdukpb" value='<?php echo "$sk[kdukpb]"; ?>' readonly>
                                                         </div>
 
                                                         <div class="col-sm-4">

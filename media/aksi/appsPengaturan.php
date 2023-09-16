@@ -112,6 +112,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 					kategori = '$_POST[kategoriruang]',
 					nippenanggungjawab 	= '$_POST[NIP1]',
 					namapenanggungjawab = '$_POST[NAMA1]',
+					kdukpb = '$_POST[LOKINS]',
 					keterangan = '$_POST[keterangan]'");
 
 	?>
@@ -142,6 +143,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 					nama 	= '$_POST[nama]',
 					nama_belakang = '$_POST[PNS_GLRBLK]',
 					idgolru = '$_POST[golru]',
+					kdukpb = '$_POST[LOKINS]',
 					tmt_golru = '$_POST[PNS_TMTGOL]',
 					jabatan = '$_POST[JABATAN]',
 					tmt_jabatan = '$_POST[TMT_JABATAN]',

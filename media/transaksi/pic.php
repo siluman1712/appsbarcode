@@ -96,6 +96,12 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <form class='form-horizontal' method='POST' action='<?php echo "$aksi?module=distribusi&act=picsave"; ?>' enctype='multipart/form-data'>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Lokasi INSTANSI</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" name='LOKINS' value='<?php echo "$_SESSION[LOKINS]"; ?>' readonly>
+                                </div>
+                            </div>
                                                     <div class='form-group'>
                                                         <label class="col-sm-2 control-label">Kode / Daftar BMN</label>
                                                         <div class='col-sm-4'>

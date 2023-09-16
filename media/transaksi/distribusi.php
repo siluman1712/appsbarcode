@@ -43,6 +43,25 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                             <form class='form-horizontal' method='POST' action='<?php echo "$aksi?module=distribusi&act=distribusibmn"; ?>' enctype='multipart/form-data'>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Lokasi INSTANSI</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" name='LOKINS' value='<?php echo "$_SESSION[LOKINS]"; ?>' readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Penguasaan </label>
+                                <div class="col-sm-2">
+                                <select class="form-control" name='penguasaan' id="penguasaan">
+                                    <option value='BLANK'>PILIH</option>
+                                    <option value='01'>[01] MILIK SENDIRI (SATUAN KERJA)</option>
+                                    <option value='02'>[02] MILIK PRIBADI PEGAWAI</option>
+                                    <option value='03'>[03] MILIK PIHAK KE -3 (TIGA)</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Gedung </label>
                                 <div class="col-sm-2">
                                 <select class="form-control" name='gedung' id="gedung">
@@ -205,7 +224,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                             <th bgcolor='#dcdcdc'> Kode Barang </th>
                                                             <th bgcolor='#dcdcdc'> Uraian Barang </th>
                                                             <th bgcolor='#dcdcdc'> No Aset </th>
-                                                            <th bgcolor='#dcdcdc'> Status </th>
+                                                            <th bgcolor='#dcdcdc' width="230px"> Status </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -214,16 +233,18 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 "SELECT a.tgldistribusi, a.ruanggedung, 
                                                                         a.koderuang, a.kodebarang, 
                                                                         a.noaset, a.keterangan,
-                                                                        a.status_distribusi,
+                                                                        a.status_distribusi, a.penguasaan,
                                                                         b.gedung, b.uraiangedung,
                                                                         c.kd_brg, c.ur_sskel, c.satuan,
                                                                         d.koderuangan, d.namaruangan,
-                                                                        e.status_distribusi, e.ur_statusdistribusi
+                                                                        e.status_distribusi, e.ur_statusdistribusi,
+                                                                        f.penguasaan, f.ur_penguasaan
                                                                 FROM dbdistribusi a
                                                                 LEFT JOIN dbgedung b ON b.gedung = a.ruanggedung
                                                                 LEFT JOIN b_nmbmn c ON c.kd_brg = a.kodebarang 
                                                                 LEFT JOIN dbruangan d ON d.koderuangan = a.koderuang
                                                                 LEFT JOIN status_distribusi e ON e.status_distribusi = a.status_distribusi
+                                                                LEFT JOIN status_penguasaanbmn f ON f.penguasaan = a.penguasaan
                                                                 WHERE a.status_distribusi ='80'                 
                                                                 ORDER BY a.ruanggedung ASC");
                                                         $no = 0;
@@ -257,6 +278,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 <?php echo "$r[ur_statusdistribusi]"; ?>
                                                                 </span>
                                                                 <?php } ?>
+                                                                <span class="badge bg-orange">    
+                                                                <?php echo "$r[ur_penguasaan]"; ?>
+                                                                </span>
                                                                 </td>
                                                             </tr>
                                                             </tfoot>

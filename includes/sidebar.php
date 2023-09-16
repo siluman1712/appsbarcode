@@ -127,6 +127,10 @@ $rs    = mysqli_fetch_array($info);
                 <button class='btn bg-red btn-xs flat' >BASTB</button>
                 </a></li>
 
+                <li><a href="?module=bmnruangan">
+                <button class='btn bg-red btn-xs flat' >D I R</button>
+                </a></li>
+
                 <li><a href="?module=hapusexcel">
                 <button class='btn bg-gray btn-xs flat' >Exp. Lamp Hapus (.xls)</button>
                 </a></li>

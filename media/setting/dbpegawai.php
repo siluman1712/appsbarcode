@@ -161,6 +161,13 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Lokasi INSTANSI</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" class="form-control" name='LOKINS' value='<?php echo "$_SESSION[LOKINS]"; ?>' readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label class="col-sm-2 control-label">Gelar Depan</label>
                                                     <div class="col-sm-1">
                                                     <input type="text" class="form-control" name='PNS_GLRDPN' value='<?php echo "$r[PNS_GLRDPN]"; ?>'>

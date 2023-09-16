@@ -33,6 +33,7 @@
 			$_SESSION['LEVEL']	= $r['LEVEL'];
 			$_SESSION['STATUS']	= $r['STATUS'];
 			$_SESSION['FOTO']      = $r['FOTO'];
+			$_SESSION['LOKINS']      = $r['LOKINS'];
 			$_SESSION['LOGIN_TERAKHIR']      = $r['LOGIN_TERAKHIR'];
 			$_SESSION['SESS_ID']	= $r['SESSION_ID'];
 

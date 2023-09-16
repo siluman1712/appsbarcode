@@ -19,7 +19,7 @@ if (empty($_SESSION['UNAME']) AND empty($_SESSION['PASSWORD'])){
 											  </div>";
 }
 else{
-$html = '
+$html = ' 
 <html>
 <head>
 </head>
