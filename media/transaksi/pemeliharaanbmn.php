@@ -112,6 +112,10 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         <form method=POST action='<?php echo "media/cetak/kartupelihara.php?kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>' target='_blank'>
                                                         <button type=submit class='btn bg-blue btn-sm btn-block'><i class='fa fa-print'></i>&nbsp;&nbsp;&nbsp;Kartu</button>
                                                         </form>
+
+                                                        <form method=POST action='<?php echo "media/cetak/jadwalpelihara.php?kodebarang=$r[kodebarang]&noaset=$r[noaset]"; ?>' target='_blank'>
+                                                        <button type=submit class='btn bg-orange btn-sm btn-block'><i class='fa fa-print'></i>&nbsp;&nbsp;&nbsp;Jadwal</button>
+                                                        </form>
                                                         <?php } ?>
                                                         </td>
                                                     </tr>

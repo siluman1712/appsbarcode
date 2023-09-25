@@ -232,7 +232,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         $dist = $koneksi->query( 
                                                                 "SELECT a.tgldistribusi, a.ruanggedung, 
                                                                         a.koderuang, a.kodebarang, 
-                                                                        a.noaset, a.keterangan,
+                                                                        a.noaset, a.keterangan, a.lokins,
                                                                         a.status_distribusi, a.penguasaan,
                                                                         b.gedung, b.uraiangedung,
                                                                         c.kd_brg, c.ur_sskel, c.satuan,
@@ -299,7 +299,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                     }
                     break;
 
-                    case "distribusidbr":
+                    case "distribusidbr": 
                     if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     
                     ?>
@@ -350,7 +350,9 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                 LEFT JOIN b_nmbmn c ON c.kd_brg = a.kodebarang 
                                                                 LEFT JOIN dbruangan d ON d.koderuangan = a.koderuang
                                                                 LEFT JOIN status_distribusi e ON e.status_distribusi = a.status_distribusi
-                                                                WHERE a.status_distribusi ='80'                 
+                                                                WHERE a.status_distribusi ='80' 
+                                                                AND a.kodebarang = '$_POST[kodebmn]'
+                                                                AND a.noaset = '$_POST[noaset]'                 
                                                                 ORDER BY a.ruanggedung ASC");
                                                 $r = mysqli_fetch_array($a);
                                                 $cekdata = mysqli_num_rows($a);
@@ -372,7 +374,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                     ORDER BY gedung ASC";
                                                         $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
                                                         while ($dataRow = mysqli_fetch_array($dataQry)) {
-                                                        if ($dataRow['gedung'] == $_POST['gedung']) {
+                                                        if ($dataRow['gedung'] == $r['gedung']) {
                                                         $cek = " selected";
                                                         } else { $cek = ""; }
                                                         echo "
@@ -406,7 +408,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                                         ORDER BY a.kd_brg ASC";
                                                             $dataQry = mysqli_query($koneksi, $dataSql) or die("Gagal Query" . mysqli_error($koneksi));
                                                             while ($dataRow = mysqli_fetch_array($dataQry)) {
-                                                                if ($dataRow['kd_brg'] == $_POST['kd_brg']) {
+                                                                if ($dataRow['kd_brg'] == $r['kd_brg']) {
                                                                     $cek = " selected";
                                                                 } else {
                                                                     $cek = "";

@@ -59,6 +59,51 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		}
 	}
 
+	elseif ($module == 'distribusi' and $act == 'addnewdbr') {
+		$nupAW = $_POST['nupAW'];
+		$nupAK = $_POST['nupAK'];
+		for ($i = $nupAW; $i <= $nupAK; $i++) {
+
+				
+				$koneksi->query("UPDATE dbdistribusi SET
+								kodebarang='$_POST[kodebarang]',
+								noaset = '$i',
+								status_distribusi = '81'
+						WHERE kodebarang = '$_POST[kodebarang]' AND noaset = '$i'");
+
+				$koneksi->query("INSERT INTO dbdistribusi
+								SET	tgldistribusi	= '$_POST[tgldist]', 
+									ruanggedung		= '$_POST[gedung]',
+									koderuang		= '$_POST[koderuang]',
+									kodebarang		= '$_POST[kodebarang]',
+									no_bast			= '$_POST[nobast]',
+									t_anggaran		= '$_POST[tanggaran]',
+									lokins			= '$_POST[LOKINS]',
+									penguasaan		= '$_POST[penguasaan]',
+									status_distribusi = '80',
+									noaset			= '$i',
+									keterangan 		= '$_POST[keterangan]'");
+
+
+
+			?>
+				<script type="text/javascript">
+					setTimeout(function() {
+						swal({
+							title: 'SUKSES',
+							text: 'BMN Baru Berhasil di tambahkan',
+							type: 'success',
+							showConfirmButton: false
+						});
+					}, 10);
+					window.setTimeout(function() {
+						window.location.replace('../../appsmedia.php?module=distribusi');
+					}, 1500);
+				</script>
+			<?php
+		}
+	}
+
 	elseif ($module == 'distribusi' and $act == 'picsave') {
 		$nupAWL = $_POST['nupAWL'];
 		$nupAKH = $_POST['nupAKH'];

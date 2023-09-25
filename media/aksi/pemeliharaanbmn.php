@@ -12,7 +12,7 @@
 </html>
 <?php
 session_start();
-include "../../config/koneksi.php";
+include "../../config/koneksi.php";  
 if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	echo "<link href='../../bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 			<center>Untuk mengakses modul, Anda harus login <br>";
@@ -27,8 +27,8 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 	$idkondisi = $_POST['idkondisi'];
 	$flag = $_POST['flag'];
 	$prosedur = $_POST['prosedur'];
-	$koneksi->query("INSERT INTO dbpemeliharaan (kodebarang, noaset, qty, tglperolehan, nilaiperolehan, kondisi, merek, flag, statusbmn, tgl_pemeliharaan, status_pelihara, prosedur) 
-	SELECT kodebarang, noaset, qty, tglperoleh, hargaperolehan, kondisi_bmn, merek, flag, 18, tglusul, 51, prosedur
+	$koneksi->query("INSERT INTO dbpemeliharaan (kodebarang, noaset, qty, tglperolehan, lokins, nilaiperolehan, kondisi, merek, flag, statusbmn, tgl_pemeliharaan, status_pelihara, prosedur) 
+	SELECT kodebarang, noaset, qty, tglperoleh, kodesatuankerja, hargaperolehan, kondisi_bmn, merek, flag, 18, tglusul, 51, prosedur
 	FROM dbscanbmn WHERE prosedur='$prosedur' AND kondisi_bmn='$idkondisi' AND flag = '$flag'");
 
 	$koneksi->query("UPDATE dbscanbmn SET flag = '2' WHERE prosedur='$prosedur' AND kondisi_bmn='$idkondisi' AND flag = '$flag'");
