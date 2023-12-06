@@ -168,25 +168,36 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 		//header('location:../../media.php?module='.$module);
 	}
 
-	elseif ($module == 'S_USER' and $act == 'simpanUser') {
-		$pass	=	md5($_POST['PASSWORD']);
-		$repass	=	md5($_POST['rePASSWORD']);
-		if ($pass==$repass) { //proses simpan data, $_POST['pw'] dan $_POST['pw1'] adalah name dari masing masing text password}
-				$tglupdate = date('Y-m-d');
-				$koneksi->query("INSERT INTO a_useraktif
-				SET	ID				= '$_POST[ID]',
-					NIP 			= '$_POST[NIP]',
-					UNAME 			= '$_POST[UNAME]',
-					PASSWORD 		= '$pass',
-					LEVEL 			= '$_POST[LEVEL]',
-					EMAIL 			= '$_POST[EMAIL]',
-					LOGIN_TERAKHIR 	= '',
-					ISLOGIN 		= '0',
-					SESSION_ID		= '$_SESSION[ID]',
-					NOTELP			= '$_POST[noTELPWA]',
-					AKTIF 			= '1',
-					STATUS 			= 'offline'");
+	elseif ($module == 'user' and $act == 'newuser') {
 
+		$rand = rand();
+		$ekstensi =  array('png','jpg','jpeg','gif');
+		$filename = $_FILES['imgavatar']['name'];
+		$ukuran = $_FILES['imgavatar']['size'];
+		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+		$pass	=	md5($_POST['PASSWORD']);
+		if(!in_array($ext,$ekstensi) ) {
+		header("location:../../appsmedia.php?module=user&alert=gagal_ekstensi");
+		}else{
+			if($ukuran < 1044070){		
+				$FOTO = $rand.'_'.$filename;
+				move_uploaded_file($_FILES['imgavatar']['tmp_name'], 'avatar/'.$rand.'_'.$filename);
+				$koneksi->query("INSERT INTO a_useraktif 
+								  		SET	ID				= '$_POST[ID]',
+								  			LOKINS			= '$_POST[kdukpb]',
+											NIP 			= '$_POST[NIP1]',
+											UNAME 			= '$_POST[UNAME]',
+											PASSWORD 		= '$pass',
+											LEVEL 			= '$_POST[LEVEL]',
+											EMAIL 			= '$_POST[EMAIL]',
+											LOGIN_TERAKHIR 	= '',
+											ISLOGIN 		= '0',
+											SESSION_ID		= '$_SESSION[ID]',
+											NOTELP			= '$_POST[TELPWA]',
+											AKTIF 			= '$_POST[AKTIF]',
+											FOTO 			= '$FOTO',
+											STATUS 			= '$_POST[STATUS]'");
+					header("location:../../appsmedia.php?module=user&alert=berhasil");
 					?>
 					<script type="text/javascript">
 						setTimeout(function() {
@@ -198,29 +209,19 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 							});
 						}, 10);
 						window.setTimeout(function() {
-							window.location.replace('../../appmedia.php?module=S_USER&act=regist_aktif');
+							window.location.replace('../../appsmedia.php?module=user');
 						}, 1500);
 					</script>
 					<?php
-		} else {?>
-		<script type="text/javascript">
-			setTimeout(function() {
-				swal({
-					title: 'ERROR',
-					text: 'Password Berbeda',
-					type: 'error',
-					showConfirmButton: false
-				});
-			}, 10);
-			window.setTimeout(function() {
-				wwindow.location.replace('../../appmedia.php?module=S_USER&act=regist_aktif');
-			}, 1500);
-		</script>
-		<?php
-			//header('location:../../media.php?module='.$module);
+			}else{
+				header("location:../../appsmedia.php?module=user&alert=gagal_ukuran");
+			}
 		}}
-		elseif ($module=='S_USER' AND $act=='hapus'){
-		mysqli_query($koneksi, "DELETE FROM a_useraktif WHERE ID = '$_GET[id]'");
+
+
+
+		elseif ($module=='user' AND $act=='hapus'){
+		$koneksi->query("DELETE FROM a_useraktif WHERE ID = '$_GET[id]'");
 		?>
 		<script type="text/javascript">
 			setTimeout(function() {
@@ -232,16 +233,16 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				});
 			}, 10);
 			window.setTimeout(function() {
-				window.location.replace('../../appmedia.php?module=S_USER&act=regist_aktif');
+				window.location.replace('../../appsmedia.php?module=user');
 			}, 1500);
 		</script>
 		<?php
-		//header('location:../../media.php?module='.$module);
 		}
 
-		elseif ($module=='S_USER' AND $act=='aktivasi'){
-		mysqli_query($koneksi, "UPDATE a_useraktif
-				SET	AKTIF ='2' WHERE ID = '$_POST[ID]'");
+		elseif ($module=='user' AND $act=='aktifkan'){
+		$koneksi->query( "UPDATE a_useraktif
+						  SET AKTIF ='$_POST[AKTIF]' 
+						  WHERE ID = '$_POST[ID]'");
 		?>
 		<script type="text/javascript">
 			setTimeout(function() {
@@ -253,12 +254,34 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
 				});
 			}, 10);
 			window.setTimeout(function() {
-				window.location.replace('../../appmedia.php?module=S_USER');
+				window.location.replace('../../appsmedia.php?module=user');
 			}, 1500);
 		</script>
 		<?php
-		//header('location:../../media.php?module='.$module);
-	}
+		}
+
+		elseif ($module=='user' AND $act=='nonaktifkan'){
+		$koneksi->query( "UPDATE a_useraktif
+						  SET AKTIF ='$_POST[AKTIF]' 
+						  WHERE ID = '$_POST[ID]'");
+		?>
+		<script type="text/javascript">
+			setTimeout(function() {
+				swal({
+					title: 'SUKSES',
+					text: 'User Berhasil Diaktifkan',
+					type: 'success',
+					showConfirmButton: false
+				});
+			}, 10);
+			window.setTimeout(function() {
+				window.location.replace('../../appsmedia.php?module=user');
+			}, 1500);
+		</script>
+		<?php
+		}
+
+
 
 	elseif ($module == 'satker' and $act == 'setSatker') {
 		mysqli_query($koneksi, "UPDATE s_satker

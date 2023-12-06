@@ -185,9 +185,9 @@ $(document).ready(function(){
       [3, 10, 25, 50, 100, -1],
       [3, 10, 25, 50, 100, "All"]
     ],
-    paging: true,
+    paging: false,
     searching: false,
-    ordering: false,
+    ordering: true,
     info: false,
     "language": {
       "search": "Cari:",

@@ -82,7 +82,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                 LEFT JOIN dbtik d ON d.kodebarang = a.kodebarang AND d.nup = a.noaset
                                                 LEFT JOIN status_penguasaanbmn f ON f.penguasaan = a.penguasaan
                                                 WHERE  a.koderuang ='$_POST[koderuang]'
-                                                ORDER BY a.koderuang ASC"
+                                                ORDER BY a.koderuang AND a.kodebarang AND a.noaset ASC"
                                         );
                                         $data = mysqli_fetch_array($a);
                                         $cekdata = mysqli_num_rows($a);
@@ -142,7 +142,7 @@ if (empty($_SESSION['UNAME']) and empty($_SESSION['PASSWORD'])) {
                                                         LEFT JOIN dbtik d ON d.kodebarang = a.kodebarang AND d.nup = a.noaset
                                                         LEFT JOIN status_penguasaanbmn f ON f.penguasaan = a.penguasaan
                                                         WHERE  a.koderuang ='$_POST[koderuang]'
-                                                        ORDER BY a.koderuang ASC"
+                                                        ORDER BY a.koderuang AND a.noaset ASC"
                                                     );
 
                                                     $numRows = mysqli_num_rows($cek);

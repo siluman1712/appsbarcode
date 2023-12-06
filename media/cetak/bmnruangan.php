@@ -119,7 +119,7 @@ $query = "SELECT  a.koderuang, a.lokins,
               LEFT JOIN s_wilayah d ON d.kd_wilayah = c.wilayah
               LEFT JOIN s_ttd e ON e.kodesatuankerja = a.lokins
               WHERE a.lokins = '$_SESSION[LOKINS]' AND a.koderuang = '$ruang'                 
-              ORDER BY a.koderuang ASC";
+              ORDER BY a.koderuang AND a.noaset ASC";
 $a = mysqli_query($koneksi, $query);
 $judulatas = mysqli_fetch_array($a);
 
@@ -195,7 +195,7 @@ $judulatas = mysqli_fetch_array($a);
                 WHERE a.status_distribusi ='80' 
                 AND a.lokins = '$_SESSION[LOKINS]'
                 AND a.koderuang = '$ruang'                 
-                ORDER BY e.t_anggaran AND a.koderuang AND a.noaset ASC";
+                ORDER BY a.koderuang ASC";
 		$b = mysqli_query($koneksi, $query)  or die ("Query list barang salah : ".mysql_error());
 		$nomor  = 0;
 		while ($dbr = mysqli_fetch_array($b)) {

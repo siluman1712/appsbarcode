@@ -37,6 +37,9 @@ $out = mysqli_fetch_array($keluar);
 if ($_GET['module'] == 'home') {
   echo "
       <!-- Main content -->
+            <section class='content-header'>
+            <h1>Aktifitas | Log Aplikasi<small>Penggunaan Aplikasi</small></h1>
+            </section>
       <section class='content'>
         <!-- Small boxes (Stat box) -->
         <div class='row'>
@@ -104,16 +107,57 @@ if ($_GET['module'] == 'home') {
         <!-- Main row -->
         <div class='row'>
 
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class='col-lg-5 connectedSortable'>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          sdkaljfkldsjfkl<br>
-          </section>
+          <br><br>
+          <section class='content'>
+          <div class='box-body>
+              <div class='row'>
+                  <table id='table_1' class='table table-striped table-bordered'>
+                    <thead>
+                        <tr>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>TRANSAKSI</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>BMN PEMELIHARAAN (KODE - URAIAN)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>UNIT (KODE - URAIAN)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>P I C (NIP - NAMA)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>STATUS</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>PROSES</font> </th>
+                    </tfoot>
+                    <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                    </tfoot>    
+                  </table>
+                  <br>
+                  <table id='table_2' class='table table-striped table-bordered'>
+                    <thead>
+                        <tr>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>TRANSAKSI</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>BMN PEMINJAMAN (KODE - URAIAN)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>UNIT (KODE - URAIAN)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>P I C (NIP - NAMA)</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>STATUS</font> </th>
+                            <th bgcolor='#1E90FF'> <font color='#fff'>PROSES</font> </th>
+                    </tfoot>
+                    <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                    </tfoot>    
+                  </table>
+              </div>
+            </div>
+            </section>
+
       </section>
       <!-- /.content -->
       
@@ -153,6 +197,12 @@ elseif ($_GET['module'] == 'dbpegawai') {
 elseif ($_GET['module'] == 'penandatanganan') {
   if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
     include 'media/setting/s_ttd.php';
+  }
+}
+
+elseif ($_GET['module'] == 'user') {
+  if ($_SESSION['LEVEL'] == 'admin' or $_SESSION['LEVEL'] == 'user') {
+    include 'media/setting/user.php';
   }
 }
 

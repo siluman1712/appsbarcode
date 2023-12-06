@@ -1,9 +1,9 @@
 <?php
 include "config/koneksi.php";
-$query = "SELECT a.NIP, a.LOGIN_TERAKHIR, 
-                 b.PNS_NIPBARU, b.PNS_PNSNAM 
+$query = "SELECT a.NIP, a.LOGIN_TERAKHIR, a.LEVEL,
+                 b.nip, b.nama 
           FROM a_useraktif a
-          LEFT JOIN m_pupns b ON b.PNS_NIPBARU = a.NIP
+          LEFT JOIN dbpegawai b ON b.nip = a.NIP
           WHERE a.NIP = '$_SESSION[NIP]'
           ORDER BY a.NIP ASC";
 $info = $koneksi->query($query);
@@ -14,7 +14,7 @@ $rs    = mysqli_fetch_array($info);
   <section class="sidebar">
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
-    
+    <?php if($rs['NIP']==$_SESSION['NIP'] AND $rs['LEVEL']=='admin'){?>
     <li class="header"><font color='#fff'>MENU UTAMA</font></li>
         <li><a href="?module=pmtik">
         <i class="fa fa-database"></i>
@@ -75,16 +75,6 @@ $rs    = mysqli_fetch_array($info);
           <li>
           <a href="?module=penghapusan" title="penghapusan BMN">
           <button class='btn bg-red btn-xs flat' >&nbsp;Proses Penghapusan BMN &nbsp;&nbsp;&nbsp;</button>
-          </a>
-          </li>
-
-          <li><a href="?module=pemeliharaanbmn" title="Pemeliharaan BMN">
-          <button class='btn bg-green btn-xs flat' >&nbsp;Pemeliharaan BMN &nbsp;&nbsp;&nbsp; </button>
-          </a>
-          </li>
-
-          <li><a href="?module=peminjaman" title="Peminjaman BMN">
-          <button class='btn bg-green btn-xs flat' >&nbsp;Pinjam Pakai BMN&nbsp;&nbsp;&nbsp;</button>
           </a>
           </li>
 
@@ -172,6 +162,49 @@ $rs    = mysqli_fetch_array($info);
                 </li>   
           </ul>
         </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-home"></i> <span>PROSES PEMELIHARAAN</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li><a href="?module=pemeliharaanbmn" title="Pemeliharaan BMN">
+          <button class='btn bg-green btn-xs flat' >&nbsp;Pemeliharaan BMN &nbsp;&nbsp;&nbsp; </button>
+          </a>
+          </li>
+
+          <li><a href="?module=peminjaman" title="Peminjaman BMN">
+          <button class='btn bg-green btn-xs flat' >&nbsp;Pinjam Pakai BMN&nbsp;&nbsp;&nbsp;</button>
+          </a>
+          </li>
+  
+          </ul>
+        </li>
+        <?php }else{?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-home"></i> <span>PROSES PEMELIHARAAN</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li><a href="?module=pemeliharaanbmn" title="Pemeliharaan BMN">
+          <button class='btn bg-green btn-xs flat' >&nbsp;Pemeliharaan BMN &nbsp;&nbsp;&nbsp; </button>
+          </a>
+          </li>
+
+          <li><a href="?module=peminjaman" title="Peminjaman BMN">
+          <button class='btn bg-green btn-xs flat' >&nbsp;Pinjam Pakai BMN&nbsp;&nbsp;&nbsp;</button>
+          </a>
+          </li>
+  
+          </ul>
+        </li>
+        <?php }?>  
     </ul>
   </section>
   <!-- /.sidebar -->
